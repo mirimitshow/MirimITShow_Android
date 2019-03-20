@@ -9,6 +9,7 @@
     tools:context=".LoginActivity"
     android:gravity="center"
     >
+
     <RelativeLayout
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
