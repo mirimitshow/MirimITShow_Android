@@ -48,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
                 String middlePhone = phoneNum1.getText().toString(); // 중간 4자리
                 String lastPhone = phoneNum2.getText().toString(); // 마지막 4ㅈ리
 
-             
+
 
             }
         });
