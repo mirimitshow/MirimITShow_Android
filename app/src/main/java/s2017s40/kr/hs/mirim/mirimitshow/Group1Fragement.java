@@ -33,7 +33,7 @@ public class Group1Fragement extends Fragment {
         mAdapter = new GroupSub1Adapter(myDataset, new GroupSub1Adapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
-                //클릭 이벤트
+                
             }
         });
         mRecyclerView.setAdapter(mAdapter);
