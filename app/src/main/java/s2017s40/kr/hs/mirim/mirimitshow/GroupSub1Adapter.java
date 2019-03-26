@@ -9,46 +9,41 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
+public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.ViewHolder> {
     private ArrayList<GroupDTO> mDataset;
-    private ClickCallback callback;
+    private GroupSub1Adapter.ClickCallback callback;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        public ImageView mImageView;
-        public TextView mTextView_name;
-        public TextView mTextView_participants;
+        public TextView mTextView_title;
+        public TextView mTextView_content;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mImageView = (ImageView)view.findViewById(R.id.item_group_image);
-            mTextView_name = (TextView)view.findViewById(R.id.item_group_name_text);
-            mTextView_participants = (TextView)view.findViewById(R.id.item_group_participants_text);
+            mTextView_title = (TextView)view.findViewById(R.id.item_sub_group_title_text);
+            mTextView_content = (TextView)view.findViewById(R.id.item_sub_group_content_text);
         }
     }
-    public GroupAdapter(ArrayList<GroupDTO> myDataset,  ClickCallback clickCallback) {
+    public GroupSub1Adapter(ArrayList<GroupDTO> myDataset,  GroupSub1Adapter.ClickCallback clickCallback) {
         mDataset = myDataset;
         this.callback = clickCallback;
     }
 
     @Override
-    public GroupAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GroupSub1Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_group, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_sub_group1, parent, false);
+        GroupSub1Adapter.ViewHolder vh = new GroupSub1Adapter.ViewHolder(v);
         return vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        int url =   Integer.parseInt(mDataset.get(position).getUrl());
-        holder.mImageView.setImageResource(url);
-        //mDataset.get(position).getName()
-        holder.mTextView_name.setText("dmsqls");
-        holder.mTextView_participants.setText("dmsqls");
+    public void onBindViewHolder(GroupSub1Adapter.ViewHolder holder, final int position) {
+        holder.mTextView_title.setText("ㅋㅋㅋ");
+        holder.mTextView_content.setText("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
