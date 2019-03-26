@@ -3,15 +3,13 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Intent;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +20,23 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class AddGroupActivity extends AppCompatActivity {
+    ImageView iconImage, mainImage;
     EditText editGroupName;
     TextView textGroupCode;
     LinearLayout addImage;
     Button setTimeTableBtn, setGroupBtn, copyCodeBtn;
-    private static final int PICK_FROM_ALBUM = 1;
+    String groupCodeStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group_);
 
+        groupCodeStr = getRandomString(7); //랜덤으로 Code 받기
         tedPermission();
+
+        iconImage = findViewById(R.id.addGroup_plus_image);
+        mainImage = findViewById(R.id.addGroup_mainImage_image);
 
         textGroupCode = findViewById(R.id.addGroup_groupCode_textView);
         editGroupName = findViewById(R.id.addGroup_groupName_editText);
@@ -44,6 +47,7 @@ public class AddGroupActivity extends AppCompatActivity {
         setGroupBtn = findViewById(R.id.addGrop_setgroup_btn);
         copyCodeBtn = findViewById(R.id.addGrop_copyCode_btn);
 
+        textGroupCode.setText(groupCodeStr);
 
 
         setTimeTableBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +61,7 @@ public class AddGroupActivity extends AppCompatActivity {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //이미지 추가
             }
         });
 
@@ -81,7 +85,7 @@ public class AddGroupActivity extends AppCompatActivity {
         Random random = new Random();
 
         String chars[] =
-    "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(",");
+    "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,1, 2,3,4,5,6,7,8,9,0".split(",");
 
         for (int i=0 ; i<length ; i++)
         {
@@ -111,15 +115,6 @@ public class AddGroupActivity extends AppCompatActivity {
                 .setDeniedMessage(getResources().getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
-
     }
-
-     private void goToAlbum() { //앨범으로 이동하는 메서드
-
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, PICK_FROM_ALBUM);
-    }
-
 
 }
