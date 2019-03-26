@@ -5,9 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignupActivity">
+    tools:context=".SignupActivity"
+    android:gravity="center_horizontal"
+    >
 
     <TextView
+        android:layout_margin="10dp"
+        android:textSize="25sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입" />
@@ -17,6 +21,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이름" />
@@ -32,6 +37,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이메일"
@@ -53,11 +59,17 @@
             android:layout_height="wrap_content"
             android:entries="@array/email"
             />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="중복확인"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호"
@@ -74,6 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호 확인"
@@ -89,6 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="휴대폰 번호"
@@ -120,8 +134,11 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <Button
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/login_btn_custom"
         android:id="@+id/signup_signUp_btn"
-        android:layout_width="320dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="가입하기"
         />
