@@ -4,6 +4,7 @@ import android.Manifest;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -56,14 +57,6 @@ public class AddGroupActivity extends AppCompatActivity {
         textGroupCode.setText(groupCodeStr);
 
 
-        setTimeTableBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //시간표 열기
-            }
-        });
-
-
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +78,15 @@ public class AddGroupActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "텍스트가 복사되었습니다", Toast.LENGTH_SHORT).show();
             }
         });
+        
+        setTimeTableBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddGroupActivity.this, ScheduleActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     //랜덤 문자열 발생

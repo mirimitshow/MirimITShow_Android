@@ -111,8 +111,6 @@ public class SignupActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
-
             }
         });
 

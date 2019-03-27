@@ -1,5 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,16 +36,23 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_login_btn);
         joinTxt = findViewById(R.id.login_join_txt);
 
-        idstr= idEdit.toString();
-        pwstr = pwEdit.toString();
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                idstr= idEdit.getText().toString();
+                pwstr = pwEdit.getText().toString();
+
+                if(idstr.equals("tmddus") && pwstr.equals("1234")) {
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+                }
 
       //          SignInTaskClass loginTask = new SignInTaskClass();
 
