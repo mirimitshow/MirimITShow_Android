@@ -7,11 +7,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import s2017s40.kr.hs.mirim.mirimitshow.Classes.HttpConnection;
 
 public class LoginActivity extends AppCompatActivity {
     EditText idEdit, pwEdit;
     Button loginBtn;
     TextView joinTxt;
+    String url = null;
+    String pwstr, idstr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +35,11 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+
             }
         });
         joinTxt.setOnClickListener(new View.OnClickListener() {
@@ -39,4 +51,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 }
