@@ -16,88 +16,47 @@
         android:layout_height="wrap_content"
         android:text="회원가입" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이름" />
 
         <EditText
+            android:hint="이름"
             android:id="@+id/signup_name_editText"
             android:layout_width="150dp"
             android:layout_height="wrap_content" />
-    </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <TextView
-        android:textSize="18sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이메일"
-        />
         <EditText
-            android:id="@+id/signup_email_editText"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="\@"
-            />
-
-        <Spinner
-            android:id="@+id/signup_domain_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/email"
-            />
+        android:hint="이메일"
+        android:id="@+id/signup_email_editText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="중복확인"
             />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="비밀번호"
-            />
+
+
         <EditText
+            android:hint="비밀번호"
             android:id="@+id/signup_pass_editText"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="비밀번호 확인"
-            />
         <EditText
+            android:hint="비밀번호 확인"
             android:id="@+id/signup_passConfirm_editText"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
