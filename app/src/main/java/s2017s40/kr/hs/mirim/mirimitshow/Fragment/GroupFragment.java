@@ -1,9 +1,6 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.net.URL;
 import java.util.ArrayList;
+
+import s2017s40.kr.hs.mirim.mirimitshow.Adapter.GroupAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.DTO.GroupDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 
 public class GroupFragment extends Fragment {

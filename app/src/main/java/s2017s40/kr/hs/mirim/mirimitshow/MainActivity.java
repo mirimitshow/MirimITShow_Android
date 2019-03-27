@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+
+import s2017s40.kr.hs.mirim.mirimitshow.Fragment.GroupFragment;
+import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyHomeFragment;
+import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyPaPerFragment;
 
 public class MainActivity extends AppCompatActivity {
 
