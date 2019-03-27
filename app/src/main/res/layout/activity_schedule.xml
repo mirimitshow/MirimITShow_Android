@@ -422,7 +422,7 @@
         android:layout_height="68dp"
         android:layout_marginHorizontal="17dp"
         android:layout_marginBottom="19dp"
-        android:background="@color/colorMain"
+        android:background="@drawable/login_btn_custom"
         android:text="시간표 설정 완료"
         android:textColor="@color/colorWhite"
         android:textSize="21.7sp" />

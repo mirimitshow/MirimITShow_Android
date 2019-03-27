@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
     <android.support.v7.widget.CardView
         android:id="@+id/item_group_card_view"
-        card:cardCornerRadius="10dp"
-        android:layout_margin="3dp"
+        card:cardCornerRadius="20dp"
+        android:layout_margin="15.3dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="195.7dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,38 +17,34 @@
                 android:id="@+id/item_group_image"
                 android:scaleType="fitXY"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="135.7dp"
                 android:background="@color/colorDarkGray"
                />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@color/colorMain"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:background="@color/colorBlack"
-                android:padding="7.7dp">
+                android:background="@color/colorMain">
                 <TextView
                     android:id="@+id/item_group_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5.7dp"
+                    android:textSize="26.7sp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginLeft="8.3dp"
                     android:gravity="center|left"
                     android:text="3학년 6반"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textColor="@color/colorWhite" />
                 <TextView
                     android:id="@+id/item_group_participants_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center|left"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="10.3dp"
                     android:textColor="@color/colorLightGray"
-                    android:textSize="15sp"
                     android:text="10명" />
             </LinearLayout>
-
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>
