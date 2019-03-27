@@ -1,7 +1,5 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,34 +10,35 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-
-public class MyPaPerFragment extends Fragment {
-    public MyPaPerFragment() {
+public class Group1Fragement extends Fragment {
+    public Group1Fragement() {
         // Required empty public constructor
     }
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MyPaPerDTO> myDataset;
+    private ArrayList<GroupDTO> myDataset;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_paper, container, false);
+        View view = inflater.inflate(R.layout.fragment_group_1, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.paper_recycler_view);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
         //어탭터
-        mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
+        mAdapter = new GroupSub1Adapter(myDataset, new GroupSub1Adapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
-                //클릭 이벤트
+
             }
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        myDataset.add(new MyPaPerDTO("수학","100장"));
+        myDataset.add(new GroupDTO("d",String.valueOf(R.mipmap.ic_launcher)));
 
         return view;
     }
