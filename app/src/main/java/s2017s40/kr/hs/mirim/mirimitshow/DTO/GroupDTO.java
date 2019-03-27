@@ -18,7 +18,7 @@ public class GroupDTO {
 
     }
     //Group테스트 생성자
-    GroupDTO(String imgToken, String url){
+    public GroupDTO(String imgToken, String url){
         this.imgToken = imgToken;
         this.url = url;
     }
