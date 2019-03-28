@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import s2017s40.kr.hs.mirim.mirimitshow.DTO.MyPaPerDTO;
-import s2017s40.kr.hs.mirim.mirimitshow.Adapter.PaPerAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.MyPaPerDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.PaPerAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 

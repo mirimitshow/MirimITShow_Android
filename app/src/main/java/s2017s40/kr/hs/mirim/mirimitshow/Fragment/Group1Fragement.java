@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import s2017s40.kr.hs.mirim.mirimitshow.DTO.GroupDTO;
-import s2017s40.kr.hs.mirim.mirimitshow.Adapter.GroupSub1Adapter;
+import s2017s40.kr.hs.mirim.mirimitshow.GroupSub1Adapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.SubGroup1DTO;
 
 public class Group1Fragement extends Fragment {
     public Group1Fragement() {

@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow.DTO;
+package s2017s40.kr.hs.mirim.mirimitshow;
 
 import java.util.ArrayList;
 
@@ -18,14 +18,8 @@ public class GroupDTO {
     GroupDTO(String boards[]){
 
     }
-    //Group테스트 생성자
-<<<<<<< HEAD:app/src/main/java/s2017s40/kr/hs/mirim/mirimitshow/GroupDTO.java
-    GroupDTO(String name,String url ,String person){
+    public GroupDTO(String name, String url, String person){
         this.name = name;
-=======
-    public GroupDTO(String imgToken, String url){
-        this.imgToken = imgToken;
->>>>>>> 24ba84a17b9df83fcd1e2cc9bf26978544844813:app/src/main/java/s2017s40/kr/hs/mirim/mirimitshow/DTO/GroupDTO.java
         this.url = url;
         this.person = person;
     }

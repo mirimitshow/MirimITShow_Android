@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow.DTO;
+package s2017s40.kr.hs.mirim.mirimitshow;
 
 public class MyPaPerDTO {
     private String title;

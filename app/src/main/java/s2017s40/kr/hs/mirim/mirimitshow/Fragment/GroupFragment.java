@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import s2017s40.kr.hs.mirim.mirimitshow.Adapter.GroupAdapter;
-import s2017s40.kr.hs.mirim.mirimitshow.DTO.GroupDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.GroupDTO;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 
