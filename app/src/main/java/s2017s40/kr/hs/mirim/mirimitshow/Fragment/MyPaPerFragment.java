@@ -1,7 +1,5 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import s2017s40.kr.hs.mirim.mirimitshow.MyPaPerDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.PaPerAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 
 public class MyPaPerFragment extends Fragment {

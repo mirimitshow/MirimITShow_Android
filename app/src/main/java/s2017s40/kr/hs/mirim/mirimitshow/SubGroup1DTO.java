@@ -4,7 +4,7 @@ public class SubGroup1DTO {
     String title;
     String sub;
 
-    SubGroup1DTO(String title, String sub){
+    public SubGroup1DTO(String title, String sub){
         this.title = title;
         this.sub = sub;
     }
