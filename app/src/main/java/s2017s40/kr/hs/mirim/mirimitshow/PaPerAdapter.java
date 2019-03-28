@@ -40,8 +40,8 @@ public class PaPerAdapter extends RecyclerView.Adapter<PaPerAdapter.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(PaPerAdapter.ViewHolder holder, final int position) {
-        holder.mTextView_title.setText("국어");
-        holder.mTextView_num.setText("8장");
+        holder.mTextView_title.setText(mDataset.get(position).getTitle());
+        holder.mTextView_num.setText(mDataset.get(position).getContent());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GroupDTO {
     private String token;
     private String name;
+    private String person;
     private String member[];
     private String boards[];
     private String imgToken;
@@ -18,9 +19,10 @@ public class GroupDTO {
 
     }
     //Group테스트 생성자
-    GroupDTO(String imgToken, String url){
-        this.imgToken = imgToken;
+    GroupDTO(String name,String url ,String person){
+        this.name = name;
         this.url = url;
+        this.person = person;
     }
     //이미지 이용시 생성자
     GroupDTO(String imgToken, ArrayList arrayList, String url, String type){
@@ -47,6 +49,14 @@ public class GroupDTO {
         this.arrayList = arrayList;
         this.url = url;
         this.type = type;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
+    }
+
+    public String getPerson() {
+        return person;
     }
 
     public void setUrl(String url) {

@@ -40,6 +40,9 @@ public class MyPaPerFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         myDataset.add(new MyPaPerDTO("수학","100장"));
+        myDataset.add(new MyPaPerDTO("국어","10장"));
+        myDataset.add(new MyPaPerDTO("NMT","1장"));
+        myDataset.add(new MyPaPerDTO("가통","20장"));
 
         return view;
     }

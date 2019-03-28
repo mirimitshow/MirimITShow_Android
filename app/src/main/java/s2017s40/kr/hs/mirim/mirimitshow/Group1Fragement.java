@@ -18,7 +18,7 @@ public class Group1Fragement extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<GroupDTO> myDataset;
+    private ArrayList<SubGroup1DTO> myDataset;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,7 +38,10 @@ public class Group1Fragement extends Fragment {
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        myDataset.add(new GroupDTO("d",String.valueOf(R.mipmap.ic_launcher)));
+        myDataset.add(new SubGroup1DTO("게시글 1", "오늘의 공지사항"));
+        myDataset.add(new SubGroup1DTO("게시글 2", "오늘의 공지사항"));
+        myDataset.add(new SubGroup1DTO("게시글 3", "오늘의 공지사항"));
+        myDataset.add(new SubGroup1DTO("게시글 4", "오늘의 공지사항"));
 
         return view;
     }
