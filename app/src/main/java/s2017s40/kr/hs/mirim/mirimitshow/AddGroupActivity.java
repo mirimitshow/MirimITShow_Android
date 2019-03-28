@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -57,6 +56,15 @@ public class AddGroupActivity extends AppCompatActivity {
         textGroupCode.setText(groupCodeStr);
 
 
+        setTimeTableBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddGroupActivity.this, ScheduleActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +75,13 @@ public class AddGroupActivity extends AppCompatActivity {
             }
         });
 
-
+        setGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddGroupActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         copyCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,26 +120,24 @@ public class AddGroupActivity extends AppCompatActivity {
     }
 
     private void tedPermission() { // 권한 요청 메소드
-
+/*
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
                 // 권한 요청 성공
 
             }
-
             @Override
             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
                 // 권한 요청 실패
             }
         };
-
         TedPermission.with(this)
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage(getResources().getString(R.string.permission_2))
                 .setDeniedMessage(getResources().getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
+                .check();*/
     }
 
 
