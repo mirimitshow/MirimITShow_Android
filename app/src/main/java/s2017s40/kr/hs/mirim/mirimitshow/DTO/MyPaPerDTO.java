@@ -1,9 +1,9 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.DTO;
 
 public class MyPaPerDTO {
     private String title;
     private String content;
-    MyPaPerDTO(String title, String content){
+    public MyPaPerDTO(String title, String content){
         this.content = content;
         this.title = title;
     }

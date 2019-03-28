@@ -32,8 +32,8 @@
             <EditText
                 android:paddingLeft="56dp"
                 android:hint="아이디"
-                android:textColorHint="@color/colorMain"
-                android:textColor="@color/colorMain"
+                android:textColorHint="@color/txtColor"
+                android:textColor="@color/txtColor"
                 android:id="@+id/login_idInput_editText"
                 android:layout_width="283dp"
                 android:layout_height="51dp"
@@ -64,8 +64,8 @@
                 android:src="@drawable/locked_icon"
                 />
             <EditText
-                android:textColorHint="@color/colorMain"
-                android:textColor="@color/colorMain"
+                android:textColorHint="@color/txtColor"
+                android:textColor="@color/txtColor"
                 android:hint="비밀번호"
                 android:paddingLeft="56dp"
                 android:id="@+id/login_pwInput_editText"
@@ -90,7 +90,7 @@
             android:layout_height="51dp"
             />
         <TextView
-            android:textColor="@color/colorMain"
+            android:textColor="@color/txtColor"
             android:id="@+id/login_join_txt"
             android:layout_marginTop="12dp"
             android:layout_below="@id/login_login_btn"
