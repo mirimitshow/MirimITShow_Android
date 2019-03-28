@@ -27,11 +27,11 @@ public class GroupSubFragment extends Fragment {
         host.setup(getContext(), getActivity().getSupportFragmentManager(), R.id.content);
 
         TabHost.TabSpec tabSpec1 = host.newTabSpec("게시글 보기"); // 구분자
-        tabSpec1.setIndicator("1"); // 탭 이름
+        tabSpec1.setIndicator("게시글 보기"); // 탭 이름
         host.addTab(tabSpec1, Group1Fragement.class, null);
 
         TabHost.TabSpec tabSpec2 = host.newTabSpec("시간표");
-        tabSpec2.setIndicator("2");
+        tabSpec2.setIndicator("시간표");
         host.addTab(tabSpec2, Group2Fragement.class, null);
 
         host.getTabWidget().getChildAt(0)

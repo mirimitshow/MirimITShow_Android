@@ -45,7 +45,12 @@ public class GroupFragment extends Fragment {
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        myDataset.add(new GroupDTO("d",String.valueOf(R.mipmap.ic_launcher)));
+        myDataset.add(new GroupDTO("3학년6반",String.valueOf(R.mipmap.ic_launcher),"17"));
+        myDataset.add(new GroupDTO("3학년5반",String.valueOf(R.mipmap.ic_launcher),"30"));
+        myDataset.add(new GroupDTO("2학년3반",String.valueOf(R.mipmap.ic_launcher),"12"));
+        myDataset.add(new GroupDTO("2학년1반",String.valueOf(R.mipmap.ic_launcher),"17"));
+
+
         return view;
     }
     private void setChildFragment(Fragment child) {
