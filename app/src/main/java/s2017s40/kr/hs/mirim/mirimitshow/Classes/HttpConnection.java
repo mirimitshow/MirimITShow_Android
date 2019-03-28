@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class HttpConnection {
 
-    String urlStr = ""; // 김수현 ip
+    String urlStr = "http://10.96.123.207:9000"; // 김수현 ip
     URL url;
     public HttpURLConnection urlconn = null;
     OutputStreamWriter out;
@@ -37,6 +37,5 @@ public class HttpConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
