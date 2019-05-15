@@ -1,7 +1,9 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,10 +12,19 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class SignupActivity extends AppCompatActivity {
     EditText name, email, pwd, pwdConfirm, phoneNum1, phoneNum2;
     Spinner phoneSpinner, domainSpinner;
     Button signupBtn;
+
+    private Retrofit mRetrofit;
+    private Services service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +49,9 @@ public class SignupActivity extends AppCompatActivity {
 
                 String nameStr = name.getText().toString();
 
-                String emailStr = email.getText().toString(); //이메일의 아이디 부분
+                String idStr = email.getText().toString(); //이메일의 아이디 부분
                 String domainStr = domainSpinner.getSelectedItem().toString(); //이메일의 도메인 부분
+                String emailStr = idStr + "@" + domainStr;
 
                 String pwdStr = pwd.getText().toString();
                 String pwdConfirmStr = pwdConfirm.getText().toString();
@@ -49,7 +61,7 @@ public class SignupActivity extends AppCompatActivity {
                 String lastPhone = phoneNum2.getText().toString(); // 마지막 4ㅈㅏ리
 
                 //빈 칸이 있는지 검사
-                if (nameStr.getBytes().length <= 0 || emailStr.getBytes().length <= 0 || domainStr.getBytes().length <= 0 ||
+                if (nameStr.getBytes().length <= 0 || idStr.getBytes().length <= 0 || domainStr.getBytes().length <= 0 ||
                         pwdStr.getBytes().length <= 0 || pwdConfirmStr.getBytes().length <= 0 || firstPhone.getBytes().length <= 0 ||
                         middlePhone.getBytes().length <= 0 || lastPhone.getBytes().length <= 0) {
                     Toast.makeText(getApplicationContext(), "값을 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -69,12 +81,41 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(SignupActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
-                //일단 만들엇읍니다..
+                init();
+                service = mRetrofit.create(Services.class);
+                Register register = new Register(nameStr, emailStr,pwdConfirmStr,Phone_num);
+                Call<Register> call = service.signup(register);
+                call.enqueue(new Callback<Register>() {
+                    @Override
+                    public void onResponse(Call<Register> call, Response<Register> response) {
 
+                        if (response.code() == 200) {
+                            Toast.makeText(SignupActivity.this, "user signed up", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else if (response.code() == 400) {
+                            Toast.makeText(SignupActivity.this, "invalid input, object invalid\n" +
+                                    "\n", Toast.LENGTH_SHORT).show();
+                        }else if (response.code() == 409) {
+                            Toast.makeText(SignupActivity.this, "user already exists", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("code : ",  String.valueOf(response.code() ));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Register> call, Throwable t) {
+                        call.cancel();
+                        Toast.makeText(SignupActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
 
+    }
+    public void init(){
+        mRetrofit  = new Retrofit.Builder()
+                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 }

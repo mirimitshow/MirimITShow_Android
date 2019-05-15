@@ -24,9 +24,6 @@ interface Services {
             @Query("email") String email,
             @Query("password") String password);
     @POST("/signup")
-    Call<List<User>> signup(
-            @Path("name") String name,
-            @Path("email") String email,
-            @Path("phone") String phone,
-            @Path("password") String password);
+    Call<Register> signup(
+            @Body Register register);
 }
