@@ -1,7 +1,9 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,13 +16,21 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
-import s2017s40.kr.hs.mirim.mirimitshow.Classes.SignUpTaskClass;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class SignupActivity extends AppCompatActivity {
     EditText name, email, pwd, pwdConfirm, phoneNum1, phoneNum2;
     Spinner phoneSpinner;
     Button signupBtn;
     String nameStr,emailStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
+
+    private Retrofit mRetrofit;
+    private Services service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +55,9 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 nameStr = name.getText().toString();
-
-                emailStr = email.getText().toString(); //이메일의 아이디 부분
+                String idStr = email.getText().toString(); //이메일의 아이디 부분
+                String domainStr = domainSpinner.getSelectedItem().toString(); //이메일의 도메인 부분
+                String emailStr = idStr + "@" + domainStr;
 
                 pwdStr = pwd.getText().toString();
                 pwdConfirmStr = pwdConfirm.getText().toString();
@@ -57,7 +68,7 @@ public class SignupActivity extends AppCompatActivity {
                 String Phone_num = firstPhone + " - " + middlePhone + " - " + lastPhone;
 
                 //빈 칸이 있는지 검사
-                if (nameStr.getBytes().length <= 0 || emailStr.getBytes().length <= 0 ||
+                if (nameStr.getBytes().length <= 0 || idStr.getBytes().length <= 0 || domainStr.getBytes().length <= 0 ||
                         pwdStr.getBytes().length <= 0 || pwdConfirmStr.getBytes().length <= 0 || firstPhone.getBytes().length <= 0 ||
                         middlePhone.getBytes().length <= 0 || lastPhone.getBytes().length <= 0) {
                     Toast.makeText(getApplicationContext(), "값을 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -70,9 +81,7 @@ public class SignupActivity extends AppCompatActivity {
                 }
 
                 //휴대폰 번호가 유효한지 검사
-
-                if(!Pattern.matches("^01(?:0|1|[6-9]) - (?:\\d{3}|\\d{4}) - \\d{4}$", Phone_num))
-                {
+                if(!Pattern.matches("^01(?:0|1|[6-9]) - (?:\\d{3}|\\d{4}) - \\d{4}$", Phone_num)){
                     Toast.makeText(SignupActivity.this,"올바른 핸드폰 번호가 아닙니다.",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -81,39 +90,40 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this,"올바른 이메일 형식이 아닙니다.",Toast.LENGTH_SHORT).show();
                     return;
                 }
+              
+                init();
+                service = mRetrofit.create(Services.class);
+                Register register = new Register(nameStr, emailStr,pwdConfirmStr,Phone_num);
+                Call<Register> call = service.signup(register);
+                call.enqueue(new Callback<Register>() {
+                    @Override
+                    public void onResponse(Call<Register> call, Response<Register> response) {
 
-                JSONObject obj = new JSONObject();
-                SignUpTaskClass task = new SignUpTaskClass();
-
-                try {
-                    obj.put("name", nameStr);
-                    obj.put("email", emailStr);
-                    obj.put("phone", Phone_num);
-                    obj.put("password", pwdStr); // 그룹 제외하고 다 보냄
-
-                    String resultstr = task.execute(obj).get();
-
-                    if(resultstr.equals("성공")){
-                        Toast.makeText(SignupActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
-                    }else if(resultstr.equals("중복")){
-                        Toast.makeText(SignupActivity.this, "이미 존재하는 이메일입니다", Toast.LENGTH_SHORT).show();
-                        return;
-                    }else{
+                        if (response.code() == 200) {
+                            Toast.makeText(SignupActivity.this, "user signed up", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else if (response.code() == 400) {
+                            Toast.makeText(SignupActivity.this, "invalid input, object invalid\n" +
+                                    "\n", Toast.LENGTH_SHORT).show();
+                        }else if (response.code() == 409) {
+                            Toast.makeText(SignupActivity.this, "user already exists", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("code : ",  String.valueOf(response.code() ));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Register> call, Throwable t) {
+                        call.cancel();
                         Toast.makeText(SignupActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-
+                });
             }
         });
-
-
+    }
+    public void init(){
+        mRetrofit  = new Retrofit.Builder()
+                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 }
