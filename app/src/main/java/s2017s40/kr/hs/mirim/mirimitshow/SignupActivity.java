@@ -27,7 +27,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText name, email, pwd, pwdConfirm, phoneNum1, phoneNum2;
     Spinner phoneSpinner;
     Button signupBtn;
-    String nameStr,emailStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
+    String nameStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
 
     private Retrofit mRetrofit;
     private Services service;
@@ -45,7 +45,6 @@ public class SignupActivity extends AppCompatActivity {
         phoneNum2 = findViewById(R.id.signup_lastPhone_editText);
 
         phoneSpinner = findViewById(R.id.signup_phoneNum_Spinner);
-
         signupBtn = findViewById(R.id.signup_signUp_btn);
 
 
@@ -55,9 +54,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 nameStr = name.getText().toString();
-                String idStr = email.getText().toString(); //이메일의 아이디 부분
-                String domainStr = domainSpinner.getSelectedItem().toString(); //이메일의 도메인 부분
-                String emailStr = idStr + "@" + domainStr;
+                String emailStr = email.getText().toString(); //이메일의 아이디 부분
 
                 pwdStr = pwd.getText().toString();
                 pwdConfirmStr = pwdConfirm.getText().toString();
@@ -68,7 +65,7 @@ public class SignupActivity extends AppCompatActivity {
                 String Phone_num = firstPhone + " - " + middlePhone + " - " + lastPhone;
 
                 //빈 칸이 있는지 검사
-                if (nameStr.getBytes().length <= 0 || idStr.getBytes().length <= 0 || domainStr.getBytes().length <= 0 ||
+                if (nameStr.getBytes().length <= 0 || emailStr.getBytes().length <= 0 ||
                         pwdStr.getBytes().length <= 0 || pwdConfirmStr.getBytes().length <= 0 || firstPhone.getBytes().length <= 0 ||
                         middlePhone.getBytes().length <= 0 || lastPhone.getBytes().length <= 0) {
                     Toast.makeText(getApplicationContext(), "값을 입력해주세요", Toast.LENGTH_SHORT).show();
