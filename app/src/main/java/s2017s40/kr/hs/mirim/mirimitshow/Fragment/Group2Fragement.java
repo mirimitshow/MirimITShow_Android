@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 public class Group2Fragement extends Fragment {
     public Group2Fragement() {

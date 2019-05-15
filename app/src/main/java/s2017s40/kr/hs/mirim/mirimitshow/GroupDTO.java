@@ -18,8 +18,7 @@ public class GroupDTO {
     GroupDTO(String boards[]){
 
     }
-    //Group테스트 생성자
-    GroupDTO(String name,String url ,String person){
+    public GroupDTO(String name, String url, String person){
         this.name = name;
         this.url = url;
         this.person = person;

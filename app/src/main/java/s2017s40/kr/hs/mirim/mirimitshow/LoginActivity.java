@@ -1,5 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
     private Retrofit mRetrofit;
@@ -33,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView joinTxt;
     String url = null;
     String pwstr, idstr;
+    String resultstr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_login_btn);
         joinTxt = findViewById(R.id.login_join_txt);
 
+
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,9 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoginActivity.this , "아이디나 비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
                 }
-
             }
+
         });
+
+
         joinTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
