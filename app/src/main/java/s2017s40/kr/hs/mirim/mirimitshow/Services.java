@@ -18,11 +18,9 @@ import retrofit2.http.Query;
 
 interface Services {
 
-    //@Headers("Content-Type: application/json")
-    @POST("/signin?")
+    @POST("/signin")
     Call<User> signin(
-            @Query("email") String email,
-            @Query("password") String password);
+            @Body User user);
     @POST("/signup")
     Call<Register> signup(
             @Body Register register);
