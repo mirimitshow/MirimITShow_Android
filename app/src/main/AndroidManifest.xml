@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -15,9 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScanClassActivity">
-
-        </activity>
+        <activity android:name=".ViewPostActivity"></activity>
+        <activity android:name=".WritePostActivity" />
+        <activity android:name=".ScanClassActivity" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".SignupActivity" />
