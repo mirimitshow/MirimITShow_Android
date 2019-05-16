@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
+//                Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
+                Intent intent = new Intent(MainActivity.this, WritePostActivity.class); // test용으로 바꿈
                 startActivity(intent);
             }
         });
