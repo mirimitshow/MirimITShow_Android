@@ -45,7 +45,6 @@ public class SignupActivity extends AppCompatActivity {
         phoneNum2 = findViewById(R.id.signup_lastPhone_editText);
 
         phoneSpinner = findViewById(R.id.signup_phoneNum_Spinner);
-
         signupBtn = findViewById(R.id.signup_signUp_btn);
 
 
