@@ -26,8 +26,7 @@ public class MyHomeFragment extends Fragment {
         NotiListView.setAdapter(adapter);
 
         adapter.setItem(new NotiClass("3-5", "게시물이 등록되었습니다", false));
-        adapter.setItem(new NotiClass("3-6", "공지가 등록되었습니다", true));
-
+        adapter.setItem(new NotiClass("3-6", "공지가 등록되었습니다", true)); // isNotice 가 true면 공지 -> 노란 표시
 
         return view;
     }

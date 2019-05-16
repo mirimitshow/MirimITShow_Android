@@ -11,11 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -32,6 +34,10 @@ public class WritePostActivity extends AppCompatActivity {
     ImageButton GallaryBtn;
     String title_str, content_str;
     Switch Notice;
+    Spinner groups;
+    String PostingGroup;
+    ArrayList<String> groupList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +47,32 @@ public class WritePostActivity extends AppCompatActivity {
         postingBtn = findViewById(R.id.postingBtn);
         GallaryBtn = findViewById(R.id.gallaryBtn);
         Notice = findViewById(R.id.isNotice);
+        groups = findViewById(R.id.WritePost_groupLists);
 
-        ArrayList<String> groupList = new ArrayList<String>();
+       groupList = new ArrayList<String>();
+
 
         groupList.add("3-6"); // 그룹 목록 스피너의 값들
         groupList.add("3-5");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, groupList);
+        groups.setAdapter(adapter);
+
+
+        groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                PostingGroup = groupList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                PostingGroup="";
+            }
+        });
+
+
 
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
