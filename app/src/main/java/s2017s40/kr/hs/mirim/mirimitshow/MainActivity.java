@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 anim();
+                Intent intent = new Intent(MainActivity.this, WritePostActivity.class);
+                startActivity(intent);
             }
         });
         fab3.setOnClickListener(new View.OnClickListener() {
