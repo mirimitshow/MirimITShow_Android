@@ -51,10 +51,10 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!idEdit.toString().isEmpty() && !pwEdit.toString().isEmpty()) {
-                    login();
-                } else {
+                if (idEdit.toString().isEmpty() || pwEdit.toString().isEmpty()) {
                     Toast.makeText(LoginActivity.this , "아이디나 비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    login();
                 }
             }
 
@@ -73,18 +73,19 @@ public class LoginActivity extends AppCompatActivity {
     public void login(){
         init();
         service = mRetrofit.create(Services.class);
-        User users = new User(idEdit.toString(), pwEdit.toString());
-        Call<User> call = service.signin(users.getEmail(), users.getPassword());
+        User users = new User(idEdit.getText().toString(), pwEdit.getText().toString());
+        Call<User> call = service.signin(users);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 200) {
-                    Log.e("login","login 완료");
+                    Log.e("login",String.valueOf(response.code() ));
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                     Toast.makeText(LoginActivity.this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
+                    Log.e("l",idEdit.getText().toString() + "  " + pwEdit.getText().toString());
                     Toast.makeText(LoginActivity.this, "아이디나 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("code : ",  String.valueOf(response.code() ));

@@ -28,7 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     Spinner phoneSpinner;
     Button signupBtn;
     String nameStr,emailStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
-
+    String Phone_num;
     private Retrofit mRetrofit;
     private Services service;
 
@@ -55,9 +55,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 nameStr = name.getText().toString();
-                String idStr = email.getText().toString(); //이메일의 아이디 부분
-                String domainStr = domainSpinner.getSelectedItem().toString(); //이메일의 도메인 부분
-                String emailStr = idStr + "@" + domainStr;
+                emailStr = email.getText().toString(); //이메일의 아이디 부분
 
                 pwdStr = pwd.getText().toString();
                 pwdConfirmStr = pwdConfirm.getText().toString();
@@ -65,10 +63,10 @@ public class SignupActivity extends AppCompatActivity {
                 firstPhone = phoneSpinner.getSelectedItem().toString(); //첫 3자리
                 middlePhone = phoneNum1.getText().toString(); // 중간 4자리
                 lastPhone = phoneNum2.getText().toString(); // 마지막 4자리
-                String Phone_num = firstPhone + " - " + middlePhone + " - " + lastPhone;
+                Phone_num = firstPhone + " - " + middlePhone + " - " + lastPhone;
 
                 //빈 칸이 있는지 검사
-                if (nameStr.getBytes().length <= 0 || idStr.getBytes().length <= 0 || domainStr.getBytes().length <= 0 ||
+                if (nameStr.getBytes().length <= 0 || emailStr.getBytes().length <= 0 ||
                         pwdStr.getBytes().length <= 0 || pwdConfirmStr.getBytes().length <= 0 || firstPhone.getBytes().length <= 0 ||
                         middlePhone.getBytes().length <= 0 || lastPhone.getBytes().length <= 0) {
                     Toast.makeText(getApplicationContext(), "값을 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -98,7 +96,6 @@ public class SignupActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Register>() {
                     @Override
                     public void onResponse(Call<Register> call, Response<Register> response) {
-
                         if (response.code() == 200) {
                             Toast.makeText(SignupActivity.this, "user signed up", Toast.LENGTH_SHORT).show();
                             finish();
