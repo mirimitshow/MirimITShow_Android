@@ -1,1 +1,1 @@
-include ':app', ':scanlibrary'
+include ':app', ':scanlibrary', ':picasso-2.71828'
