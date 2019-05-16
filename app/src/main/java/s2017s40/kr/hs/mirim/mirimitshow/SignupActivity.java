@@ -27,8 +27,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText name, email, pwd, pwdConfirm, phoneNum1, phoneNum2;
     Spinner phoneSpinner;
     Button signupBtn;
-    String nameStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
-
+    String nameStr,emailStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
+    String Phone_num;
     private Retrofit mRetrofit;
     private Services service;
 
@@ -54,7 +54,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 nameStr = name.getText().toString();
-                String emailStr = email.getText().toString(); //이메일의 아이디 부분
+                emailStr = email.getText().toString(); //이메일의 아이디 부분
 
                 pwdStr = pwd.getText().toString();
                 pwdConfirmStr = pwdConfirm.getText().toString();
@@ -62,7 +62,7 @@ public class SignupActivity extends AppCompatActivity {
                 firstPhone = phoneSpinner.getSelectedItem().toString(); //첫 3자리
                 middlePhone = phoneNum1.getText().toString(); // 중간 4자리
                 lastPhone = phoneNum2.getText().toString(); // 마지막 4자리
-                String Phone_num = firstPhone + " - " + middlePhone + " - " + lastPhone;
+                Phone_num = firstPhone + " - " + middlePhone + " - " + lastPhone;
 
                 //빈 칸이 있는지 검사
                 if (nameStr.getBytes().length <= 0 || emailStr.getBytes().length <= 0 ||
@@ -95,7 +95,6 @@ public class SignupActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Register>() {
                     @Override
                     public void onResponse(Call<Register> call, Response<Register> response) {
-
                         if (response.code() == 200) {
                             Toast.makeText(SignupActivity.this, "user signed up", Toast.LENGTH_SHORT).show();
                             finish();
