@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewPostActivity"
+    android:padding="19dp"
+    >
+
+    <TextView
+        android:id="@+id/PostViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26.7sp"
+        android:textColor="#eba331"
+        tools:text="제목"
+        />
+
+    <View
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ViewPost_line"
+        android:background="#000"
+        android:layout_below="@+id/PostViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <ImageView
+        android:id="@+id/ViewPostImage"
+        android:layout_below="@+id/ViewPost_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/ViewPostContent"
+        android:textColor="#000"
+        android:layout_below="@+id/ViewPostImage"
+        android:text="게시글 내용"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
