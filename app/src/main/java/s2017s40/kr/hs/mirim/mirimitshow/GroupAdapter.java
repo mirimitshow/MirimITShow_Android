@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
-    private ArrayList<GroupDTO> mDataset;
+    private ArrayList<Group> mDataset;
     private ClickCallback callback;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -30,7 +28,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             mTextView_participants = (TextView)view.findViewById(R.id.item_group_participants_text);
         }
     }
-    public GroupAdapter(ArrayList<GroupDTO> myDataset,  ClickCallback clickCallback) {
+    public GroupAdapter(ArrayList<Group> myDataset, ClickCallback clickCallback) {
         mDataset = myDataset;
         this.callback = clickCallback;
     }

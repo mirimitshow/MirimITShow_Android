@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
-import s2017s40.kr.hs.mirim.mirimitshow.GroupDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.Group;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 
@@ -23,7 +23,7 @@ public class GroupFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<GroupDTO> myDataset;
+    private ArrayList<Group> myDataset;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
@@ -45,10 +45,10 @@ public class GroupFragment extends Fragment {
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        myDataset.add(new GroupDTO("3학년6반",String.valueOf(R.mipmap.ic_launcher),"17"));
-        myDataset.add(new GroupDTO("3학년5반",String.valueOf(R.mipmap.ic_launcher),"30"));
-        myDataset.add(new GroupDTO("2학년3반",String.valueOf(R.mipmap.ic_launcher),"12"));
-        myDataset.add(new GroupDTO("2학년1반",String.valueOf(R.mipmap.ic_launcher),"17"));
+        myDataset.add(new Group("3학년6반",String.valueOf(R.mipmap.ic_launcher),"17"));
+        myDataset.add(new Group("3학년5반",String.valueOf(R.mipmap.ic_launcher),"30"));
+        myDataset.add(new Group("2학년3반",String.valueOf(R.mipmap.ic_launcher),"12"));
+        myDataset.add(new Group("2학년1반",String.valueOf(R.mipmap.ic_launcher),"17"));
 
 
         return view;

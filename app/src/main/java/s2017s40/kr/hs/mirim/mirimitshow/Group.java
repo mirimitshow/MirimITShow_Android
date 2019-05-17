@@ -2,7 +2,7 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 
 import java.util.ArrayList;
 
-public class GroupDTO {
+public class Group {
     private String token;
     private String name;
     private String person;
@@ -13,25 +13,25 @@ public class GroupDTO {
     private String url;
     private String type;
     //기본 생성자
-    GroupDTO(){}
+    Group(){}
     //Group1테스트 생성자
-    GroupDTO(String boards[]){
+    Group(String boards[]){
 
     }
-    public GroupDTO(String name, String url, String person){
+    public Group(String name, String url, String person){
         this.name = name;
         this.url = url;
         this.person = person;
     }
     //이미지 이용시 생성자
-    GroupDTO(String imgToken, ArrayList arrayList, String url, String type){
+    Group(String imgToken, ArrayList arrayList, String url, String type){
         this.imgToken = imgToken;
         this.arrayList = arrayList;
         this.url = url;
         this.type = type;
     }
     //리스트뷰 이용시 생성자
-    GroupDTO(String token, String name, String member[], String url, String type){
+    Group(String token, String name, String member[], String url, String type){
         this.token = token;
         this.name = name;
         this.member = member;
@@ -39,7 +39,7 @@ public class GroupDTO {
         this.type = type;
     }
     //전체 생성자
-    GroupDTO(String token, String name, String member[], String boards[], String imgToken, ArrayList arrayList, String url, String type){
+    Group(String token, String name, String member[], String boards[], String imgToken, ArrayList arrayList, String url, String type){
         this.token = token;
         this.name = name;
         this.member = member;

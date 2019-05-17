@@ -15,9 +15,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +30,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 public class LoginActivity extends AppCompatActivity {
     private Retrofit mRetrofit;
@@ -102,6 +108,17 @@ public class LoginActivity extends AppCompatActivity {
         mRetrofit  = new Retrofit.Builder()
                 .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
                 .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        CookieHandler cookieHandler = new CookieManager(
+                new PersistentCookieStore(ctx), CookiePolicy.ACCEPT_ALL);
+        // init okhttp 3 logger
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        // init OkHttpClient
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .cookieJar(new JavaNetCookieJar(cookieHandler))
+                .addInterceptor(logging)
                 .build();
     }
 }
