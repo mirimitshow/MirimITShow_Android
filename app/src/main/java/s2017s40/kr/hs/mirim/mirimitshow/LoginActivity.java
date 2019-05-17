@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        CookieHandler cookieHandler = new CookieManager(
+        /*CookieHandler cookieHandler = new CookieManager(
                 new PersistentCookieStore(ctx), CookiePolicy.ACCEPT_ALL);
         // init okhttp 3 logger
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -119,6 +119,6 @@ public class LoginActivity extends AppCompatActivity {
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .cookieJar(new JavaNetCookieJar(cookieHandler))
                 .addInterceptor(logging)
-                .build();
+                .build();*/
     }
 }
