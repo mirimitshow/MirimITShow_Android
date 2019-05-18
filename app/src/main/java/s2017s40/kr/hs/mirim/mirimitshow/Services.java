@@ -1,9 +1,13 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface Services {
     //Auth
@@ -28,8 +32,10 @@ public interface Services {
     //User
     @GET("/getUser/")
     Call<String> getuser();
-    @GET("/getUserGroups/")
-    Call<String> getusergroups();
+    @GET("/getUserGroups/{email}")
+    Call<List<Group>> getusergroups(
+            @Path("email") String email
+    );
 
     //Board
     @GET("/getBoard/")

@@ -1,5 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -124,8 +125,11 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
     }
     public void shared(){
-        SharedPreferenceUtil sharedPreference = new SharedPreferenceUtil(LoginActivity.this);
-        sharedPreference.setSharedTest(idEdit.getText().toString()); // 저장
-        Log.e("ddd",sharedPreference.getSharedTest()); // 가져오기
+        SharedPreferences email = getSharedPreferences("email", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor Login = email.edit();
+        Login.putString("email",idEdit.getText().toString()); // 저장
+        Login.commit();
+
+        Log.e("ddd",email.getString("email","defValue")); // 가져오기
     }
 }

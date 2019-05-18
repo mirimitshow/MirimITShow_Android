@@ -1,6 +1,8 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.JavaNetCookieJar;
@@ -24,6 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import android.content.SharedPreferences;
 import retrofit2.converter.gson.GsonConverterFactory;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.Group;
@@ -31,19 +35,17 @@ import s2017s40.kr.hs.mirim.mirimitshow.LoginActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.MainActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
-import s2017s40.kr.hs.mirim.mirimitshow.SharedPreferenceUtil;
 import s2017s40.kr.hs.mirim.mirimitshow.User;
 
 
 public class GroupFragment extends Fragment {
     private Retrofit mRetrofit;
     private Services service;
-
+    public  String email;
     public static final int CONNECT_TIMEOUT = 15;
     public static final int WRITE_TIMEOUT = 15;
     public static final int READ_TIMEOUT = 15;
 
-    SharedPreferenceUtil sharedPreference = new SharedPreferenceUtil(getContext());
     public static GroupFragment newInstance() {
             return new GroupFragment();
     }
@@ -51,6 +53,7 @@ public class GroupFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Group> myDataset;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
@@ -71,25 +74,29 @@ public class GroupFragment extends Fragment {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-
-        sharedPreference.getSharedTest();
+        SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
+        email = sharedPreference.getString("email","defValue");
         init();
         service = mRetrofit.create(Services.class);
-        Group group = new Group();
-        Call<Group> call = service.getgroup(group);
-        call.enqueue(new Callback<Group>() {
+        Call<List<Group>> call = service.getusergroups(email);
+        call.enqueue(new Callback<List<Group>>() {
                          @Override
-                         public void onResponse(Call<Group> call, Response<Group> response) {
-
+                         public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                            if(response.code() == 200){//성공
+                                List<Group> getGroupList = response.body();
+                                for(Group singleGroup : getGroupList){
+                                    myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), singleGroup.getPerson()));
+                                }
+                            }else if(response.code() == 400){//실패
+                                Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG);
+                            }
                          }
 
                          @Override
-                         public void onFailure(Call<Group> call, Throwable t) {
+                         public void onFailure(Call<List<Group>> call, Throwable t) {
 
                          }
                      });
-
-                myDataset.add(new Group("3학년6반", String.valueOf(R.mipmap.ic_launcher), "17"));
         myDataset.add(new Group("3학년5반",String.valueOf(R.mipmap.ic_launcher),"30"));
         myDataset.add(new Group("2학년3반",String.valueOf(R.mipmap.ic_launcher),"12"));
         myDataset.add(new Group("2학년1반",String.valueOf(R.mipmap.ic_launcher),"17"));
