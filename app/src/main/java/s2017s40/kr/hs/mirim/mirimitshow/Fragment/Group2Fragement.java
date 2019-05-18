@@ -1,6 +1,7 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,14 +18,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class Group2Fragement extends Fragment {
     public Group2Fragement() {
         // Required empty public constructor
     }
+    private Services service;
+    SharedPreferences sharedPreference;
+    public  String email;
+    Utils utils = new Utils();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group_2, container, false);
+        String data = getArguments().getString("groupToken");
         return view;
     }
 }

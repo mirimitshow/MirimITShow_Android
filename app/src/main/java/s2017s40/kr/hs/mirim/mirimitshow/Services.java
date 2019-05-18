@@ -1,5 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -42,7 +43,7 @@ public interface Services {
     @GET("/getUser/")
     Call<String> getuser();
     @GET("/getUserGroups/{email}")
-    Call<List<Group>> getusergroups(
+    Call<ArrayList<Group>> getusergroups(
             @Path("email") String email
     );
 
@@ -52,7 +53,8 @@ public interface Services {
     @GET("/getGroupBoards/")
     Call<String> getgroupboards();
     @POST("/setBoard")
-    Call<Board> setbeard();
+    Call<Board> setbeard(
+            @Body Board board);
 
     //Scan
      @POST("/setScan")

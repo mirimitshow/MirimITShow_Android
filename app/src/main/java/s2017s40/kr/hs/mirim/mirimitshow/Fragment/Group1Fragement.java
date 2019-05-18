@@ -1,6 +1,7 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,9 @@ import s2017s40.kr.hs.mirim.mirimitshow.AddGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupSub1Adapter;
 import s2017s40.kr.hs.mirim.mirimitshow.MainActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.SubGroup1DTO;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 import s2017s40.kr.hs.mirim.mirimitshow.ViewPostActivity;
 
 public class Group1Fragement extends Fragment {
@@ -28,10 +31,16 @@ public class Group1Fragement extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<SubGroup1DTO> myDataset;
-
+    String groupToken;
+    private Services service;
+    SharedPreferences sharedPreference;
+    public  String email;
+    Utils utils = new Utils();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_1, container, false);
+
+        groupToken = getArguments().getString("groupToken");
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);

@@ -8,7 +8,6 @@ public class Group {
     private String name;
     private ArrayList<Members> members = new ArrayList<>();
     private ArrayList<Board> boards = new ArrayList<>();
-    private String imgToken;
     private String url;
     private String type;
     //기본 생성자
@@ -34,7 +33,6 @@ public class Group {
     Group(String token, String name, String member, String boards, String imgToken, ArrayList arrayList, String url, String type){
         this.token = token;
         this.name = name;
-        this.imgToken = imgToken;
         this.url = url;
         this.type = type;
     }
@@ -66,9 +64,6 @@ public class Group {
         this.token = token;
     }
 
-    public void setImgToken(String imgToken) {
-        this.imgToken = imgToken;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -82,9 +77,6 @@ public class Group {
         return type;
     }
 
-    public String getImgToken() {
-        return imgToken;
-    }
 
     public String getToken() {
         return token;

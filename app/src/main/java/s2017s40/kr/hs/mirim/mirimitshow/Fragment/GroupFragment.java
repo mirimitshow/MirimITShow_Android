@@ -28,10 +28,8 @@ import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class GroupFragment extends Fragment {
     private Services service;
+    SharedPreferences sharedPreference;
     public  String email;
-    public static final int CONNECT_TIMEOUT = 15;
-    public static final int WRITE_TIMEOUT = 15;
-    public static final int READ_TIMEOUT = 15;
     Utils utils = new Utils();
     public static GroupFragment newInstance() {
             return new GroupFragment();
@@ -57,18 +55,22 @@ public class GroupFragment extends Fragment {
               //클릭 이벤트
                 Fragment fg;
                 fg = GroupSubFragment.newInstance();
+                Bundle bundle = new Bundle(1);
+                bundle.putString("groupToken", String.valueOf(position));
+                fg.setArguments(bundle);
                 setChildFragment(fg);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+
         SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
 
         service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<List<Group>>() {
-             @Override
-             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
                 if(response.code() == 200){//성공
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
@@ -78,12 +80,12 @@ public class GroupFragment extends Fragment {
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
-             }
-             @Override
-             public void onFailure(Call<List<Group>> call, Throwable t) {
-                 Toast.makeText(getContext(),String.valueOf(t),Toast.LENGTH_LONG).show();
-             }
-         });
+            }
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+                Toast.makeText(getContext(),String.valueOf(t),Toast.LENGTH_LONG).show();
+            }
+        });
 
         return view;
     }
