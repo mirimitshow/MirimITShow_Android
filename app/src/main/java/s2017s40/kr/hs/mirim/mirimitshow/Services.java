@@ -5,7 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
-interface Services {
+public interface Services {
     //Auth
     @POST("/signin")
     Call<User> signin(
