@@ -26,18 +26,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScheduleActivity extends AppCompatActivity {
-    Button okBtn;
+    Button okBtn, skip_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
+        skip_btn = findViewById(R.id.schedule_skip_btn);
         okBtn = findViewById(R.id.schedule_ok_btn);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkVerify();
         }
+        skip_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +67,6 @@ public class ScheduleActivity extends AppCompatActivity {
                     fos.flush();
                     fos.close();
                     capture.destroyDrawingCache();
-
                     finish();
 
                 } catch (FileNotFoundException e) {

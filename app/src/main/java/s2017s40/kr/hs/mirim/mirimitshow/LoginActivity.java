@@ -27,7 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    private Retrofit mRetrofit;
     private Services service;
 
     public static final int CONNECT_TIMEOUT = 15;
@@ -40,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     String url = null;
     String pwstr, idstr;
     String resultstr;
-
+    Utils utils = new Utils();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     public void login(){
-        init();
-        service = mRetrofit.create(Services.class);
+        service = utils.mRetrofit.create(Services.class);
         User users = new User(idEdit.getText().toString(), pwEdit.getText().toString());
         Call<User> call = service.signin(users);
         call.enqueue(new Callback<User>() {
@@ -101,28 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("loginError", t.toString());
             }
         });
-    }
-    public void init(){
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        //쿠키 메니저의 cookie policy를 변경 합니다.
-        CookieManager cookieManager = new CookieManager();
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS) //연결 타임아웃 시간 설정
-                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS) //쓰기 타임아웃 시간 설정
-                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
-                .cookieJar(new JavaNetCookieJar(cookieManager)) //쿠키메니져 설정
-                .addInterceptor(httpLoggingInterceptor) //http 로그 확인
-                .build();
-
-        mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
     }
     public void shared(){
         SharedPreferences email = getSharedPreferences("email", Activity.MODE_PRIVATE);

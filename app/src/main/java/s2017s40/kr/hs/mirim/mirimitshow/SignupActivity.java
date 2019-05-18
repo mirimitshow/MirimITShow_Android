@@ -29,8 +29,8 @@ public class SignupActivity extends AppCompatActivity {
     Button signupBtn;
     String nameStr,emailStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone;
     String Phone_num;
-    private Retrofit mRetrofit;
     private Services service;
+    Utils utils = new Utils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +87,8 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this,"올바른 이메일 형식이 아닙니다.",Toast.LENGTH_SHORT).show();
                     return;
                 }
-              
-                init();
-                service = mRetrofit.create(Services.class);
+
+                service = utils.mRetrofit.create(Services.class);
                 Register register = new Register(nameStr, emailStr,pwdConfirmStr,Phone_num);
                 Call<Register> call = service.signup(register);
                 call.enqueue(new Callback<Register>() {
@@ -115,11 +114,5 @@ public class SignupActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-    public void init(){
-        mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
     }
 }

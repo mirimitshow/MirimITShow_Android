@@ -36,16 +36,16 @@ import s2017s40.kr.hs.mirim.mirimitshow.MainActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.User;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 
 public class GroupFragment extends Fragment {
-    private Retrofit mRetrofit;
     private Services service;
     public  String email;
     public static final int CONNECT_TIMEOUT = 15;
     public static final int WRITE_TIMEOUT = 15;
     public static final int READ_TIMEOUT = 15;
-
+    Utils utils = new Utils();
     public static GroupFragment newInstance() {
             return new GroupFragment();
     }
@@ -76,8 +76,8 @@ public class GroupFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
-        init();
-        service = mRetrofit.create(Services.class);
+
+        service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<List<Group>>() {
                          @Override
@@ -85,7 +85,7 @@ public class GroupFragment extends Fragment {
                             if(response.code() == 200){//성공
                                 List<Group> getGroupList = response.body();
                                 for(Group singleGroup : getGroupList){
-                                    myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), singleGroup.getPerson()));
+                                    myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers())));
                                 }
                             }else if(response.code() == 400){//실패
                                 Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG);
@@ -97,10 +97,6 @@ public class GroupFragment extends Fragment {
 
                          }
                      });
-        myDataset.add(new Group("3학년5반",String.valueOf(R.mipmap.ic_launcher),"30"));
-        myDataset.add(new Group("2학년3반",String.valueOf(R.mipmap.ic_launcher),"12"));
-        myDataset.add(new Group("2학년1반",String.valueOf(R.mipmap.ic_launcher),"17"));
-
 
         return view;
     }
@@ -112,27 +108,5 @@ public class GroupFragment extends Fragment {
             childFt.addToBackStack(null);
             childFt.commit();
         }
-    }
-    public void init(){
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        //쿠키 메니저의 cookie policy를 변경 합니다.
-        CookieManager cookieManager = new CookieManager();
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS) //연결 타임아웃 시간 설정
-                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS) //쓰기 타임아웃 시간 설정
-                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
-                .cookieJar(new JavaNetCookieJar(cookieManager)) //쿠키메니져 설정
-                .addInterceptor(httpLoggingInterceptor) //http 로그 확인
-                .build();
-
-        mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
     }
 }

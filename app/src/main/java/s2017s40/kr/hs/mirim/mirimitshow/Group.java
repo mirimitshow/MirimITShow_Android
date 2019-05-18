@@ -1,15 +1,15 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Group {
     private String token;
     private String name;
-    private String person;
-    private String member[];
-    private String boards[];
+    private ArrayList<Members> members = new ArrayList<>();
+    private ArrayList<Board> boards = new ArrayList<>();
     private String imgToken;
-    private ArrayList<Object> arrayList;
+    private String timetables;
     private String url;
     private String type;
     //기본 생성자
@@ -18,44 +18,50 @@ public class Group {
     Group(String boards[]){
 
     }
-    public Group(String name, String url, String person){
-        this.name = name;
-        this.url = url;
-        this.person = person;
-    }
-    //이미지 이용시 생성자
-    Group(String imgToken, ArrayList arrayList, String url, String type){
-        this.imgToken = imgToken;
-        this.arrayList = arrayList;
-        this.url = url;
-        this.type = type;
-    }
-    //리스트뷰 이용시 생성자
-    Group(String token, String name, String member[], String url, String type){
+    //그룹 생성시 생성자
+    public Group(String token, String name,  String member){
         this.token = token;
         this.name = name;
-        this.member = member;
+        this.members.add(new Members(member));
+    }
+    //리스트뷰 이용시 생성자
+    Group(String token, String name, String member , String url, String type){
+        this.token = token;
+        this.name = name;
         this.url = url;
         this.type = type;
     }
     //전체 생성자
-    Group(String token, String name, String member[], String boards[], String imgToken, ArrayList arrayList, String url, String type){
+    Group(String token, String name, String member, String boards, String imgToken, ArrayList arrayList, String url, String type){
         this.token = token;
         this.name = name;
-        this.member = member;
-        this.boards = boards;
         this.imgToken = imgToken;
-        this.arrayList = arrayList;
         this.url = url;
         this.type = type;
     }
 
-    public void setPerson(String person) {
-        this.person = person;
+    public void setTimetables(String timetables) {
+        this.timetables = timetables;
     }
 
-    public String getPerson() {
-        return person;
+    public String getTimetables() {
+        return timetables;
+    }
+
+    public void setMembers(ArrayList<Members> members) {
+        this.members = members;
+    }
+
+    public ArrayList<Members> getMembers() {
+        return members;
+    }
+
+    public void setBoards(ArrayList<Board> boards) {
+        this.boards = boards;
+    }
+
+    public ArrayList<Board> getBoards() {
+        return boards;
     }
 
     public void setUrl(String url) {
@@ -70,21 +76,8 @@ public class Group {
         this.token = token;
     }
 
-    public void setMember(String[] member) {
-
-        this.member = member;
-    }
-
     public void setImgToken(String imgToken) {
         this.imgToken = imgToken;
-    }
-
-    public void setArrayList(ArrayList<Object> arrayList) {
-        this.arrayList = arrayList;
-    }
-
-    public void setBoards(String[] boards) {
-        this.boards = boards;
     }
 
     public void setName(String name) {
@@ -97,18 +90,6 @@ public class Group {
 
     public String getType() {
         return type;
-    }
-
-    public ArrayList<Object> getArrayList() {
-        return arrayList;
-    }
-
-    public String[] getMember() {
-        return member;
-    }
-
-    public String[] getBoards() {
-        return boards;
     }
 
     public String getImgToken() {
