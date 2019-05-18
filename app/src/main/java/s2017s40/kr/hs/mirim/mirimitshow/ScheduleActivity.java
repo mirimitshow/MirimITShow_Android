@@ -2,7 +2,9 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,13 +27,26 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ScheduleActivity extends AppCompatActivity {
     Button okBtn, skip_btn;
+    String token;
+    SharedPreferences sharedPreference;
+
+    private Services service;
+    Utils utils = new Utils();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
+        Intent intent = getIntent();
+        token = intent.getStringExtra("token");
         skip_btn = findViewById(R.id.schedule_skip_btn);
         okBtn = findViewById(R.id.schedule_ok_btn);
 
@@ -50,20 +65,42 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final TableLayout capture = (TableLayout) findViewById(R.id.table_schedule);//캡쳐할영역(테이블 레이아웃)
                 //임시로 파일이름 날짜 설정 -> 그룹 코드로 변경해서 불러오기!
-                SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
-                Date date = new Date();
 
                 capture.buildDrawingCache();
                 Bitmap captureview = capture.getDrawingCache();
                 //파일DB연결 시 parent를 변경
-                File file = new File(Environment.getExternalStorageDirectory()+"/Pictures",day.format(date)+".jpeg");
+                File file = new File(Environment.getExternalStorageDirectory()+"/Pictures",token+".jpeg");
                 FileOutputStream fos = null;
                 try{
                     fos = new FileOutputStream(file);
                     captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     //여기 sendBroadcast DB  변경
                     sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                    Toast.makeText(ScheduleActivity.this, "저장완료", Toast.LENGTH_SHORT).show();
+                    service = utils.mRetrofit.create(Services.class);
+
+                    TimeTable timeTable = new TimeTable(token, String.valueOf(file));
+                    Call<TimeTable> call = service.settimetable(timeTable);
+                    Log.e("claa" , "class");
+                    call.enqueue(new Callback<TimeTable>() {
+                        @Override
+                        public void onResponse(Call<TimeTable> call, Response<TimeTable> response) {
+                            Log.e("dddddddd",String.valueOf(response.code()));
+                            if(response.code() == 200){
+                                Toast.makeText(ScheduleActivity.this, "returns existing Group", Toast.LENGTH_LONG).show();
+                               finish();
+                            }else if(response.code() == 400){
+                                Toast.makeText(ScheduleActivity.this, "invalid input, object invalid", Toast.LENGTH_LONG).show();
+                                finish();
+                            }else{
+                                Toast.makeText(ScheduleActivity.this, "409", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<TimeTable> call, Throwable t) {
+                            Toast.makeText(ScheduleActivity.this, "t", Toast.LENGTH_LONG).show();
+                            Log.e("dddddddd",String.valueOf(t));
+                        }
+                    });
                     fos.flush();
                     fos.close();
                     capture.destroyDrawingCache();

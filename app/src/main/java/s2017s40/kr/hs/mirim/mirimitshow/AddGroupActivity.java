@@ -128,8 +128,8 @@ public class AddGroupActivity extends AppCompatActivity {
                     public void onResponse(Call<Group> call, Response<Group> response) {
                         if(response.code() == 200){
                             Toast.makeText(AddGroupActivity.this, "new group added", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(AddGroupActivity.this, MainActivity.class);
-                            intent.putExtra("token","");
+                            Intent intent = new Intent(AddGroupActivity.this, ScheduleActivity.class);
+                            intent.putExtra("token",groupCodeStr);
                             startActivity(intent);
                         }else if(response.code() == 400){
                             Toast.makeText(AddGroupActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();

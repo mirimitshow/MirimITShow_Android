@@ -19,9 +19,9 @@ import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 public class Utils {
     public  static Retrofit mRetrofit;
 
-    public static final int CONNECT_TIMEOUT = 15;
-    public static final int WRITE_TIMEOUT = 15;
-    public static final int READ_TIMEOUT = 15;
+    public static final int CONNECT_TIMEOUT = 30;
+    public static final int WRITE_TIMEOUT = 30;
+    public static final int READ_TIMEOUT = 30;
     String MULTIPART_FORM_DATA = "multipart/form-data";
     public Utils(){
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

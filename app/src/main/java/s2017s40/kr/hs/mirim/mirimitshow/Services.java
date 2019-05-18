@@ -27,7 +27,8 @@ public interface Services {
     @POST("/joinGroup")
     Call<Group> joingroup();
     @POST("/setTimetable")
-    Call<Group> settimetable();
+    Call<TimeTable> settimetable(
+            @Body TimeTable timeTable);
 
     //User
     @GET("/getUser/")

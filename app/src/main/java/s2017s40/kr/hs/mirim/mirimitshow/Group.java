@@ -9,7 +9,6 @@ public class Group {
     private ArrayList<Members> members = new ArrayList<>();
     private ArrayList<Board> boards = new ArrayList<>();
     private String imgToken;
-    private String timetables;
     private String url;
     private String type;
     //기본 생성자
@@ -18,7 +17,7 @@ public class Group {
     Group(String boards[]){
 
     }
-    //그룹 생성시 생성자
+    //그룹 생성 생성자
     public Group(String token, String name,  String member){
         this.token = token;
         this.name = name;
@@ -39,15 +38,6 @@ public class Group {
         this.url = url;
         this.type = type;
     }
-
-    public void setTimetables(String timetables) {
-        this.timetables = timetables;
-    }
-
-    public String getTimetables() {
-        return timetables;
-    }
-
     public void setMembers(ArrayList<Members> members) {
         this.members = members;
     }
