@@ -1,41 +1,28 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
 import android.app.Activity;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.JavaNetCookieJar;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import android.content.SharedPreferences;
-import retrofit2.converter.gson.GsonConverterFactory;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.Group;
-import s2017s40.kr.hs.mirim.mirimitshow.LoginActivity;
-import s2017s40.kr.hs.mirim.mirimitshow.MainActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
-import s2017s40.kr.hs.mirim.mirimitshow.User;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 
@@ -80,23 +67,23 @@ public class GroupFragment extends Fragment {
         service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<List<Group>>() {
-                         @Override
-                         public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                            if(response.code() == 200){//성공
-                                List<Group> getGroupList = response.body();
-                                for(Group singleGroup : getGroupList){
-                                    myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers())));
-                                }
-                            }else if(response.code() == 400){//실패
-                                Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG);
-                            }
-                         }
-
-                         @Override
-                         public void onFailure(Call<List<Group>> call, Throwable t) {
-
-                         }
-                     });
+             @Override
+             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                if(response.code() == 200){//성공
+                    List<Group> getGroupList = response.body();
+                    for(Group singleGroup : getGroupList){
+                        myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers())));
+                    }
+                    Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
+                }else if(response.code() == 400){//실패
+                    Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();
+                }
+             }
+             @Override
+             public void onFailure(Call<List<Group>> call, Throwable t) {
+                 Toast.makeText(getContext(),String.valueOf(t),Toast.LENGTH_LONG).show();
+             }
+         });
 
         return view;
     }

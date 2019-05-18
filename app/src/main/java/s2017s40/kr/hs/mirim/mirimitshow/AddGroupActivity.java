@@ -120,8 +120,33 @@ public class AddGroupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 service = utils.mRetrofit.create(Services.class);
                 sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
+                String email = sharedPreference.getString("email","defValue");
+                //내 그룹에 추가
 
-                Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), sharedPreference.getString("email","defValue"));
+                JoinGroup join = new JoinGroup(groupCodeStr, email);
+                Call<JoinGroup> callmy = service.joingroup(join);
+                callmy.enqueue(new Callback<JoinGroup>() {
+                    @Override
+                    public void onResponse(Call<JoinGroup> call, Response<JoinGroup> response) {
+                        if(response.code() == 200){
+                            Toast.makeText(AddGroupActivity.this, "new group added", Toast.LENGTH_SHORT).show();
+                        }else if(response.code() == 400){
+                            Toast.makeText(AddGroupActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else if(response.code() == 409){
+                            Toast.makeText(AddGroupActivity.this, "group already exists", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<JoinGroup> call, Throwable t) {
+                        Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
+                        Log.e("dddddddd",String.valueOf(t));
+                    }
+                });
+
+                //그룹에 추가
+                Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email);
                 Call<Group> call = service.setgroup(group);
                 call.enqueue(new Callback<Group>() {
                     @Override
@@ -145,12 +170,8 @@ public class AddGroupActivity extends AppCompatActivity {
                         Log.e("dddddddd",String.valueOf(t));
                     }
                 });
-
             }
         });
-
-
-
     }
 
     //랜덤 문자열 발생

@@ -46,7 +46,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, final int position) {
         int url =   Integer.parseInt(mDataset.get(position).getUrl());
         holder.mImageView.setImageResource(url);
-        //mDataset.get(position).getName()
         holder.mTextView_name.setText(mDataset.get(position).getName());
         holder.mTextView_participants.setText(mDataset.get(position).getMembers().size());
         holder.mView.setOnClickListener(new View.OnClickListener() {
