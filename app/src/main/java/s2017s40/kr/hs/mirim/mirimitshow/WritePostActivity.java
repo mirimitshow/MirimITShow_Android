@@ -84,7 +84,7 @@ public class WritePostActivity extends AppCompatActivity {
 
 
 
-                Board board = new Board("aa",Notice.isChecked(),email,title_str,content_str,String.valueOf(date));
+                Board board = new Board("XJU0OYB",Notice.isChecked(),email,title_str,content_str,String.valueOf(date));
                 Call<Board> call = service.setbeard(board);
                 call.enqueue(new Callback<Board>() {
                     @Override
