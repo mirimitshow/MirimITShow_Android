@@ -64,7 +64,7 @@ public class WritePostActivity extends AppCompatActivity {
         sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
-        setlist();
+        //setlist();
 
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
@@ -77,7 +77,6 @@ public class WritePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 service = utils.mRetrofit.create(Services.class);
-                String isNotice =  String.valueOf(Notice.isChecked()); // 공지글 여부
                 title_str = Title.getText().toString(); // 글 타이틀
                 content_str = Content.getText().toString(); // 글 내용
                 long Now = System.currentTimeMillis();
@@ -85,7 +84,7 @@ public class WritePostActivity extends AppCompatActivity {
 
 
 
-                Board board = new Board("aa",isNotice,email,title_str,content_str,String.valueOf(date));
+                Board board = new Board("aa",Notice.isChecked(),email,title_str,content_str,String.valueOf(date));
                 Call<Board> call = service.setbeard(board);
                 call.enqueue(new Callback<Board>() {
                     @Override

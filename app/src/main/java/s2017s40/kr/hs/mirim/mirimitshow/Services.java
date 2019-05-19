@@ -34,7 +34,7 @@ public interface Services {
     Call<JoinGroup> joingroup(
             @Body JoinGroup join);
     @Multipart
-    @POST("/setTimetable")
+    @POST("/setTimetable/")
     Call<ResponseBody> settimetable(
             @Part("token") String token,
             @Part("img") MultipartBody.Part file);
