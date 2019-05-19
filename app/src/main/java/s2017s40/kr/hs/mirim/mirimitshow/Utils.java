@@ -19,9 +19,9 @@ import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 public class Utils {
     public  static Retrofit mRetrofit;
 
-    public static final int CONNECT_TIMEOUT = 30;
-    public static final int WRITE_TIMEOUT = 30;
-    public static final int READ_TIMEOUT = 30;
+    public static final int CONNECT_TIMEOUT = 1100;
+    public static final int WRITE_TIMEOUT = 1100;
+    public static final int READ_TIMEOUT = 1100;
     String MULTIPART_FORM_DATA = "multipart/form-data";
     public Utils(){
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -37,6 +37,7 @@ public class Utils {
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
                 .cookieJar(new JavaNetCookieJar(cookieManager)) //쿠키메니져 설정
                 .addInterceptor(httpLoggingInterceptor) //http 로그 확인
+                .retryOnConnectionFailure(true)
                 .build();
 
         mRetrofit  = new Retrofit.Builder()

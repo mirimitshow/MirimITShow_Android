@@ -6,10 +6,10 @@ import java.util.List;
 public class Group {
     private String token;
     private String name;
-    private ArrayList<Members> members = new ArrayList<>();
-    private ArrayList<Board> boards = new ArrayList<>();
-    private String url;
-    private String type;
+    private ArrayList<String> members = new ArrayList<>();
+    private ArrayList<String> boards = new ArrayList<>();
+    private String image;
+    private String timetable;
     //기본 생성자
     Group(){}
     //Group1테스트 생성자
@@ -17,47 +17,51 @@ public class Group {
 
     }
     //그룹 생성 생성자
-    public Group(String token, String name,  String member){
+    public Group(String token, String name,  String member) {
         this.token = token;
         this.name = name;
-        this.members.add(new Members(member));
-    }
-    //리스트뷰 이용시 생성자
-    Group(String token, String name, String member , String url, String type){
-        this.token = token;
-        this.name = name;
-        this.url = url;
-        this.type = type;
+        this.members.add(member);
     }
     //전체 생성자
-    Group(String token, String name, String member, String boards, String imgToken, ArrayList arrayList, String url, String type){
+    Group(String token, String name, ArrayList<String> members,  ArrayList<String> boards, String image, String timetable){
         this.token = token;
         this.name = name;
-        this.url = url;
-        this.type = type;
+        this.members = members;
+        this.boards = boards;
+        this.image = image;
+        this.timetable = timetable;
     }
-    public void setMembers(ArrayList<Members> members) {
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
 
-    public ArrayList<Members> getMembers() {
-        return members;
-    }
-
-    public void setBoards(ArrayList<Board> boards) {
+    public void setBoards(ArrayList<String> boards) {
         this.boards = boards;
     }
 
-    public ArrayList<Board> getBoards() {
+    public void setTimetable(String timetable) {
+        this.timetable = timetable;
+    }
+
+    public String getTimetable() {
+        return timetable;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public ArrayList<String> getMembers() {
+        return members;
+    }
+
+    public ArrayList<String> getBoards() {
         return boards;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public void setToken(String token) {
@@ -67,14 +71,6 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getType() {
-        return type;
     }
 
 

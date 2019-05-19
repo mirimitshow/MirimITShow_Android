@@ -67,12 +67,12 @@ public class GroupFragment extends Fragment {
         email = sharedPreference.getString("email","defValue");
 
         service = utils.mRetrofit.create(Services.class);
-        Call<List<Group>> call = service.getusergroups(email);
-        call.enqueue(new Callback<List<Group>>() {
+        Call<ArrayList<Group>> call = service.getusergroups(email);
+        call.enqueue(new Callback<ArrayList<Group>>() {
             @Override
-            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+            public void onResponse(Call<ArrayList<Group>> call, Response<ArrayList<Group>> response) {
                 if(response.code() == 200){//성공
-                    List<Group> getGroupList = response.body();
+                    ArrayList<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
                         myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers())));
                     }
@@ -82,7 +82,7 @@ public class GroupFragment extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<List<Group>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Group>> call, Throwable t) {
                 Toast.makeText(getContext(),String.valueOf(t),Toast.LENGTH_LONG).show();
             }
         });

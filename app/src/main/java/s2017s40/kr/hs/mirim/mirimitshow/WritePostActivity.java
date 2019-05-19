@@ -82,13 +82,17 @@ public class WritePostActivity extends AppCompatActivity {
                 content_str = Content.getText().toString(); // 글 내용
                 long Now = System.currentTimeMillis();
                 Date date = new Date(Now);
-                Board board = new Board("a","a",isNotice,email,title_str,content_str,String.valueOf(date));
+
+
+
+                Board board = new Board("aa",isNotice,email,title_str,content_str,String.valueOf(date));
                 Call<Board> call = service.setbeard(board);
                 call.enqueue(new Callback<Board>() {
                     @Override
                     public void onResponse(Call<Board> call, Response<Board> response) {
                         if(response.code() == 200){
                             Toast.makeText(WritePostActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
+                            finish();
                         }else if(response.code() == 400){
                             Toast.makeText(WritePostActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
                         }else if(response.code() == 409){
@@ -157,8 +161,6 @@ public class WritePostActivity extends AppCompatActivity {
     public void setlist(){
         arrayListGroup = new ArrayList<String>();
         arrayListToken = new ArrayList<String>();
-        arrayListGroup.add("3-6"); // 그룹 목록 스피너의 값들
-        arrayListGroup.add("3-5");
 
         Call<ArrayList<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<ArrayList<Group>>() {
@@ -170,7 +172,6 @@ public class WritePostActivity extends AppCompatActivity {
                         arrayListGroup.add(group.getName());
                         arrayListToken.add(group.getToken());
                     }
-                    finish();
                     Toast.makeText(WritePostActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
                     Toast.makeText(WritePostActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
@@ -180,10 +181,11 @@ public class WritePostActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<Group>> call, Throwable t) {
                 Toast.makeText(WritePostActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
-                Log.e("loginError", t.toString());
+                Log.e("writeError", t.toString());
             }
         });
-        arrayAdapterGroup = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, arrayListGroup);
-
+        arrayAdapterGroup = new ArrayAdapter<>(WritePostActivity.this, android.R.layout.simple_spinner_dropdown_item, arrayListGroup);
+        GroupList.setAdapter(arrayAdapterGroup);
+        GroupList.setSelection(0);
     }
 }

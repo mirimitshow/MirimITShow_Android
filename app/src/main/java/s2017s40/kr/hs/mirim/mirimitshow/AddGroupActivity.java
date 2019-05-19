@@ -141,7 +141,7 @@ public class AddGroupActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<JoinGroup> call, Throwable t) {
                         Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
-                        Log.e("dddddddd",String.valueOf(t));
+                        Log.e("joingroupError",String.valueOf(t));
                     }
                 });
 
@@ -167,7 +167,7 @@ public class AddGroupActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<Group> call, Throwable t) {
                         Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
-                        Log.e("dddddddd",String.valueOf(t));
+                        Log.e("setgroupError",String.valueOf(t));
                     }
                 });
             }

@@ -1,16 +1,14 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
 public class Board {
-    private String token;
     private String group_token;
     private String isNotice;
     private String author;
     private String title;
     private String content;
     private String date;
-    Board(String token, String group_token, String isNotice, String author, String title
+    Board(String group_token, String isNotice, String author, String title
             ,String content, String date){
-        this.token = token;
         this.group_token = group_token;
         this.isNotice = isNotice;
         this.author = author;
@@ -18,11 +16,6 @@ public class Board {
         this.content = content;
         this.date = date;
     }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public void setIsNotice(String isNotice) {
         this.isNotice = isNotice;
     }
@@ -45,10 +38,6 @@ public class Board {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     public String getTitle() {
