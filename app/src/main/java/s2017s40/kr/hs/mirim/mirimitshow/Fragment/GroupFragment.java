@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,23 +68,24 @@ public class GroupFragment extends Fragment {
         email = sharedPreference.getString("email","defValue");
 
         service = utils.mRetrofit.create(Services.class);
-        Call<ArrayList<Group>> call = service.getusergroups(email);
-        call.enqueue(new Callback<ArrayList<Group>>() {
+        Call<List<Group>> call = service.getusergroups(email);
+        call.enqueue(new Callback<List<Group>>() {
             @Override
-            public void onResponse(Call<ArrayList<Group>> call, Response<ArrayList<Group>> response) {
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                Log.e("dsfsfsfsfsfsf",response.body().toString());
                 if(response.code() == 200){//성공
-                    ArrayList<Group> getGroupList = response.body();
-                    for(Group singleGroup : getGroupList){
-                        myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers())));
-                    }
+                    List<Group> getGroupList = (List<Group>)response.body();
+                   /* for(Group singleGroup : getGroupList){
+                        myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers().size())));
+                    }*/
                     Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
             }
             @Override
-            public void onFailure(Call<ArrayList<Group>> call, Throwable t) {
-                Toast.makeText(getContext(),String.valueOf(t),Toast.LENGTH_LONG).show();
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+                Log.e("getusergroupsError", t.toString());
             }
         });
 

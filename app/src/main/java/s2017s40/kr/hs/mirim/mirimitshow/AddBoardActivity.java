@@ -22,16 +22,14 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WritePostActivity extends AppCompatActivity {
+public class AddBoardActivity extends AppCompatActivity {
     private Services service;
     Utils utils = new Utils();
     SharedPreferences sharedPreference;
@@ -54,7 +52,7 @@ public class WritePostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_post);
+        setContentView(R.layout.activity_add_board);
         Title = findViewById(R.id.PostTitle);
         Content = findViewById(R.id.PostContent);
         postingBtn = findViewById(R.id.postingBtn);
@@ -64,7 +62,7 @@ public class WritePostActivity extends AppCompatActivity {
         sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
-        //setlist();
+        setlist();
 
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
@@ -84,23 +82,23 @@ public class WritePostActivity extends AppCompatActivity {
 
 
 
-                Board board = new Board("XJU0OYB",Notice.isChecked(),email,title_str,content_str,String.valueOf(date));
+                Board board = new Board("",Notice.isChecked(),email,title_str,content_str,String.valueOf(date));
                 Call<Board> call = service.setbeard(board);
                 call.enqueue(new Callback<Board>() {
                     @Override
                     public void onResponse(Call<Board> call, Response<Board> response) {
                         if(response.code() == 200){
-                            Toast.makeText(WritePostActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
                             finish();
                         }else if(response.code() == 400){
-                            Toast.makeText(WritePostActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
                         }else if(response.code() == 409){
-                            Toast.makeText(WritePostActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddBoardActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<Board> call, Throwable t) {
-                        Toast.makeText(WritePostActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -161,7 +159,7 @@ public class WritePostActivity extends AppCompatActivity {
         arrayListGroup = new ArrayList<String>();
         arrayListToken = new ArrayList<String>();
 
-        Call<ArrayList<Group>> call = service.getusergroups(email);
+        /*Call<Group> call = service.getusergroups(email);
         call.enqueue(new Callback<ArrayList<Group>>() {
             @Override
             public void onResponse(Call<ArrayList<Group>> call, Response<ArrayList<Group>> response) {
@@ -171,19 +169,19 @@ public class WritePostActivity extends AppCompatActivity {
                         arrayListGroup.add(group.getName());
                         arrayListToken.add(group.getToken());
                     }
-                    Toast.makeText(WritePostActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBoardActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
-                    Toast.makeText(WritePostActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
                 } else {
                 }
             }
             @Override
             public void onFailure(Call<ArrayList<Group>> call, Throwable t) {
-                Toast.makeText(WritePostActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddBoardActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
                 Log.e("writeError", t.toString());
             }
-        });
-        arrayAdapterGroup = new ArrayAdapter<>(WritePostActivity.this, android.R.layout.simple_spinner_dropdown_item, arrayListGroup);
+        });*/
+        arrayAdapterGroup = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, arrayListGroup);
         GroupList.setAdapter(arrayAdapterGroup);
         GroupList.setSelection(0);
     }

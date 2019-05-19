@@ -30,6 +30,7 @@ import java.util.Date;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,9 +80,33 @@ public class ScheduleActivity extends AppCompatActivity {
                     captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     //여기 sendBroadcast DB  변경
                     sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                    service = utils.mRetrofit.create(Services.class);
-                    //서버에 전송
-                    service.settimetable(token ,MultipartBody.Part.createFormData("file", file.getPath(), RequestBody.create(MediaType.parse("multipart/form-data"), file)));
+
+                    if (file.exists()) {
+                        service = utils.mRetrofit.create(Services.class);
+                        //서버에 전송
+                        RequestBody requestFile = RequestBody.create(MediaType.parse("img"), file);
+                        RequestBody description = RequestBody.create(MediaType.parse("token"), token);
+
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("img", token+"jpeg", requestFile);
+                        // executes the request
+                        Call<ResponseBody> call = service.settimetable(description, body);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if(response.code() == 200){
+                                    Toast.makeText(ScheduleActivity.this,"returns existing Group", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+                                }else if(response.code() == 400){
+                                    Toast.makeText(ScheduleActivity.this,"invalid input, object invalid", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    }
                     fos.flush();
                     fos.close();
                     capture.destroyDrawingCache();
@@ -96,24 +121,19 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
     }
+
     @TargetApi(Build.VERSION_CODES.M)
     public void checkVerify()
     {
-        if (
-                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                        checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-        )
-        {
-            // Should we show an explanation?
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-            {
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // ...
             }
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
-        else
-        {
+        else {
            return;
         }
     }

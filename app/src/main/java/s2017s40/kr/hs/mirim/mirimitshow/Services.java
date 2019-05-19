@@ -34,19 +34,17 @@ public interface Services {
     Call<JoinGroup> joingroup(
             @Body JoinGroup join);
     @Multipart
-    @POST("/setTimetable/")
+    @POST("/setTimetable")
     Call<ResponseBody> settimetable(
-            @Part("token") String token,
-            @Part("img") MultipartBody.Part file);
+            @Part("token") RequestBody description,
+            @Part MultipartBody.Part file);
 
     //User
     @GET("/getUser/")
     Call<String> getuser();
     @GET("/getUserGroups/{email}")
-    Call<ArrayList<Group>> getusergroups(
-            @Path("email") String email
-    );
-
+    Call<List<Group>> getusergroups(
+            @Path("email") String email);
     //Board
     @GET("/getBoard/")
     Call<String> getboard();

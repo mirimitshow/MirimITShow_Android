@@ -44,7 +44,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        int url =  Integer.parseInt(mDataset.get(position).getImage());
+        int url =  Integer.parseInt(mDataset.get(position).getImage().getUrl());
+
         holder.mImageView.setImageResource(url);
         holder.mTextView_name.setText(mDataset.get(position).getName());
         holder.mTextView_participants.setText(mDataset.get(position).getMembers().size());
