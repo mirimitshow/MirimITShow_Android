@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.ViewHolder> {
-    private ArrayList<SubGroup1DTO> mDataset;
+    private ArrayList<Board> mDataset;
     private GroupSub1Adapter.ClickCallback callback;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -25,7 +25,7 @@ public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.View
             mTextView_content = (TextView)view.findViewById(R.id.item_sub_group_content_text);
         }
     }
-    public GroupSub1Adapter(ArrayList<SubGroup1DTO> myDataset,  GroupSub1Adapter.ClickCallback clickCallback) {
+    public GroupSub1Adapter(ArrayList<Board> myDataset,  GroupSub1Adapter.ClickCallback clickCallback) {
         mDataset = myDataset;
         this.callback = clickCallback;
     }
@@ -42,7 +42,7 @@ public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.View
     @Override
     public void onBindViewHolder(GroupSub1Adapter.ViewHolder holder, final int position) {
         holder.mTextView_title.setText(mDataset.get(position).getTitle());
-        holder.mTextView_content.setText(mDataset.get(position).getSub());
+        holder.mTextView_content.setText(mDataset.get(position).getAuthor());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

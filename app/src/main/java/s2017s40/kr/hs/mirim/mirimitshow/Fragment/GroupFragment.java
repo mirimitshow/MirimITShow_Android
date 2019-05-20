@@ -57,8 +57,8 @@ public class GroupFragment extends Fragment {
               //클릭 이벤트
                 Fragment fg;
                 fg = GroupSubFragment.newInstance();
-                Bundle bundle = new Bundle(2);
-                bundle.putString("groupToken", String.valueOf(position));
+                Bundle bundle = new Bundle(1);
+                bundle.putString("groupToken", token);
                 fg.setArguments(bundle);
                 setChildFragment(fg);
             }

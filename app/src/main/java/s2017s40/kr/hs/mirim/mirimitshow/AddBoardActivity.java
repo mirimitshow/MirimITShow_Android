@@ -48,6 +48,8 @@ public class AddBoardActivity extends AppCompatActivity {
     Switch Notice;
     Spinner GroupSpinner;
 
+    image image;
+
     ArrayList<String> groupName;
     ArrayList<String> groupToken;
     @Override
@@ -84,39 +86,14 @@ public class AddBoardActivity extends AppCompatActivity {
                }
            });
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
-                    @Override
-                    public void onClick(View v) {
-            service = utils.mRetrofit.create(Services.class);
-            title_str = Title.getText().toString(); // 글 타이틀
-            content_str = Content.getText().toString(); // 글 내용
-            long Now = System.currentTimeMillis();
-            Date date = new Date(Now);
-
-            //Board 추가
-            Board board = new Board(token, Notice.isChecked(), email, title_str, content_str, String.valueOf(date));
-            Call<Board> call = service.setbeard(board);
-            call.enqueue(new Callback<Board>() {
-                @Override
-                public void onResponse(Call<Board> call, Response<Board> response) {
-                    if (response.code() == 200) {
-                        Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else if (response.code() == 400) {
-                        Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
-                    } else if (response.code() == 409) {
-                        Toast.makeText(AddBoardActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Board> call, Throwable t) {
-                    Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    });
-
-
+            @Override
+            public void onClick(View v) {
+                service = utils.mRetrofit.create(Services.class);
+                title_str = Title.getText().toString(); // 글 타이틀
+                content_str = Content.getText().toString(); // 글 내용
+                addBorad();
+            }
+        });
     }
 
     private void goToAlbum() {
@@ -187,7 +164,6 @@ public class AddBoardActivity extends AppCompatActivity {
                 } else {
                 }
             }
-
             @Override
             public void onFailure(Call<List<Group>> call, Throwable t) {
                 Toast.makeText(AddBoardActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
@@ -196,7 +172,28 @@ public class AddBoardActivity extends AppCompatActivity {
         });
         ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, groupName);
         GroupSpinner.setAdapter(adapter);
-        GroupSpinner.
+        GroupSpinner.setSelection(0);
     }
-
+    public void addBorad(){
+        //Board 추가
+        Board board = new Board("sdfasdfasdfasdfasdf", Notice.isChecked(), email, title_str, content_str);
+        /*Call<Board> call = service.setbeard(board);
+        call.enqueue(new Callback<Board>() {
+            @Override
+            public void onResponse(Call<Board> call, Response<Board> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else if (response.code() == 400) {
+                    Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 409) {
+                    Toast.makeText(AddBoardActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Board> call, Throwable t) {
+                Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
+            }
+        });//그룹에 추가*/
+    }
 }

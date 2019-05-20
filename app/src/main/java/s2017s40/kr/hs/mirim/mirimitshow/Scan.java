@@ -4,13 +4,11 @@ public class Scan {
     String email;
     String cartegory;
     String name;
-    String id;
     String url;
-    Scan(String email, String cartegory, String name, String id, String url){
+    Scan(String email, String cartegory, String name, String url){
         this.email = email;
         this.cartegory = cartegory;
         this.name = name;
-        this.id = id;
         this.url = url;
     }
 }

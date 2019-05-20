@@ -7,15 +7,37 @@ public class Board {
     private String title;
     private String content;
     private String date;
-    Board(String group_token, Boolean isNotice, String author, String title
-            ,String content, String date){
+    private image image;
+    public  Board(String author, String title){
+        this.author = author;
+        this.title = title;
+    }
+    public  Board(String group_token, Boolean isNotice, String author, String title
+            ,String content){
         this.group_token = group_token;
         this.isNotice = isNotice;
         this.author = author;
         this.title = title;
         this.content = content;
-        this.date = date;
     }
+    public Board(String group_token, Boolean isNotice, String author, String title
+            ,String content ,String img) {
+        this.group_token = group_token;
+        this.isNotice = isNotice;
+        this.author = author;
+        this.title = title;
+        this.content = content;
+        this.image = new image(img);
+    }
+
+    public void setImage(s2017s40.kr.hs.mirim.mirimitshow.image image) {
+        this.image = image;
+    }
+
+    public s2017s40.kr.hs.mirim.mirimitshow.image getImage() {
+        return image;
+    }
+
     public void setIsNotice(Boolean isNotice) {
         this.isNotice = isNotice;
     }

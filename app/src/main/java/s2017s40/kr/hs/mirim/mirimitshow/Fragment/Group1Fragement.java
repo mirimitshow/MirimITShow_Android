@@ -38,7 +38,7 @@ public class Group1Fragement extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<SubGroup1DTO> myDataset;
+    private ArrayList<Board> myDataset;
     String groupToken;
     private Services service;
     SharedPreferences sharedPreference;
@@ -50,6 +50,7 @@ public class Group1Fragement extends Fragment {
 
         groupToken = getArguments().getString("groupToken");
 
+        Log.e("groupToken",groupToken);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -69,7 +70,6 @@ public class Group1Fragement extends Fragment {
 
         mRecyclerView.setAdapter(mAdapter);
 
-
         service = utils.mRetrofit.create(Services.class);
         Call<List<Board>> call = service.getgroupboards(groupToken);
         call.enqueue(new Callback<List<Board>>() {
@@ -78,7 +78,7 @@ public class Group1Fragement extends Fragment {
                 if(response.code() == 200){//성공
                     List<Board> getBoardList = response.body();
                     for(Board singleBoard : getBoardList){
-                        myDataset.add(new SubGroup1DTO(singleBoard.getTitle(), singleBoard.getAuthor()));
+                        myDataset.add(new Board(singleBoard.getAuthor(), singleBoard.getTitle()));
                     }
                     Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
                 } else if(response.code() == 209){//실패

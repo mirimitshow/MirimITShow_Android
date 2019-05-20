@@ -47,19 +47,23 @@ public interface Services {
     Call<List<Group>> getusergroups(
             @Path("email") String email);
     //Board
+    @POST("/setBoard")
+    Call<Board> setbeard(
+            @Body Board board);
     @GET("/getBoard/")
     Call<String> getboard();
     @GET("/getGroupBoards/{token}")
     Call<List<Board>> getgroupboards(
             @Path("token") String token
             );
-    @POST("/setBoard")
-    Call<Board> setbeard(
-            @Body Board board);
-
     //Scan
-     @POST("/setScan")
-    Call<Scan> setscan();
+    @Multipart
+    @POST("/setScan")
+    Call<Scan> setscan(
+            @Part("email") RequestBody email,
+            @Part("cartegory") RequestBody cartegory,
+            @Part("name") RequestBody name,
+            @Part MultipartBody.Part file);
     @GET("/getScans/")
     Call<String> getscans();
 }
