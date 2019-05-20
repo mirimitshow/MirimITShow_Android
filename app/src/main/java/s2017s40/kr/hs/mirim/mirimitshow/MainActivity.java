@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.GroupFragment;
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyHomeFragment;
@@ -22,21 +24,49 @@ public class MainActivity extends AppCompatActivity {
     private GroupFragment groupFragment = new GroupFragment();
     private MyPaPerFragment mypaperFragment = new MyPaPerFragment();
     private MyHomeFragment myhomeFragment = new MyHomeFragment();
-    FloatingActionButton fab;
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, fab1, fab2, fab3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fab = findViewById(R.id.main_fab_FABtn);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);//그룹 만들기
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);//글작성
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);//scan 하기
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                anim();
+            }
+        });
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
                 Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
                 startActivity(intent);
+            }
+        });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+                Intent intent = new Intent(MainActivity.this, WritePostActivity.class);
+                startActivity(intent);
+            }
+        });
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
             }
         });
 
@@ -69,5 +99,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void anim() {
+        if (isFabOpen) {
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab3.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            fab3.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab3.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            fab3.setClickable(true);
+            isFabOpen = true;
+        }
     }
 }
