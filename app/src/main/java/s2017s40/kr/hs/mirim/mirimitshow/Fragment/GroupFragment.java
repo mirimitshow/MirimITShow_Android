@@ -39,7 +39,7 @@ public class GroupFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Group> myDataset;
-
+    private ArrayList<String> myToken;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
@@ -49,14 +49,15 @@ public class GroupFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
+        myToken= new ArrayList<>();
         //어탭터
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, String token) {
               //클릭 이벤트
                 Fragment fg;
                 fg = GroupSubFragment.newInstance();
-                Bundle bundle = new Bundle(1);
+                Bundle bundle = new Bundle(2);
                 bundle.putString("groupToken", String.valueOf(position));
                 fg.setArguments(bundle);
                 setChildFragment(fg);
@@ -74,10 +75,10 @@ public class GroupFragment extends Fragment {
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
                 Log.e("dsfsfsfsfsfsf",response.body().toString());
                 if(response.code() == 200){//성공
-                    List<Group> getGroupList = (List<Group>)response.body();
-                   /* for(Group singleGroup : getGroupList){
-                        myDataset.add(new Group(singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), String.valueOf(singleGroup.getMembers().size())));
-                    }*/
+                    List<Group> getGroupList = response.body();
+                    for(Group singleGroup : getGroupList){
+                        myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), singleGroup.getMembers()));
+                    }
                     Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();

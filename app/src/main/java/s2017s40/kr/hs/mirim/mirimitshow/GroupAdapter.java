@@ -1,6 +1,7 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     private ArrayList<Group> mDataset;
     private ClickCallback callback;
-
+    String token;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
@@ -44,25 +45,34 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        int url =  Integer.parseInt(mDataset.get(position).getImage().getUrl());
-
+        int url;
+        //if(mDataset.get(position).getImage().getUrl().isEmpty()){
+            url = (int)R.mipmap.ic_launcher;
+        //}else{
+           // url =  Integer.parseInt(mDataset.get(position).getImage());
+        //}
         holder.mImageView.setImageResource(url);
         holder.mTextView_name.setText(mDataset.get(position).getName());
-        holder.mTextView_participants.setText(mDataset.get(position).getMembers().size());
+        holder.mTextView_participants.setText(String.valueOf(mDataset.get(position).getMembers().size()));
+
+        token = mDataset.get(position).getToken();
+        Log.e("getToken", token);
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onItemClick(position);
+                callback.onItemClick(position, token);
+
             }
         });
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your dataset (invoked by the layout manager)a
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
     public interface ClickCallback {
-        void onItemClick(int position);
+        void onItemClick(int position, String token);
     }
 }

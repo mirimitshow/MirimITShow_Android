@@ -28,8 +28,9 @@ public interface Services {
     @POST("/setGroup")
     Call<Group> setgroup(
             @Body Group group);
-    @GET("/getGroup/")
-    Call<Group> getgroup();
+    @GET("/getGroup/{token}")
+    Call<Group> getgroup(
+            @Path("token") String token);
     @POST("/joinGroup")
     Call<JoinGroup> joingroup(
             @Body JoinGroup join);
@@ -48,8 +49,10 @@ public interface Services {
     //Board
     @GET("/getBoard/")
     Call<String> getboard();
-    @GET("/getGroupBoards/")
-    Call<String> getgroupboards();
+    @GET("/getGroupBoards/{token}")
+    Call<List<Board>> getgroupboards(
+            @Path("token") String token
+            );
     @POST("/setBoard")
     Call<Board> setbeard(
             @Body Board board);

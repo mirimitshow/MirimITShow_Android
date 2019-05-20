@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +24,10 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,8 +37,7 @@ public class AddBoardActivity extends AppCompatActivity {
     private Services service;
     Utils utils = new Utils();
     SharedPreferences sharedPreference;
-    String email;
-    String groupToken = "";
+    String email, token;
     private static final int PICK_FROM_ALBUM = 1;
     private File tempFile;
 
@@ -43,12 +46,10 @@ public class AddBoardActivity extends AppCompatActivity {
     ImageButton GallaryBtn;
     String title_str, content_str;
     Switch Notice;
-    Spinner GroupList;
+    Spinner GroupSpinner;
 
-    ArrayList<String> arrayListGroup;
-    ArrayList<String> arrayListToken;
-    ArrayAdapter<String> arrayAdapterGroup;
-
+    ArrayList<String> groupName;
+    ArrayList<String> groupToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +59,12 @@ public class AddBoardActivity extends AppCompatActivity {
         postingBtn = findViewById(R.id.postingBtn);
         GallaryBtn = findViewById(R.id.gallaryBtn);
         Notice = findViewById(R.id.isNotice);
-        GroupList = findViewById(R.id.WritePost_groupLists);
+        GroupSpinner = (Spinner) findViewById(R.id.addBoard_spinner);
         sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
-        setlist();
+        //spinner 추가
+        setList();
 
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
@@ -71,38 +73,48 @@ public class AddBoardActivity extends AppCompatActivity {
             }
         });
 
+        GroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+               @Override
+               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                   token = groupToken.get(position);
+               }
+               @Override
+               public void onNothingSelected(AdapterView<?> parent) {
+
+               }
+           });
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
-            @Override
-            public void onClick(View v) {
-                service = utils.mRetrofit.create(Services.class);
-                title_str = Title.getText().toString(); // 글 타이틀
-                content_str = Content.getText().toString(); // 글 내용
-                long Now = System.currentTimeMillis();
-                Date date = new Date(Now);
-
-
-
-                Board board = new Board("",Notice.isChecked(),email,title_str,content_str,String.valueOf(date));
-                Call<Board> call = service.setbeard(board);
-                call.enqueue(new Callback<Board>() {
                     @Override
-                    public void onResponse(Call<Board> call, Response<Board> response) {
-                        if(response.code() == 200){
-                            Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }else if(response.code() == 400){
-                            Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
-                        }else if(response.code() == 409){
-                            Toast.makeText(AddBoardActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onClick(View v) {
+            service = utils.mRetrofit.create(Services.class);
+            title_str = Title.getText().toString(); // 글 타이틀
+            content_str = Content.getText().toString(); // 글 내용
+            long Now = System.currentTimeMillis();
+            Date date = new Date(Now);
+
+            //Board 추가
+            Board board = new Board(token, Notice.isChecked(), email, title_str, content_str, String.valueOf(date));
+            Call<Board> call = service.setbeard(board);
+            call.enqueue(new Callback<Board>() {
+                @Override
+                public void onResponse(Call<Board> call, Response<Board> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else if (response.code() == 400) {
+                        Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 409) {
+                        Toast.makeText(AddBoardActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
                     }
-                    @Override
-                    public void onFailure(Call<Board> call, Throwable t) {
-                        Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+                }
+
+                @Override
+                public void onFailure(Call<Board> call, Throwable t) {
+                    Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    });
 
 
     }
@@ -155,19 +167,19 @@ public class AddBoardActivity extends AppCompatActivity {
         imageView.setImageBitmap(originalBm);
         imageView.setVisibility(View.VISIBLE);
     }
-    public void setlist(){
-        arrayListGroup = new ArrayList<String>();
-        arrayListToken = new ArrayList<String>();
+    public void setList(){
+        groupName = new ArrayList<String>();
+        groupToken = new ArrayList<String>();
 
-        /*Call<Group> call = service.getusergroups(email);
-        call.enqueue(new Callback<ArrayList<Group>>() {
+        Call<List<Group>> call = service.getusergroups(email);
+        call.enqueue(new Callback<List<Group>>() {
             @Override
-            public void onResponse(Call<ArrayList<Group>> call, Response<ArrayList<Group>> response) {
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
                 if (response.code() == 200) {
-                    ArrayList<Group> groupList = response.body();
-                    for(Group group : groupList){
-                        arrayListGroup.add(group.getName());
-                        arrayListToken.add(group.getToken());
+                    List<Group> getGroupList = response.body();
+                    for (Group singleGroup : getGroupList) {
+                        groupName.add(singleGroup.getName());
+                        groupToken.add(singleGroup.getToken());
                     }
                     Toast.makeText(AddBoardActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
@@ -175,14 +187,16 @@ public class AddBoardActivity extends AppCompatActivity {
                 } else {
                 }
             }
+
             @Override
-            public void onFailure(Call<ArrayList<Group>> call, Throwable t) {
+            public void onFailure(Call<List<Group>> call, Throwable t) {
                 Toast.makeText(AddBoardActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
-                Log.e("writeError", t.toString());
+                Log.e("getusergroupsError", t.toString());
             }
-        });*/
-        arrayAdapterGroup = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, arrayListGroup);
-        GroupList.setAdapter(arrayAdapterGroup);
-        GroupList.setSelection(0);
+        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, groupName);
+        GroupSpinner.setAdapter(adapter);
+        GroupSpinner.
     }
+
 }

@@ -15,7 +15,7 @@ public class Group {
     private String id;
     private List<Members> members = new ArrayList<>();
     private List<Board> boards = new ArrayList<>();
-    private image image;
+    private String image;
     private timetable timetable;
     //기본 생성자
     Group(){}
@@ -24,26 +24,49 @@ public class Group {
 
     }
     //그룹 생성 생성자
+    public Group(String token, String name) {
+        this.token = token;
+        this.name = name;
+    }
+    //그룹 생성 생성자
     public Group(String token, String name,  String member) {
         this.token = token;
         this.name = name;
         this.members.add(new Members(member));
     }
+    //리스트 생성자
+    public Group( String name, String image,  List<Members> member) {
+        this.name = name;
+        this.image = image;
+        this.members = member;
+    }
+    //리스트 생성자
+    public Group(String token, String name, String image,  List<Members> member) {
+        this.token = token;
+        this.name = name;
+        this.image = image;
+        this.members = member;
+    }
     //전체 생성자
-    Group(String token, String name, List<Members> members,  List<Board> boards, image image, String timetable){
+    Group(String token, String name, List<Members> members,  List<Board> boards, String image, String timetable){
         this.token = token;
         this.name = name;
         this.members = members;
         this.timetable =new timetable(timetable);
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public List<Board> getBoards() {
         return boards;
     }
 
-    public s2017s40.kr.hs.mirim.mirimitshow.image getImage() {
-        return image;
-    }
 
     public List<Members> getMembers() {
         return members;
@@ -61,9 +84,6 @@ public class Group {
         this.members = members;
     }
 
-    public void setImage(s2017s40.kr.hs.mirim.mirimitshow.image image) {
-        this.image = image;
-    }
 
     public void setId(String id) {
         this.id = id;

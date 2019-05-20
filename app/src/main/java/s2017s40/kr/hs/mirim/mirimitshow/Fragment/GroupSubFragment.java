@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,12 @@ public class GroupSubFragment extends Fragment {
     SharedPreferences sharedPreference;
     public  String email;
     Utils utils = new Utils();
-    String token;
+    String token, position;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group_sub, container, false);
 
+        position = getArguments().getString("groupPosition"); // 전달한 key 값
         token = getArguments().getString("groupToken"); // 전달한 key 값
 
         host = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
@@ -36,7 +38,7 @@ public class GroupSubFragment extends Fragment {
 
         Bundle args = new Bundle();
         args.putString("groupToken", token);
-
+        Log.e("token", token);
         TabHost.TabSpec tabSpec1 = host.newTabSpec("게시글 보기"); // 구분자
         tabSpec1.setIndicator("게시글 보기"); // 탭 이름
         host.addTab(tabSpec1, Group1Fragement.class, args);
