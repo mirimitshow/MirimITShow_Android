@@ -35,6 +35,7 @@ public class ScheduleActivity extends AppCompatActivity {
         {
             checkVerify();
         }
+
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +46,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 capture.buildDrawingCache();
                 Bitmap captureview = capture.getDrawingCache();
+
                 //파일DB연결 시 parent를 변경
                 File file = new File(Environment.getExternalStorageDirectory()+"/Pictures",day.format(date)+".jpeg");
                 FileOutputStream fos = null;
