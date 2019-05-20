@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 anim();
+                Intent intent = new Intent(MainActivity.this, ScanClassActivity.class);
+                startActivity(intent);
+
             }
         });
 
