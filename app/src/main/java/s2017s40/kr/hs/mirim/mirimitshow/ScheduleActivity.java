@@ -59,7 +59,8 @@ public class ScheduleActivity extends AppCompatActivity {
         skip_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 =======
@@ -98,6 +99,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                 if(response.code() == 200){
                                     Toast.makeText(ScheduleActivity.this,"returns existing Group", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+                                    startActivity(intent);
                                 }else if(response.code() == 400){
                                     Toast.makeText(ScheduleActivity.this,"invalid input, object invalid", Toast.LENGTH_LONG).show();
                                 }
