@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -37,6 +38,8 @@ public class WritePostActivity extends AppCompatActivity {
     Spinner groups;
     String PostingGroup;
     ArrayList<String> groupList;
+    Uri photoUri;
+    TextView writingTitle, isnotice_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,12 @@ public class WritePostActivity extends AppCompatActivity {
         GallaryBtn = findViewById(R.id.gallaryBtn);
         Notice = findViewById(R.id.isNotice);
         groups = findViewById(R.id.WritePost_groupLists);
+        writingTitle  = findViewById(R.id.WritingTitle);
+        isnotice_txt = findViewById(R.id.isnotice_txt);
 
-       groupList = new ArrayList<String>();
+        isnotice_txt.setText("공지여부");
+
+        groupList = new ArrayList<String>();
 
 
         groupList.add("3-6"); // 그룹 목록 스피너의 값들
@@ -84,11 +91,10 @@ public class WritePostActivity extends AppCompatActivity {
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
             @Override
             public void onClick(View v) {
-                if(PostingGroup == ""){
+                if(PostingGroup.equals("")){
                     Toast.makeText(getApplicationContext(), "글을 작성할 그룹을 선택해주세요", Toast.LENGTH_SHORT);
                     return;
                 }
-
 
                 String isNotice =  String.valueOf(Notice.isChecked()); // 공지글 여부
                 title_str = Title.getText().toString(); // 글 타이틀
@@ -102,8 +108,9 @@ public class WritePostActivity extends AppCompatActivity {
 
     private void goToAlbum() {
 
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
@@ -125,50 +132,33 @@ public class WritePostActivity extends AppCompatActivity {
             return;
         }
 
-
         if (requestCode == PICK_FROM_ALBUM) {
 
-            Uri photoUri = data.getData();
-            Cursor cursor = null;
+            photoUri = data.getData();
+            Bitmap image_bitmap;
 
             try {
-
-                String[] proj = { MediaStore.Images.Media.DATA };
-
-                assert photoUri != null;
-                cursor = getContentResolver().query(photoUri, proj, null, null, null);
-
-                assert cursor != null;
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                cursor.moveToFirst();
-
-                tempFile = new File(cursor.getString(column_index));
+                image_bitmap 	= MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                setImage(image_bitmap);
 
             }catch(Exception e){
                 e.getStackTrace();
             }
             finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
             }
-
-            setImage();
 
         }
     }
 
-    private void setImage() {
+    private void setImage(Bitmap img) {
 
        ImageView imageView = findViewById(R.id.PostImageContent);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
-        imageView.setImageBitmap(originalBm);
+        imageView.setImageBitmap(img);
         imageView.setVisibility(View.VISIBLE);
 
     }
+
 
     
 }
