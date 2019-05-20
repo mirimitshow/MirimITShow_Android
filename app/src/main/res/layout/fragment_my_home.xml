@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.MyHomeFragment">
 
+    <!-- 알림 페이지 -->
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/NotiListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="알림왔어용" />
+        android:layout_height="match_parent">
+
+    </ListView>
 
 </FrameLayout>

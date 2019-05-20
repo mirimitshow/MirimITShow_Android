@@ -7,7 +7,6 @@
     tools:context=".ViewPostActivity"
     android:padding="19dp"
     >
-
     <TextView
         android:id="@+id/PostViewTitle"
         android:layout_width="wrap_content"
@@ -21,7 +20,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:id="@+id/ViewPost_line"
-        android:background="#000"
+        android:background="@color/colorBlack"
         android:layout_below="@+id/PostViewTitle"
         android:layout_width="match_parent"
         android:layout_height="2dp"/>
