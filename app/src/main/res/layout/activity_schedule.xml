@@ -415,16 +415,28 @@
                 android:textSize="@dimen/group_table_font_sub" />
         </TableRow>
     </TableLayout>
-
-    <Button
-        android:id="@+id/schedule_ok_btn"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below ="@id/table_schedule"
-        android:layout_height="68dp"
-        android:layout_marginHorizontal="17dp"
-        android:layout_marginBottom="19dp"
-        android:background="@drawable/login_btn_custom"
-        android:text="시간표 설정 완료"
-        android:textColor="@color/colorWhite"
-        android:textSize="21.7sp" />
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/schedule_skip_btn"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_marginHorizontal="17dp"
+            android:background="@drawable/login_btn_custom"
+            android:text="시간표 설정 건너뛰기"
+            android:textColor="@color/colorWhite"
+            android:textSize="21.7sp" />
+        <Button
+            android:id="@+id/schedule_ok_btn"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_marginHorizontal="17dp"
+            android:background="@drawable/login_btn_custom"
+            android:text="시간표 설정 완료"
+            android:textColor="@color/colorWhite"
+            android:textSize="21.7sp" />
+    </LinearLayout>
 </RelativeLayout>
