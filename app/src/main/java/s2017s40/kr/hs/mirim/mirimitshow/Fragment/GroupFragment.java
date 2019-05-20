@@ -1,5 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -8,9 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import s2017s40.kr.hs.mirim.mirimitshow.EnterGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupDTO;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
@@ -24,15 +28,23 @@ public class GroupFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<GroupDTO> myDataset;
+    Button enterGroup;
+    TextView title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
 
+        enterGroup = view.findViewById(R.id.enter_group_btn);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
+        title = view.findViewById(R.id.groupListTitle);
+
+        title.setText("그룹 목록");
+
         //어탭터
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override
@@ -50,6 +62,13 @@ public class GroupFragment extends Fragment {
         myDataset.add(new GroupDTO("2학년3반",String.valueOf(R.mipmap.ic_launcher),"12"));
         myDataset.add(new GroupDTO("2학년1반",String.valueOf(R.mipmap.ic_launcher),"17"));
 
+        enterGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EnterGroupActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

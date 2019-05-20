@@ -30,13 +30,10 @@ public class Group1Fragement extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<SubGroup1DTO> myDataset;
-    Button enterGroup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_1, container, false);
-        enterGroup = view.findViewById(R.id.enter_group_btn);
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -59,16 +56,7 @@ public class Group1Fragement extends Fragment {
         myDataset.add(new SubGroup1DTO("게시글 3", "오늘의 공지사항"));
         myDataset.add(new SubGroup1DTO("게시글 4", "오늘의 공지사항"));
 
-        enterGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EnterGroupActivity.class);
-                startActivity(intent);
-            }
-        });
 
         return view;
     }
-
-
 }
