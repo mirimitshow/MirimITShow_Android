@@ -1,8 +1,8 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
 import android.app.Activity;
-
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,13 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.EnterGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.Group;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
@@ -40,16 +42,23 @@ public class GroupFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Group> myDataset;
     private ArrayList<String> myToken;
+    private ArrayList<GroupDTO> myDataset;
+    Button enterGroup;
+    TextView title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
 
+        enterGroup = view.findViewById(R.id.enter_group_btn);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
         myToken= new ArrayList<>();
+        title = view.findViewById(R.id.groupListTitle);
+        title.setText("그룹 목록");
         //어탭터
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override
@@ -67,7 +76,6 @@ public class GroupFragment extends Fragment {
 
         SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
-
         service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<List<Group>>() {
@@ -87,9 +95,14 @@ public class GroupFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Group>> call, Throwable t) {
                 Log.e("getusergroupsError", t.toString());
-            }
+       
         });
-
+        enterGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EnterGroupActivity.class);
+                    startActivity(intent);});
+}
         return view;
     }
     private void setChildFragment(Fragment child) {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnterGroupActivity"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    >
+
+    <TextView
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="13dp"
+        android:textSize="26.7sp"
+        android:textColor="@color/colorMain"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:text="그룹 참여"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_marginBottom="26dp"
+        android:id="@+id/groupCode_input_edit"
+        android:hint="그룹 코드를 입력하세요"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="@drawable/login_btn_custom"
+        android:id="@+id/join_group"
+        android:text="참여하기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import retrofit2.Response;
 import s2017s40.kr.hs.mirim.mirimitshow.AddGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.Board;
 import s2017s40.kr.hs.mirim.mirimitshow.Group;
+import s2017s40.kr.hs.mirim.mirimitshow.EnterGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupSub1Adapter;
 import s2017s40.kr.hs.mirim.mirimitshow.MainActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
@@ -47,7 +49,6 @@ public class Group1Fragement extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_1, container, false);
-
         groupToken = getArguments().getString("groupToken");
 
         Log.e("groupToken",groupToken);
