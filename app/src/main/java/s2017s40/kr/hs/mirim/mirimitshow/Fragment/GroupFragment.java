@@ -42,7 +42,6 @@ public class GroupFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Group> myDataset;
     private ArrayList<String> myToken;
-    private ArrayList<GroupDTO> myDataset;
     Button enterGroup;
     TextView title;
 
@@ -96,13 +95,15 @@ public class GroupFragment extends Fragment {
             public void onFailure(Call<List<Group>> call, Throwable t) {
                 Log.e("getusergroupsError", t.toString());
        
+            }
         });
         enterGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EnterGroupActivity.class);
-                    startActivity(intent);});
-}
+                startActivity(intent);
+            }
+        });
         return view;
     }
     private void setChildFragment(Fragment child) {

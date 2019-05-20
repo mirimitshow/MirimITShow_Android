@@ -17,13 +17,13 @@
         android:supportsRtl="true"
          android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewPostActivity"></activity>
+        <activity android:name=".ViewPostActivity"/>
         <activity android:name=".AddBoardActivity"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EnterGroupActivity"></activity>
+        </activity>
+        <activity android:name=".EnterGroupActivity"/>
         <activity android:name=".ViewPostActivity" />
-        <activity android:name=".WritePostActivity" />
         <activity android:name=".ScanClassActivity" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".ScheduleActivity" />
