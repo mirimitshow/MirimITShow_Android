@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WritePostActivity"
+    tools:context=".AddBoardActivity"
     android:padding="19dp"
     >
     <TextView
@@ -62,15 +62,15 @@
             </RelativeLayout>
 
             <Spinner
+                android:id="@+id/addBoard_spinner"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:id="@+id/WritePost_groupLists"
+                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/wrapHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Spinner>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <EditText
-                android:layout_below="@+id/WritePost_groupLists"
+                android:layout_below="@+id/addBoard_spinner"
                 android:id="@+id/PostTitle"
                 android:layout_marginTop="20dp"
                 android:textColorHint="@color/colorMain"

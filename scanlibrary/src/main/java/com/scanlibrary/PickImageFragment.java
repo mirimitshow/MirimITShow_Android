@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.io.File;
@@ -103,7 +104,6 @@ public class PickImageFragment extends Fragment {
     private class CameraButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
             openCamera();
         }
     }
@@ -114,12 +114,22 @@ public class PickImageFragment extends Fragment {
             openMediaContent();
         }
     }
+    private class DoneClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View view) {
+           openGetPicture();
+        }
+    }
 
     public void openMediaContent() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         startActivityForResult(intent, ScanConstants.PICKFILE_REQUEST_CODE);
+    }
+
+    public void openGetPicture(){
+
     }
 
     public void openCamera() {
@@ -141,10 +151,8 @@ public class PickImageFragment extends Fragment {
 
     private File createImageFile() {
         clearTempImages();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new
-                Date());
-        File file = new File(ScanConstants.IMAGE_PATH, "IMG_" + timeStamp +
-                ".jpg");
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File file = new File(ScanConstants.IMAGE_PATH, "IMG_" + timeStamp + ".jpg");
         fileUri = Uri.fromFile(file);
         return file;
     }
@@ -159,7 +167,6 @@ public class PickImageFragment extends Fragment {
                     case ScanConstants.START_CAMERA_REQUEST_CODE:
                         bitmap = getBitmap(fileUri);
                         break;
-
                     case ScanConstants.PICKFILE_REQUEST_CODE:
                         bitmap = getBitmap(data.getData());
                         break;
