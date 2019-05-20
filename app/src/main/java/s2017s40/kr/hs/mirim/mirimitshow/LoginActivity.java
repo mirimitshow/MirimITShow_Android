@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("login",String.valueOf(response.code() ));
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    shared();
                     finish();
                     Toast.makeText(LoginActivity.this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
