@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class GroupFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<GroupDTO> myDataset;
     Button enterGroup;
+    TextView title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +41,10 @@ public class GroupFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
+        title = view.findViewById(R.id.groupListTitle);
+
+        title.setText("그룹 목록");
+
         //어탭터
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override

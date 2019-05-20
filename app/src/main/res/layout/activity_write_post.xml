@@ -7,13 +7,27 @@
     tools:context=".WritePostActivity"
     android:padding="19dp"
     >
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/WritingTitle"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="13dp"
+        android:textSize="26.7sp"
+        android:textColor="@color/colorMain"
+        android:gravity="center"
+        android:text="글 작성하기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ScrollView
+        android:layout_below="@+id/WritingTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <RelativeLayout
                 android:id="@+id/wrapHeader"
                 android:orientation="horizontal"
@@ -24,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:textColor="#b5b5b5"
+                    android:textColor="@color/colorBlack"
                     tools:text="공지여부"
                     />
                 <Switch
@@ -49,7 +63,7 @@
 
             <Spinner
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:id="@+id/WritePost_groupLists"
                 android:layout_below="@+id/wrapHeader"
                 android:layout_width="wrap_content"

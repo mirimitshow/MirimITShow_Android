@@ -67,7 +67,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="15sp"
             android:backgroundTint="@color/colorMain"
-
+            app:borderWidth="0dp"
             />
 
 
