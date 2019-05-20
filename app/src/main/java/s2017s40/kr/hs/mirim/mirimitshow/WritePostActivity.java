@@ -84,6 +84,12 @@ public class WritePostActivity extends AppCompatActivity {
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
             @Override
             public void onClick(View v) {
+                if(PostingGroup == ""){
+                    Toast.makeText(getApplicationContext(), "글을 작성할 그룹을 선택해주세요", Toast.LENGTH_SHORT);
+                    return;
+                }
+
+
                 String isNotice =  String.valueOf(Notice.isChecked()); // 공지글 여부
                 title_str = Title.getText().toString(); // 글 타이틀
                 content_str = Content.getText().toString(); // 글 내용

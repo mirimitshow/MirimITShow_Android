@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);//글작성
         fab3 = (FloatingActionButton) findViewById(R.id.fab3);//scan 하기
 
+        fab.setImageResource(R.drawable.plus_btn);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void anim() {
         if (isFabOpen) {
+            fab.setImageResource(R.drawable.plus_btn);
             fab1.startAnimation(fab_close);
             fab2.startAnimation(fab_close);
             fab3.startAnimation(fab_close);
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             fab3.setClickable(false);
             isFabOpen = false;
         } else {
+            fab.setImageResource(R.drawable.cancel_sign);
             fab1.startAnimation(fab_open);
             fab2.startAnimation(fab_open);
             fab3.startAnimation(fab_open);
