@@ -176,8 +176,8 @@ public class AddBoardActivity extends AppCompatActivity {
     }
     public void addBorad(){
         //Board 추가
-        Board board = new Board("sdfasdfasdfasdfasdf", Notice.isChecked(), email, title_str, content_str);
-        /*Call<Board> call = service.setbeard(board);
+        Board board = new Board("T1TAGV8", Notice.isChecked(), email, title_str, content_str);
+        Call<Board> call = service.setboard(board);
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(Call<Board> call, Response<Board> response) {
@@ -194,6 +194,6 @@ public class AddBoardActivity extends AppCompatActivity {
             public void onFailure(Call<Board> call, Throwable t) {
                 Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
             }
-        });//그룹에 추가*/
+        });//그룹에 추가
     }
 }

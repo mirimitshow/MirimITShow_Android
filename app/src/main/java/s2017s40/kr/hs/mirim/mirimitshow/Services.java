@@ -46,16 +46,17 @@ public interface Services {
     @GET("/getUserGroups/{email}")
     Call<List<Group>> getusergroups(
             @Path("email") String email);
+
     //Board
     @POST("/setBoard")
-    Call<Board> setbeard(
+    Call<Board> setboard(
             @Body Board board);
-    @GET("/getBoard/")
+    @GET("/getBoard")
     Call<String> getboard();
     @GET("/getGroupBoards/{token}")
     Call<List<Board>> getgroupboards(
-            @Path("token") String token
-            );
+            @Path("token") String token);
+
     //Scan
     @Multipart
     @POST("/setScan")
@@ -65,5 +66,7 @@ public interface Services {
             @Part("name") RequestBody name,
             @Part MultipartBody.Part file);
     @GET("/getScans/")
-    Call<String> getscans();
+    Call<List<String>> getscans(
+
+    );
 }

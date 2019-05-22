@@ -28,7 +28,6 @@ import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
-
 public class GroupFragment extends Fragment {
     private Services service;
     SharedPreferences sharedPreference;
@@ -80,7 +79,6 @@ public class GroupFragment extends Fragment {
         call.enqueue(new Callback<List<Group>>() {
             @Override
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                Log.e("dsfsfsfsfsfsf",response.body().toString());
                 if(response.code() == 200){//성공
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){

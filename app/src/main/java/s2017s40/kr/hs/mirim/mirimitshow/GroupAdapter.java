@@ -56,7 +56,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         holder.mTextView_participants.setText(String.valueOf(mDataset.get(position).getMembers().size()));
 
         token = mDataset.get(position).getToken();
-        Log.e("getToken", token);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
