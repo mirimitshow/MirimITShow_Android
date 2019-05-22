@@ -55,7 +55,6 @@ public class ScheduleActivity extends AppCompatActivity {
         {
             checkVerify();
         }
-<<<<<<< HEAD
         skip_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,9 +62,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-=======
 
->>>>>>> master
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
