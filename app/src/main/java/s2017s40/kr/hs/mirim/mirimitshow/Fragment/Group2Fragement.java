@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,6 +31,7 @@ import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.SubGroup1DTO;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
+import s2017s40.kr.hs.mirim.mirimitshow.timetable;
 
 public class Group2Fragement extends Fragment {
     public Group2Fragement() {
@@ -53,7 +56,9 @@ public class Group2Fragement extends Fragment {
             public void onResponse(Call<Group> call, Response<Group> response) {
                 if(response.code() == 200){//성공
                     Group group = response.body();
-                    timetable.setImageResource(R.mipmap.ic_launcher);
+                    Log.e("group",group.getTimetable().getUrl());
+                    //images/timetable/1558541116652.jpeg
+                    Picasso.get().load("http://13.125.15.20/" + group.getTimetable().getUrl()).into(timetable);
                     Toast.makeText(getContext(),"returns existing Group",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"invalid input, object invalid",Toast.LENGTH_LONG).show();

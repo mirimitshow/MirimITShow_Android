@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-
+import s2017s40.kr.hs.mirim.mirimitshow.image;
 public class Group {
     private String token;
     private String name;
     private String id;
     private List<Members> members = new ArrayList<>();
     private List<Board> boards = new ArrayList<>();
-    private String image;
+    private image image;
     private timetable timetable;
     //기본 생성자
     Group(){}
@@ -37,14 +37,14 @@ public class Group {
     //리스트 생성자
     public Group( String name, String image,  List<Members> member) {
         this.name = name;
-        this.image = image;
+        this.image = new image(image);
         this.members = member;
     }
     //리스트 생성자
     public Group(String token, String name, String image,  List<Members> member) {
         this.token = token;
         this.name = name;
-        this.image = image;
+        this.image = new image(image);
         this.members = member;
     }
     //전체 생성자
@@ -55,12 +55,12 @@ public class Group {
         this.timetable =new timetable(timetable);
     }
 
-    public String getImage() {
-        return image;
+    public void setImage(image image) {
+        this.image = image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public image getImage() {
+        return image;
     }
 
     public List<Board> getBoards() {
