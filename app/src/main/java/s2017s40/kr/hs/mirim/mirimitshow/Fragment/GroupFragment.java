@@ -82,11 +82,11 @@ public class GroupFragment extends Fragment {
                 if(response.code() == 200){//성공
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
-                        if(singleGroup.getImage().getUrl().equals("")){
+                        //if(singleGroup.getImage().getUrl().isEmpty()){
                             myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), singleGroup.getMembers()));
-                        }else{
-                            myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), singleGroup.getImage().getUrl(), singleGroup.getMembers()));
-                        }
+                       // }else{
+                           // myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), singleGroup.getImage().getUrl(), singleGroup.getMembers()));
+                        //}
                     }
                     Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
