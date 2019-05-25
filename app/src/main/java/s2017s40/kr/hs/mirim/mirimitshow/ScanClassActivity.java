@@ -162,7 +162,7 @@ public class ScanClassActivity extends AppCompatActivity {
                 RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), category);
                 RequestBody nameBody = RequestBody.create(MediaType.parse("name"), "국어");
                 MultipartBody.Part body = utils.CreateRequestBody(file,"url");
-                
+
                 Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
                 call.enqueue(new Callback<Scan>() {
                     @Override

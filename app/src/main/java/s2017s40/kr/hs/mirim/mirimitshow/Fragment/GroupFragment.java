@@ -49,6 +49,7 @@ public class GroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
 
         enterGroup = view.findViewById(R.id.enter_group_btn);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
