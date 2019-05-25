@@ -25,9 +25,15 @@ public interface Services {
             @Body Register register);
 
     //Group
+    @Multipart
     @POST("/setGroup")
-    Call<Group> setgroup(
-            @Body Group group);
+    Call<ResponseBody> setgroup(
+            //Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email , "");
+            @Part("token") RequestBody token,
+            @Part("name") RequestBody name,
+            @Part("email") RequestBody email,
+            @Part MultipartBody.Part file);
+
     @GET("/getGroup/{token}")
     Call<Group> getgroup(
             @Path("token") String token);
@@ -49,10 +55,18 @@ public interface Services {
 
     //Board
     @POST("/setBoard")
-    Call<Board> setboard(
-            @Body Board board);
-    @GET("/getBoard")
-    Call<String> getboard();
+    Call<ResponseBody> setboard(
+            @Part("token") RequestBody token,
+            @Part("group_token") RequestBody group_token,
+            @Part("isNotice") RequestBody isNotice,
+            @Part("author") RequestBody author,
+            @Part("title") RequestBody title,
+            @Part("content") RequestBody content,
+            @Part MultipartBody.Part file);
+    @GET("/getBoard/{token}")
+    Call<Board> getboard(
+            @Path("token") String boardToken
+    );
     @GET("/getGroupBoards/{token}")
     Call<List<Board>> getgroupboards(
             @Path("token") String token);

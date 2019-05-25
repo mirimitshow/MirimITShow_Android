@@ -29,10 +29,11 @@ public class Group {
         this.name = name;
     }
     //그룹 생성 생성자
-    public Group(String token, String name,  String member) {
+    public Group(String token, String name,  String member, String image) {
         this.token = token;
         this.name = name;
         this.members.add(new Members(member));
+        this.image = new image(image);
     }
     //리스트 생성자
     public Group( String name, String image,  List<Members> member) {

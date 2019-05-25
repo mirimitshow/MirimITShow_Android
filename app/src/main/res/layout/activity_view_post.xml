@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewPostActivity"
+    tools:context=".ViewBoardActivity"
     android:padding="19dp"
     >
     <TextView
-        android:id="@+id/PostViewTitle"
+        android:id="@+id/view_Board_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="26.7sp"
@@ -19,21 +19,23 @@
     <View
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/ViewPost_line"
+        android:id="@+id/view_Board_view"
         android:background="@color/colorBlack"
-        android:layout_below="@+id/PostViewTitle"
+        android:layout_below="@+id/view_Board_title_text"
         android:layout_width="match_parent"
         android:layout_height="2dp"/>
     <ImageView
-        android:id="@+id/ViewPostImage"
-        android:layout_below="@+id/ViewPost_line"
+        android:id="@+id/view_Board_content_img"
+        android:layout_below="@+id/view_Board_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <TextView
-        android:id="@+id/ViewPostContent"
-        android:textColor="#000"
-        android:layout_below="@+id/ViewPostImage"
-        android:text="게시글 내용"
+        android:id="@+id/view_Board_content_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_Board_content_img"
+        android:layout_marginTop="19dp"
+        android:text="게시글 내용"
+        android:textColor="#000" />
 </RelativeLayout>

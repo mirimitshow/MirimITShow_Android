@@ -3,7 +3,6 @@ package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +18,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import s2017s40.kr.hs.mirim.mirimitshow.AddGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.Board;
-import s2017s40.kr.hs.mirim.mirimitshow.Group;
-import s2017s40.kr.hs.mirim.mirimitshow.EnterGroupActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupSub1Adapter;
-import s2017s40.kr.hs.mirim.mirimitshow.MainActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
-import s2017s40.kr.hs.mirim.mirimitshow.SubGroup1DTO;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
-import s2017s40.kr.hs.mirim.mirimitshow.ViewPostActivity;
+import s2017s40.kr.hs.mirim.mirimitshow.ViewBoardActivity;
 
 public class Group1Fragement extends Fragment {
     public Group1Fragement() {
@@ -62,9 +55,9 @@ public class Group1Fragement extends Fragment {
         mAdapter = new GroupSub1Adapter(myDataset, new GroupSub1Adapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
-                Intent i = new Intent(getActivity(), ViewPostActivity.class);
-                i.putExtra("groupToken", groupToken);
-                i.putExtra("groupToken", groupToken);
+                Intent i = new Intent(getActivity(), ViewBoardActivity.class);
+                i.putExtra("BoardToken",myDataset.get(position).getGroup_token());
+                i.putExtra("position", position);
                 startActivity(i);
             }
         });
