@@ -1,7 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +25,7 @@ public class ViewBoardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_post);
+        setContentView(R.layout.activity_view_board);
         postTitle = findViewById(R.id.view_Board_title_text);
         postContent = findViewById(R.id.view_Board_content_text);
         postImage = findViewById(R.id.view_Board_content_img);

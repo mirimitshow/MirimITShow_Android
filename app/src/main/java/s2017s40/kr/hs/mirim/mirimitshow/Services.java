@@ -47,8 +47,9 @@ public interface Services {
             @Part MultipartBody.Part file);
 
     //User
-    @GET("/getUser/")
-    Call<String> getuser();
+    @GET("/getUser/{email}")
+    Call<Register> getuser(
+        @Path("email") String email);
     @GET("/getUserGroups/{email}")
     Call<List<Group>> getusergroups(
             @Path("email") String email);
