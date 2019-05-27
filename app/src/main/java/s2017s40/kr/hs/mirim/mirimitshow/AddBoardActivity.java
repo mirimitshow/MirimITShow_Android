@@ -23,12 +23,18 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +46,7 @@ public class AddBoardActivity extends AppCompatActivity {
     String email, token;
     private static final int PICK_FROM_ALBUM = 1;
     private File tempFile;
-
+    private File useFile;
     EditText Title, Content;
     Button postingBtn;
     ImageButton GallaryBtn;
@@ -106,11 +112,11 @@ public class AddBoardActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
-            if(tempFile != null) {
-                if (tempFile.exists()) {
-                    if (tempFile.delete()) {
-                        Log.e("", tempFile.getAbsolutePath() + " 삭제 성공");
-                        tempFile = null;
+            if(useFile != null) {
+                if (useFile.exists()) {
+                    if (useFile.delete()) {
+                        Log.e("", useFile.getAbsolutePath() + " 삭제 성공");
+                        useFile = null;
                     }
                 }
             }
@@ -126,7 +132,8 @@ public class AddBoardActivity extends AppCompatActivity {
                 assert cursor != null;
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
-                tempFile = new File(cursor.getString(column_index));
+                useFile = new File(cursor.getString(column_index));
+                tempFile = new File("");
             } catch (Exception e) {
                 e.getStackTrace();
             } finally {
@@ -140,7 +147,7 @@ public class AddBoardActivity extends AppCompatActivity {
     private void setImage() {
        ImageView imageView = findViewById(R.id.PostImageContent);
         BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+        Bitmap originalBm = BitmapFactory.decodeFile(useFile.getAbsolutePath(), options);
         imageView.setImageBitmap(originalBm);
         imageView.setVisibility(View.VISIBLE);
     }
@@ -173,14 +180,37 @@ public class AddBoardActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, groupName);
         GroupSpinner.setAdapter(adapter);
         GroupSpinner.setSelection(0);
+
     }
     public void addBorad(){
         //Board 추가
-        Board board = new Board("T1TAGV8", Notice.isChecked(), email, title_str, content_str);
-        Call<Board> call = service.setboard(board);
-        call.enqueue(new Callback<Board>() {
+        /*  @Part("token") RequestBody token,
+            @Part("group_token") RequestBody group_token,
+            @Part("isNotice") RequestBody isNotice,
+            @Part("author") RequestBody author,
+            @Part("title") RequestBody title,
+            @Part("content") RequestBody content,
+            */
+        //{"author":"a@a","content":"board","group_token":"T1TAGV8","isNotice":false,"title":"board"}
+
+        RequestBody tokenBody = RequestBody.create(MediaType.parse("token"), token);//토큰 들어가야 하나??ㅜ
+        RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), token);
+        RequestBody isNoticeBody = RequestBody.create(MediaType.parse("isNotice"), String.valueOf(Notice.isChecked()));
+        RequestBody authorBody = RequestBody.create(MediaType.parse("author"),email );
+        RequestBody titleBody = RequestBody.create(MediaType.parse("title"), title_str);
+        RequestBody contentBody = RequestBody.create(MediaType.parse("content"), content_str);
+
+        MultipartBody.Part body;
+        if(!useFile.exists()){
+            body = utils.CreateRequestBody( tempFile,"img");
+        }else{
+            body = utils.CreateRequestBody( useFile,"img");
+        }
+        Call<ResponseBody> call = service.setboard(tokenBody,group_tokenBody,isNoticeBody,authorBody,titleBody,contentBody, body);
+
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Board> call, Response<Board> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
                     finish();
@@ -191,7 +221,7 @@ public class AddBoardActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<Board> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
             }
         });//그룹에 추가

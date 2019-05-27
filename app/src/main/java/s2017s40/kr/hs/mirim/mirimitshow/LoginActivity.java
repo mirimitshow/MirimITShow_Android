@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_login_btn);
         joinTxt = findViewById(R.id.login_join_txt);
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

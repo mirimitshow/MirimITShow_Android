@@ -41,13 +41,13 @@ public class Utils {
                 .build();
 
         mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
+                .baseUrl("http://13.125.15.20")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
     }
 
-    public MultipartBody.Part createRequestBody(File file, String name){
+    public MultipartBody.Part CreateRequestBody(File file, String name){
          RequestBody mFile = RequestBody.create(MediaType.parse("images/*"), file);
         return MultipartBody.Part.createFormData(name, file.getName(), mFile);
     }

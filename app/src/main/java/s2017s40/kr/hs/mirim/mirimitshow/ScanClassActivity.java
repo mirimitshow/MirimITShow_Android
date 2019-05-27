@@ -14,8 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,7 +49,10 @@ public class ScanClassActivity extends AppCompatActivity {
     private Services service;
     Utils utils = new Utils();
     SharedPreferences sharedPreference;
-    String email, token;
+    String email, token, category;
+    Spinner categorySpinner;
+    ArrayList<String> CategoryArrayList;
+    ArrayAdapter<String> CategorArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,48 @@ public class ScanClassActivity extends AppCompatActivity {
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
 
+        CategoryArrayList = new ArrayList<>();
+        getCategory();
+        CategorArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
+
+        categorySpinner = (Spinner)findViewById(R.id.scan_category_spinner);
+        categorySpinner.setAdapter(CategorArrayAdapter);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                category = CategoryArrayList.get(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         init();
+    }
+    public void getCategory(){
+        service = utils.mRetrofit.create(Services.class);
+        Call<Register> call = service.getuser(email);
+        call.enqueue(new Callback<Register>() {
+            @Override
+            public void onResponse(Call<Register> call, Response<Register> response) {
+                if (response.code() == 200) {
+                    Register user = response.body();
+                    for(int i = 0; i < user.getCategory().size(); i++){
+                        CategoryArrayList.add(user.getCategory().get(i).getName());
+                        Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
+                    }
+                }else if(response.code() == 400){
+                    Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Register> call, Throwable t) {
+                Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
+                Log.e("getuserError", t.toString());
+            }
+        });
+
     }
     private void init() {
 
@@ -109,13 +157,13 @@ public class ScanClassActivity extends AppCompatActivity {
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 File file = new File(uri.getPath());
-                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-                RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), "국어");
-                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), "국어");
-                MultipartBody.Part body = MultipartBody.Part.createFormData("url", email  + "jpeg", requestFile);
 
-               /* Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody, body);
+                RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), category);
+                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), "국어");
+                MultipartBody.Part body = utils.CreateRequestBody(file,"url");
+
+                Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
                 call.enqueue(new Callback<Scan>() {
                     @Override
                     public void onResponse(Call<Scan> call, Response<Scan> response) {
@@ -132,7 +180,7 @@ public class ScanClassActivity extends AppCompatActivity {
                     public void onFailure(Call<Scan> call, Throwable t) {
                         Log.e("setScanError",t.toString());
                     }
-                });*/
+                });
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
