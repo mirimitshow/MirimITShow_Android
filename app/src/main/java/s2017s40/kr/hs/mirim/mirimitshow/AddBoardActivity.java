@@ -23,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -173,6 +175,7 @@ public class AddBoardActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, groupName);
         GroupSpinner.setAdapter(adapter);
         GroupSpinner.setSelection(0);
+
     }
     public void addBorad(){
         //Board 추가

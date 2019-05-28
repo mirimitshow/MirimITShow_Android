@@ -130,8 +130,5 @@
                 android:text="그룹생성"
                 />
         </RelativeLayout>
-
-
->>>>>>> master
     </LinearLayout>
 </LinearLayout>

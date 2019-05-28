@@ -1,7 +1,9 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import s2017s40.kr.hs.mirim.mirimitshow.MyPaPerDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.MyPaperList;
 import s2017s40.kr.hs.mirim.mirimitshow.PaPerAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
@@ -44,6 +47,9 @@ public class MyPaPerFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 //클릭 이벤트
+                Intent i = new Intent(getActivity(), MyPaperList.class);
+                i.putExtra("category", myDataset.get(position).getTitle()); // 인텐트로 카테고리 넘겨주기...
+                startActivity(i);
             }
         });
         mRecyclerView.setAdapter(mAdapter);

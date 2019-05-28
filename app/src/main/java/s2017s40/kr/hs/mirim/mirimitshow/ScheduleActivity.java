@@ -45,7 +45,7 @@ public class ScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-
+        service = utils.mRetrofit.create(Services.class);
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
         skip_btn = findViewById(R.id.schedule_skip_btn);
@@ -55,6 +55,7 @@ public class ScheduleActivity extends AppCompatActivity {
         {
             checkVerify();
         }
+
         skip_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,23 +74,23 @@ public class ScheduleActivity extends AppCompatActivity {
                 Bitmap captureview = capture.getDrawingCache();
 
                 //파일DB연결 시 parent를 변경
+
                 File file = new File(Environment.getExternalStorageDirectory()+"/Pictures",token+".jpeg");
+
                 FileOutputStream fos = null;
                 try{
                     fos = new FileOutputStream(file);
                     captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     //여기 sendBroadcast DB  변경
-                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                    //sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
 
                     if (file.exists()) {
-                        service = utils.mRetrofit.create(Services.class);
                         //서버에 전송
-                        RequestBody requestFile = RequestBody.create(MediaType.parse("img"), file);
                         RequestBody description = RequestBody.create(MediaType.parse("token"), token);
+                        MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
-                        MultipartBody.Part body = MultipartBody.Part.createFormData("img", token+"jpeg", requestFile);
-                        // executes the request
                         Call<ResponseBody> call = service.settimetable(description, body);
+
                         call.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
