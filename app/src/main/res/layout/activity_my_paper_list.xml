@@ -9,6 +9,8 @@
     >
 
     <TextView
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/top_margin"
         android:layout_marginBottom="18dp"
         android:textSize="26sp"
         android:textColor="@color/colorMain"

@@ -30,7 +30,7 @@ public class MyPaperList extends AppCompatActivity {
         paperListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                //클릭 이벤트
             }
         });
 
