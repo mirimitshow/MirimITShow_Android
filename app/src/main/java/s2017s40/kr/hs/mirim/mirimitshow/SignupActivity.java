@@ -26,6 +26,7 @@ public class SignupActivity extends AppCompatActivity {
     String nameStr,emailStr,pwdStr,pwdConfirmStr,firstPhone,middlePhone,lastPhone , Phone_num;
     private Retrofit mRetrofit;
     private Services service;
+    Utils utils = new Utils();
 
 
     @Override
@@ -81,9 +82,8 @@ public class SignupActivity extends AppCompatActivity {
                 if(!Confirm()){
                     return;
                 }
-              
-                init();
-                service = mRetrofit.create(Services.class);
+
+                service = utils.mRetrofit.create(Services.class);
                 Register register = new Register(nameStr, emailStr,pwdConfirmStr,Phone_num);
                 Call<Register> call = service.signup(register);
                 call.enqueue(new Callback<Register>() {
@@ -110,13 +110,6 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
-    public void init(){
-        mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
     public boolean Confirm(){
         //빈 칸이 있는지 검사
         if (nameStr.getBytes().length <= 0 || emailStr.getBytes().length <= 0 ||
@@ -146,5 +139,4 @@ public class SignupActivity extends AppCompatActivity {
 
         return true;
     }
-
 }

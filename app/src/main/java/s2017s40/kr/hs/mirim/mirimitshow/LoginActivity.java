@@ -1,6 +1,9 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +12,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,8 +33,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-    private Retrofit mRetrofit;
     private Services service;
+
+    public static final int CONNECT_TIMEOUT = 15;
+    public static final int WRITE_TIMEOUT = 15;
+    public static final int READ_TIMEOUT = 15;
 
     EditText idEdit, pwEdit;
     Button loginBtn;
@@ -26,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     String url = null;
     String pwstr, idstr;
     String resultstr;
-
+    Utils utils = new Utils();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         pwEdit = findViewById(R.id.login_pwInput_editText);
         loginBtn = findViewById(R.id.login_login_btn);
         joinTxt = findViewById(R.id.login_join_txt);
-
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     public void login(){
-        init();
-        service = mRetrofit.create(Services.class);
+        service = utils.mRetrofit.create(Services.class);
         User users = new User(idEdit.getText().toString(), pwEdit.getText().toString());
         Call<User> call = service.signin(users);
         call.enqueue(new Callback<User>() {
@@ -72,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("login",String.valueOf(response.code() ));
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    shared();
                     finish();
                     Toast.makeText(LoginActivity.this, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
@@ -88,10 +106,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public void init(){
-        mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-180-124-242.ap-northeast-2.compute.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void shared(){
+        SharedPreferences email = getSharedPreferences("email", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor Login = email.edit();
+        Login.putString("email",idEdit.getText().toString()); // 저장
+        Login.commit();
+
+        Log.e("ddd",email.getString("email","defValue")); // 가져오기
     }
 }
