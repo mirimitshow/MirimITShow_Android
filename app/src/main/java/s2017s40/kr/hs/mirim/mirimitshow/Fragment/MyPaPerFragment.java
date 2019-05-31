@@ -75,9 +75,11 @@ public class MyPaPerFragment extends Fragment {
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
                     Register user = response.body();
-                    for(int i = 0; i < user.getCategory().size(); i++){
-                        myDataset.add(new MyPaPerDTO(user.getCategory().get(i).getName(),"0"));
-                    }
+                  /*  if(!user.getCategory().isEmpty()){
+                        for(int i = 0; i < user.getCategory().size(); i++){
+                            myDataset.add(new MyPaPerDTO(user.getCategory().get(i).getName(),"0"));
+                        }
+                    }*/
                     Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){
                     Toast.makeText(getContext(), "nvalid input, object invalid", Toast.LENGTH_LONG).show();
