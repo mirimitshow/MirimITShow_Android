@@ -23,7 +23,7 @@
         android:orientation="vertical"
         android:id="@+id/addGroup_wrapper_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -105,19 +105,31 @@
                 android:src="@drawable/add_icon" />
 
         </LinearLayout>
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="20dp">
+            android:layout_height="match_parent">
             <Button
-                android:id="@+id/addGrop_setgroup_btn"
+                android:layout_above="@+id/addGrop_setgroup_btn"
+                android:textColor="@color/colorWhite"
+                android:layout_marginBottom="11dp"
+                android:background="@drawable/login_btn_custom"
+                android:id="@+id/addGrop_setTimetable_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="시간표 설정하기"
+                />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/colorWhite"
                 android:background="@drawable/login_btn_custom"
+                android:id="@+id/addGrop_setgroup_btn"
                 android:layout_width="match_parent"
-                android:layout_height="68dp"
-                android:textSize="21.7sp"
+                android:layout_height="wrap_content"
                 android:text="그룹생성"
                 />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
