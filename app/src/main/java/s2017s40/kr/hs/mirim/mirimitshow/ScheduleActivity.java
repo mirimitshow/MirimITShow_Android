@@ -10,13 +10,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -58,6 +55,7 @@ public class ScheduleActivity extends AppCompatActivity {
         {
             checkVerify();
         }
+
         skip_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +71,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 capture.buildDrawingCache();
                 Bitmap captureview = capture.getDrawingCache();
+
                 //파일DB연결 시 parent를 변경
 
                 File file = new File(Environment.getExternalStorageDirectory()+"/Pictures",token+".jpeg");
