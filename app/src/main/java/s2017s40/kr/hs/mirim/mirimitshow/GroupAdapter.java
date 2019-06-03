@@ -15,6 +15,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     private ArrayList<Group> mDataset;
     private ClickCallback callback;
     String token;
+    String name;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
@@ -51,11 +52,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         holder.mTextView_participants.setText(String.valueOf(mDataset.get(position).getMembers().size()));
 
         token = mDataset.get(position).getToken();
-
+        name =  mDataset.get(position).getName();
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onItemClick(position, token);
+                callback.onItemClick(position, token, name);
 
             }
         });
@@ -67,6 +68,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         return mDataset.size();
     }
     public interface ClickCallback {
-        void onItemClick(int position, String token);
+        void onItemClick(int position, String token, String name);
     }
 }

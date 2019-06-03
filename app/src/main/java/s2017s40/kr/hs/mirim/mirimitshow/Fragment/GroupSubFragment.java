@@ -3,6 +3,8 @@ package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
@@ -21,24 +23,31 @@ public class GroupSubFragment extends Fragment {
         return new GroupSubFragment();
     }
     FragmentTabHost host;
+    TextView group;
     private Services service;
     SharedPreferences sharedPreference;
     public  String email;
     Utils utils = new Utils();
-    String token, position;
+    String token, name;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group_sub, container, false);
 
-        position = getArguments().getString("groupPosition"); // 전달한 key 값
         token = getArguments().getString("groupToken"); // 전달한 key 값
+        name = getArguments().getString("groupName"); // 전달한 key 값
+
+        Log.e("loglogog",token + name + "aaa");
+        //group.setText(name);
 
         host = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         host.setup(getContext(), getActivity().getSupportFragmentManager(), R.id.content);
 
+        group = view.findViewById(R.id.sub_group_name_text);
+
         Bundle args = new Bundle();
         args.putString("groupToken", token);
         Log.e("token", token);
+
         TabHost.TabSpec tabSpec1 = host.newTabSpec("게시글 보기"); // 구분자
         tabSpec1.setIndicator("게시글 보기"); // 탭 이름
         host.addTab(tabSpec1, Group1Fragement.class, args);
@@ -48,9 +57,9 @@ public class GroupSubFragment extends Fragment {
         host.addTab(tabSpec2, Group2Fragement.class, args);
 
         host.getTabWidget().getChildAt(0)
-                .setBackgroundColor(Color.parseColor("#3C989E"));
+                .setBackgroundColor(Color.parseColor("#ffffff"));
         host.getTabWidget().getChildAt(1)
-                .setBackgroundColor(Color.parseColor("#5DB5A4"));
+                .setBackgroundColor(Color.parseColor("#ffffff"));
 
         host.setCurrentTab(0);
         TextView temp = (TextView) host.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
@@ -62,9 +71,9 @@ public class GroupSubFragment extends Fragment {
                 for (int i = 0; i < host.getTabWidget().getChildCount(); i++) {
                     TextView tv = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title); // 탭에 있는 TextView 지정후
                     if (i == host.getCurrentTab())
-                        tv.setTextColor(Color.parseColor("#000000")); // 탭이 선택되어 있으면 FontColor를 검정색으로
+                        tv.setTextColor(Color.parseColor("#000000"));
                     else
-                        tv.setTextColor(Color.parseColor("#ffffff")); // 선택되지 않은 탭은 하얀색으로.
+                        tv.setTextColor(Color.parseColor("#FF9800"));
                 }
             }
         });

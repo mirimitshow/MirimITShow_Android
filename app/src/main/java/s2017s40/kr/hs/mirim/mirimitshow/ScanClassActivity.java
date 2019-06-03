@@ -111,7 +111,7 @@ public class ScanClassActivity extends AppCompatActivity{
                     Register user = response.body();
                     try{
                         for(int i = 0; i < user.getCategory().size(); i++){
-                            CategoryArrayList.add(user.getCategory().get(i));
+                            CategoryArrayList.add(user.getCategory().get(i).getName());
                             Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
                         }
                     }catch (NullPointerException e){

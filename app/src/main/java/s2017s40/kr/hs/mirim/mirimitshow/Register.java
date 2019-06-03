@@ -14,14 +14,16 @@ public class Register {
         this.name = name;
         this.password = password;
         this.phone = phone;
-        this.category.add(new Category());
+        this.category.add(new Category(category));
     }
 
-    public void setGroup(ArrayList<JoinGroup>   ) {
-        this.group = group;
+    public ArrayList<Category> getCategory() {
+        return category;
     }
 
-
+    public void setCategory(ArrayList<Category> category) {
+        this.category = category;
+    }
 
     public ArrayList<JoinGroup> getGroup() {
         return group;

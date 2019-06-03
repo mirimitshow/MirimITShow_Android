@@ -62,12 +62,13 @@ public class GroupFragment extends Fragment {
         //어탭터
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override
-            public void onItemClick(int position, String token) {
+            public void onItemClick(int position, String token, String name) {
               //클릭 이벤트
                 Fragment fg;
                 fg = GroupSubFragment.newInstance();
-                Bundle bundle = new Bundle(1);
+                Bundle bundle = new Bundle(2);
                 bundle.putString("groupToken", token);
+                bundle.putString("groupName", name);
                 fg.setArguments(bundle);
                 setChildFragment(fg);
             }

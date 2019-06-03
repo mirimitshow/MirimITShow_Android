@@ -4,12 +4,18 @@
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <TextView
+            android:id="@+id/sub_group_name_text"
+            android:text="그룹명"
+            android:textSize="26.7sp"
+            android:textColor="#eba331"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="50dp" />
         <TabWidget
             android:id="@android:id/tabs"
             android:orientation="horizontal"

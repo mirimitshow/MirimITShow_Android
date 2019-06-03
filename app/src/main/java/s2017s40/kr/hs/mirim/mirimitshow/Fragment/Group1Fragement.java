@@ -3,6 +3,7 @@ package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,8 +72,12 @@ public class Group1Fragement extends Fragment {
             public void onResponse(Call<List<Board>> call, Response<List<Board>> response) {
                 if(response.code() == 200){//성공
                     List<Board> getBoardList = response.body();
-                    for(Board singleBoard : getBoardList){
-                        myDataset.add(new Board(singleBoard.getAuthor(), singleBoard.getTitle()));
+                    try{
+                        for(Board singleBoard : getBoardList){
+                            myDataset.add(new Board(singleBoard.getAuthor(), singleBoard.getTitle()));
+                        }
+                    }catch (NullPointerException e){
+                        Toast.makeText(getContext(),"게시글이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
                     }
                     Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
                 } else if(response.code() == 209){//실패

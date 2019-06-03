@@ -76,10 +76,8 @@ public class MyPaPerFragment extends Fragment {
                 if (response.code() == 200) {
                     Register user = response.body();
                     try{
-                        if(!user.getCategory().isEmpty()){
-                            for(int i = 0; i < user.getCategory().size(); i++){
-                                myDataset.add(new MyPaPerDTO(user.getCategory().get(i),"0"));
-                            }
+                        for(int i = 0; i < user.getCategory().size(); i++){
+                            myDataset.add(new MyPaPerDTO(user.getCategory().get(i).getName(),"0"));
                         }
                         Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
                     }catch (NullPointerException e){
@@ -95,11 +93,6 @@ public class MyPaPerFragment extends Fragment {
                 Log.e("getuserError", t.toString());
             }
         });
-
-       /* myDataset.add(new MyPaPerDTO("수학","100장"));
-        myDataset.add(new MyPaPerDTO("국어","10장"));
-        myDataset.add(new MyPaPerDTO("NMT","1장"));
-        myDataset.add(new MyPaPerDTO("가통","20장"));*/
 
         return view;
     }
