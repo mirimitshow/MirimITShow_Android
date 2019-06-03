@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,6 +34,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import okhttp3.MediaType;
@@ -45,6 +48,7 @@ import retrofit2.Response;
 
 public class AddGroupActivity extends AppCompatActivity {
     ImageView iconImage, mainImage;
+    image image;
     EditText editGroupName;
     TextView textGroupCode;
     LinearLayout addImage;
@@ -58,6 +62,8 @@ public class AddGroupActivity extends AppCompatActivity {
     private File tempFile;
     private int id_view;
     SharedPreferences sharedPreference;
+    LinearLayout addColor;
+    int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +74,6 @@ public class AddGroupActivity extends AppCompatActivity {
         email = sharedPreference.getString("email","defValue");
 
         groupCodeStr = getRandomString(7); //랜덤으로 Code 받기
-
-        iconImage = findViewById(R.id.addGroup_plus_image);
-        mainImage = findViewById(R.id.addGroup_mainImage_image);
 
         textGroupCode = findViewById(R.id.addGroup_groupCode_textView);
         editGroupName = findViewById(R.id.addGroup_groupName_editText);
@@ -98,7 +101,10 @@ public class AddGroupActivity extends AppCompatActivity {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToAlbum();
+                Random rnd = new Random();
+                color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                addImage.setBackgroundColor(color);
+                Log.e("color", String.valueOf(color));
             }
         });
         //그룹 생성 버튼
@@ -194,24 +200,12 @@ public class AddGroupActivity extends AppCompatActivity {
     }
     public void addGroup(){
         //그룹에 추가\
-        RequestBody requestToken = RequestBody.create(MediaType.parse("token"), groupCodeStr);
-        RequestBody requestName = RequestBody.create(MediaType.parse("name"), editGroupName.getText().toString());
-        RequestBody requestEmail = RequestBody.create(MediaType.parse("email"), email);
+        Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email , color);
+        Call<Group> call = service.setgroup(group);
 
-        MultipartBody.Part body;
-
-        if(!useFile.exists()){
-            body = utils.CreateRequestBody( tempFile,"img");
-        }else{
-            body = utils.CreateRequestBody( useFile,"img");
-        }
-
-
-        Call<ResponseBody> call = service.setgroup(requestToken,requestName,requestEmail, body);
-
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<Group>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Group> call, Response<Group> response) {
                 if(response.code() == 200){
                     Toast.makeText(AddGroupActivity.this, "new group added", Toast.LENGTH_SHORT).show();
                     joinGroupMethod();
@@ -227,11 +221,16 @@ public class AddGroupActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Group> call, Throwable t) {
                 Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
                 Log.e("setgroupError",String.valueOf(t));
             }
         });
+
+    }
+    public static RequestBody toRequestBody (String value) {
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), value);
+        return body ;
     }
 }
 

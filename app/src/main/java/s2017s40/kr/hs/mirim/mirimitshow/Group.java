@@ -15,7 +15,7 @@ public class Group {
     private String id;
     private List<Members> members = new ArrayList<>();
     private List<Board> boards = new ArrayList<>();
-    private image image;
+    private int color;
     private timetable timetable;
     //기본 생성자
     Group(){}
@@ -29,23 +29,23 @@ public class Group {
         this.name = name;
     }
     //그룹 생성 생성자
-    public Group(String token, String name,  String member, String image) {
+    public Group(String token, String name,  String member, int color) {
         this.token = token;
         this.name = name;
         this.members.add(new Members(member));
-        this.image = new image(image);
+        this.color = color;
     }
     //리스트 생성자
-    public Group( String name, String image,  List<Members> member) {
+    public Group( String name, int color,  List<Members> member) {
         this.name = name;
-        this.image = new image(image);
+        this.color = color;
         this.members = member;
     }
     //리스트 생성자
-    public Group(String token, String name, String image,  List<Members> member) {
+    public Group(String token, String name, int color,  List<Members> member) {
         this.token = token;
         this.name = name;
-        this.image = new image(image);
+        this.color = color;
         this.members = member;
     }
     //전체 생성자
@@ -56,12 +56,12 @@ public class Group {
         this.timetable =new timetable(timetable);
     }
 
-    public void setImage(image image) {
-        this.image = image;
+    public void setColor(int color) {
+        this.color = color;
     }
 
-    public image getImage() {
-        return image;
+    public int getColor() {
+        return color;
     }
 
     public List<Board> getBoards() {

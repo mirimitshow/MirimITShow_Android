@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        public ImageView mImageView;
+        public LinearLayout mImageView;
         public TextView mTextView_name;
         public TextView mTextView_participants;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mImageView = (ImageView)view.findViewById(R.id.item_group_image);
+            mImageView = (LinearLayout)view.findViewById(R.id.item_group_image);
             mTextView_name = (TextView)view.findViewById(R.id.item_group_name_text);
             mTextView_participants = (TextView)view.findViewById(R.id.item_group_participants_text);
         }
@@ -45,13 +46,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        int url;
-        //if(mDataset.get(position).getImage().getUrl().isEmpty()){
-            url = (int)R.mipmap.ic_launcher;
-        //}else{
-           // url =  Integer.parseInt(mDataset.get(position).getImage());
-        //}
-        holder.mImageView.setImageResource(url);
+        holder.mImageView.setBackgroundColor(mDataset.get(position).getColor());
         holder.mTextView_name.setText(mDataset.get(position).getName());
         holder.mTextView_participants.setText(String.valueOf(mDataset.get(position).getMembers().size()));
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,9 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scanlibrary.ScanActivity;
@@ -45,11 +48,14 @@ public class ScanClassActivity extends AppCompatActivity {
     private Button scanButton;
     private Button cameraButton;
     private Button mediaButton;
+    private Button resultButton;
     private ImageView scannedImageView;
     private Services service;
+    private EditText titleEdit;
     Utils utils = new Utils();
+    Uri uri ;
     SharedPreferences sharedPreference;
-    String email, token, category;
+    String email, title, category;
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
     ArrayAdapter<String> CategorArrayAdapter;
@@ -66,7 +72,7 @@ public class ScanClassActivity extends AppCompatActivity {
         getCategory();
         CategorArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
-
+        titleEdit = findViewById(R.id.scan_title_edit);
         categorySpinner = (Spinner)findViewById(R.id.scan_category_spinner);
         categorySpinner.setAdapter(CategorArrayAdapter);
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -79,6 +85,7 @@ public class ScanClassActivity extends AppCompatActivity {
             }
         });
 
+        title = titleEdit.getText().toString();
         init();
     }
     public void getCategory(){
@@ -89,10 +96,15 @@ public class ScanClassActivity extends AppCompatActivity {
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
                     Register user = response.body();
-                    for(int i = 0; i < user.getCategory().size(); i++){
-                        CategoryArrayList.add(user.getCategory().get(i).getName());
-                        Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
+                    try{
+                        for(int i = 0; i < user.getCategory().size(); i++){
+                            CategoryArrayList.add(user.getCategory().get(i));
+                            Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
+                        }
+                    }catch (NullPointerException e){
+                        Toast.makeText(ScanClassActivity.this, "category를 설정해주세요", Toast.LENGTH_LONG).show();
                     }
+
                 }else if(response.code() == 400){
                     Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
@@ -106,7 +118,8 @@ public class ScanClassActivity extends AppCompatActivity {
 
     }
     private void init() {
-
+        resultButton = (Button) findViewById(R.id.resultButton);
+        resultButton.setOnClickListener(new ScanButtonClickListener(ScanConstants.FINISH_SCAN));
         scanButton = (Button) findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new ScanButtonClickListener());
         cameraButton = (Button) findViewById(R.id.cameraButton);
@@ -125,42 +138,19 @@ public class ScanClassActivity extends AppCompatActivity {
         }
 
         public ScanButtonClickListener() {
+
         }
 
         @Override
         public void onClick(View v) {
-            startScan(preference);
-        }
-    }
-
-    protected void startScan(int preference) {
-        Intent intent = new Intent(ScanClassActivity.this, ScanActivity.class);
-        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
-
-
-        startActivityForResult(intent, REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Log.e("uri", uri.getPath());
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                getContentResolver().delete(uri, null, null);
-                scannedImageView.setImageBitmap(bitmap);
-
-                //파일DB연결 시 parent를 변경
+            if(preference == 0){
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 File file = new File(uri.getPath());
 
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), category);
-                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), "국어");
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), "국어");
+                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), title);
                 MultipartBody.Part body = utils.CreateRequestBody(file,"url");
 
                 Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
@@ -181,9 +171,67 @@ public class ScanClassActivity extends AppCompatActivity {
                         Log.e("setScanError",t.toString());
                     }
                 });
+            }else{
+                startScan(preference);
+            }
+            /*//파일DB연결 시 parent를 변경
+                service = utils.mRetrofit.create(Services.class);
+                //서버에 전송
+                File file = new File(uri.getPath());
+
+                RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), "국어");
+                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), title);
+                MultipartBody.Part body = utils.CreateRequestBody(file,"url");
+
+                Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
+                call.enqueue(new Callback<Scan>() {
+                    @Override
+                    public void onResponse(Call<Scan> call, Response<Scan> response) {
+                        if (response.code() == 200) {
+                            Toast.makeText(ScanClassActivity.this, "new scan Ssuccessfully added", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(ScanClassActivity.this, MainActivity.class);
+                        }else if (response.code() == 400) {
+                            Toast.makeText(ScanClassActivity.this, "invalid input, object invalid", Toast.LENGTH_LONG).show();
+                        }else if (response.code() == 409) {
+                            Toast.makeText(ScanClassActivity.this, "duplicated scan", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Scan> call, Throwable t) {
+                        Log.e("setScanError",t.toString());
+                    }
+                });*/
+            }
+        }
+
+
+    protected void startScan(int preference) {
+        Intent intent = new Intent(ScanClassActivity.this, ScanActivity.class);
+        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
+
+
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            try {
+                uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+                Log.e("uri", uri.getPath());
+                Bitmap bitmap = null;
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                getContentResolver().delete(uri, null, null);
+                scannedImageView.setImageBitmap(bitmap);
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                Toast.makeText(ScanClassActivity.this, "스캔할 이미지를 선택해 주세요", Toast.LENGTH_LONG).show();
+            }  catch (IOException e) {
                 e.printStackTrace();
             }
         }

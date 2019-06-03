@@ -74,6 +74,17 @@ public class AddBoardActivity extends AppCompatActivity {
         //spinner 추가
         setList();
 
+        GroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                token = groupToken.get(i);
+                Toast.makeText(AddBoardActivity.this, token, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
             public void onClick(View v) {
@@ -81,16 +92,6 @@ public class AddBoardActivity extends AppCompatActivity {
             }
         });
 
-        GroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-               @Override
-               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                   token = groupToken.get(position);
-               }
-               @Override
-               public void onNothingSelected(AdapterView<?> parent) {
-
-               }
-           });
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
             @Override
             public void onClick(View v) {
@@ -101,7 +102,6 @@ public class AddBoardActivity extends AppCompatActivity {
             }
         });
     }
-
     private void goToAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
@@ -164,6 +164,7 @@ public class AddBoardActivity extends AppCompatActivity {
                     for (Group singleGroup : getGroupList) {
                         groupName.add(singleGroup.getName());
                         groupToken.add(singleGroup.getToken());
+                        Log.e("groupToeken", String.valueOf(groupToken));
                     }
                     Toast.makeText(AddBoardActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 400) {
@@ -180,21 +181,9 @@ public class AddBoardActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, groupName);
         GroupSpinner.setAdapter(adapter);
         GroupSpinner.setSelection(0);
-
     }
     public void addBorad(){
-        //Board 추가
-        /*  @Part("token") RequestBody token,
-            @Part("group_token") RequestBody group_token,
-            @Part("isNotice") RequestBody isNotice,
-            @Part("author") RequestBody author,
-            @Part("title") RequestBody title,
-            @Part("content") RequestBody content,
-            */
-        //{"author":"a@a","content":"board","group_token":"T1TAGV8","isNotice":false,"title":"board"}
-
-        RequestBody tokenBody = RequestBody.create(MediaType.parse("token"), token);//토큰 들어가야 하나??ㅜ
-        RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), token);
+        RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), "YS0F2UR");
         RequestBody isNoticeBody = RequestBody.create(MediaType.parse("isNotice"), String.valueOf(Notice.isChecked()));
         RequestBody authorBody = RequestBody.create(MediaType.parse("author"),email );
         RequestBody titleBody = RequestBody.create(MediaType.parse("title"), title_str);
@@ -206,13 +195,15 @@ public class AddBoardActivity extends AppCompatActivity {
         }else{
             body = utils.CreateRequestBody( useFile,"img");
         }
-        Call<ResponseBody> call = service.setboard(tokenBody,group_tokenBody,isNoticeBody,authorBody,titleBody,contentBody, body);
+        //String group_token, Boolean isNotice, String author, String title,String content){
+        Call<ResponseBody> call = service.setboard(group_tokenBody,isNoticeBody,authorBody,titleBody,contentBody, body);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
+                    addBoardInGroup();
                     finish();
                 } else if (response.code() == 400) {
                     Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
@@ -225,5 +216,8 @@ public class AddBoardActivity extends AppCompatActivity {
                 Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
             }
         });//그룹에 추가
+    }
+    public void addBoardInGroup(){
+
     }
 }

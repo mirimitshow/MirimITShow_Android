@@ -2,6 +2,7 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -13,6 +14,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface Services {
@@ -25,15 +27,10 @@ public interface Services {
             @Body Register register);
 
     //Group
-    @Multipart
     @POST("/setGroup")
-    Call<ResponseBody> setgroup(
+    Call<Group> setgroup(
             //Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email , "");
-            @Part("token") RequestBody token,
-            @Part("name") RequestBody name,
-            @Part("email") RequestBody email,
-            @Part MultipartBody.Part file);
-
+            @Body Group group);
     @GET("/getGroup/{token}")
     Call<Group> getgroup(
             @Path("token") String token);
@@ -45,7 +42,6 @@ public interface Services {
     Call<ResponseBody> settimetable(
             @Part("token") RequestBody description,
             @Part MultipartBody.Part file);
-
     //User
     @GET("/getUser/{email}")
     Call<Register> getuser(
@@ -55,9 +51,9 @@ public interface Services {
             @Path("email") String email);
 
     //Board
+    @Multipart
     @POST("/setBoard")
     Call<ResponseBody> setboard(
-            @Part("token") RequestBody token,
             @Part("group_token") RequestBody group_token,
             @Part("isNotice") RequestBody isNotice,
             @Part("author") RequestBody author,

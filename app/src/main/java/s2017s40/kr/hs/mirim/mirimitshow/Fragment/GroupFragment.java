@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TextView;
@@ -84,7 +85,7 @@ public class GroupFragment extends Fragment {
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
                         //if(singleGroup.getImage().getUrl().isEmpty()){
-                            myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), String.valueOf(R.mipmap.ic_launcher), singleGroup.getMembers()));
+                            myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(),singleGroup.getColor(),singleGroup.getMembers()));
                        // }else{
                            // myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), singleGroup.getImage().getUrl(), singleGroup.getMembers()));
                         //}
@@ -111,7 +112,6 @@ public class GroupFragment extends Fragment {
     }
     private void setChildFragment(Fragment child) {
         FragmentTransaction childFt = getChildFragmentManager().beginTransaction();
-
         if (!child.isAdded()) {
             childFt.replace(R.id.child_fragment_container, child);
             childFt.addToBackStack(null);
