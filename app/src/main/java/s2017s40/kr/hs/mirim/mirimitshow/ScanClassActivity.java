@@ -1,8 +1,12 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.FragmentTransaction;
+import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,15 +29,21 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scanlibrary.IScanner;
+import com.scanlibrary.ResultFragment;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
+import com.scanlibrary.ScanFragment;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -43,7 +53,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ScanClassActivity extends AppCompatActivity {
+public class ScanClassActivity extends AppCompatActivity{
     private static final int REQUEST_CODE = 99;
     private Button scanButton;
     private Button cameraButton;
@@ -54,6 +64,8 @@ public class ScanClassActivity extends AppCompatActivity {
     private EditText titleEdit;
     Utils utils = new Utils();
     Uri uri ;
+    File file;
+    Bitmap bitmap;
     SharedPreferences sharedPreference;
     String email, title, category;
     Spinner categorySpinner;
@@ -64,6 +76,7 @@ public class ScanClassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_class);
+
         sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
@@ -144,14 +157,67 @@ public class ScanClassActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if(preference == 0){
+                PutImage_server();
+
+            }else{
+                startScan(preference);
+            }
+            }
+        }
+
+
+    protected void startScan(int preference) {
+        Intent intent = new Intent(ScanClassActivity.this, ScanActivity.class);
+        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
+
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            try {
+                uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+                Log.e("uri", uri.getPath());
+                bitmap = null;
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                getContentResolver().delete(uri, null, null);
+                scannedImageView.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                Toast.makeText(ScanClassActivity.this, "스캔할 이미지를 선택해 주세요", Toast.LENGTH_LONG).show();
+            }  catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Bitmap convertByteArrayToBitmap(byte[] data) {
+        return BitmapFactory.decodeByteArray(data, 0, data.length);
+    }
+    public void PutImage_server(){
+        long mNow;
+        Date mDate;
+        SimpleDateFormat mFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+
+        file =  new File(Environment.getExternalStorageDirectory()+"/Pictures",mFormat.format(mDate)+".jpeg");
+        FileOutputStream fos = null;
+        try{
+            fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            if (file.exists()) {
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
-                File file = new File(uri.getPath());
-
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), "국어");
-                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), title);
-                MultipartBody.Part body = utils.CreateRequestBody(file,"url");
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), titleEdit.getText().toString());
+                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), titleEdit.getText().toString());
+                MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
                 Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
                 call.enqueue(new Callback<Scan>() {
@@ -171,73 +237,15 @@ public class ScanClassActivity extends AppCompatActivity {
                         Log.e("setScanError",t.toString());
                     }
                 });
-            }else{
-                startScan(preference);
             }
-            /*//파일DB연결 시 parent를 변경
-                service = utils.mRetrofit.create(Services.class);
-                //서버에 전송
-                File file = new File(uri.getPath());
-
-                RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), "국어");
-                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), title);
-                MultipartBody.Part body = utils.CreateRequestBody(file,"url");
-
-                Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
-                call.enqueue(new Callback<Scan>() {
-                    @Override
-                    public void onResponse(Call<Scan> call, Response<Scan> response) {
-                        if (response.code() == 200) {
-                            Toast.makeText(ScanClassActivity.this, "new scan Ssuccessfully added", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(ScanClassActivity.this, MainActivity.class);
-                        }else if (response.code() == 400) {
-                            Toast.makeText(ScanClassActivity.this, "invalid input, object invalid", Toast.LENGTH_LONG).show();
-                        }else if (response.code() == 409) {
-                            Toast.makeText(ScanClassActivity.this, "duplicated scan", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Scan> call, Throwable t) {
-                        Log.e("setScanError",t.toString());
-                    }
-                });*/
-            }
+            fos.flush();
+            fos.close();
+            finish();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-
-    protected void startScan(int preference) {
-        Intent intent = new Intent(ScanClassActivity.this, ScanActivity.class);
-        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
-
-
-        startActivityForResult(intent, REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            try {
-                uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-                Log.e("uri", uri.getPath());
-                Bitmap bitmap = null;
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                getContentResolver().delete(uri, null, null);
-                scannedImageView.setImageBitmap(bitmap);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                Toast.makeText(ScanClassActivity.this, "스캔할 이미지를 선택해 주세요", Toast.LENGTH_LONG).show();
-            }  catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Bitmap convertByteArrayToBitmap(byte[] data) {
-        return BitmapFactory.decodeByteArray(data, 0, data.length);
+        OutputStream out = null;
     }
 }
