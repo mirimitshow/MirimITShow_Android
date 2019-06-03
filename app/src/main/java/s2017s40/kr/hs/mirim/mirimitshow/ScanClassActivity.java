@@ -109,12 +109,13 @@ public class ScanClassActivity extends AppCompatActivity {
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 File file = new File(uri.getPath());
-
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
                 RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), "국어");
                 RequestBody nameBody = RequestBody.create(MediaType.parse("name"), "국어");
-                MultipartBody.Part body = utils.CreateRequestBody(file,"url");
-                Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("url", email  + "jpeg", requestFile);
+
+               /* Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody, body);
                 call.enqueue(new Callback<Scan>() {
                     @Override
                     public void onResponse(Call<Scan> call, Response<Scan> response) {
@@ -131,7 +132,7 @@ public class ScanClassActivity extends AppCompatActivity {
                     public void onFailure(Call<Scan> call, Throwable t) {
                         Log.e("setScanError",t.toString());
                     }
-                });
+                });*/
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

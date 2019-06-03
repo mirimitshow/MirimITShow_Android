@@ -73,14 +73,13 @@ public class GroupFragment extends Fragment {
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
+        sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<List<Group>>() {
             @Override
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                Log.e("dsfsfsfsfsfsf",response.body().toString());
                 if(response.code() == 200){//성공
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
