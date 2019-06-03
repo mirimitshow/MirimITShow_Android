@@ -30,8 +30,6 @@ public class ViewBoardActivity extends AppCompatActivity {
         postContent = findViewById(R.id.view_Board_content_text);
         postImage = findViewById(R.id.view_Board_content_img);
 
-        /* i.putExtra("BoardToken",myDataset.get(position).getGroup_token());
-                i.putExtra("position", position);*/
         Intent i = getIntent();
         BoardToken = i.getExtras().getString("BoardToken");
         position = i.getExtras().getString("position");

@@ -4,36 +4,31 @@
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/sub_group_name_text"
-            android:text="그룹명"
-            android:textSize="26.7sp"
-            android:textColor="#eba331"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="50dp" />
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+        android:layout_height="550dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
 
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="0"/>
+            android:layout_weight="0" />
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal" />
 
         <FrameLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
     </LinearLayout>
 

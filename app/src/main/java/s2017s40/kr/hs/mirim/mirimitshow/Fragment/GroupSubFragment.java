@@ -23,26 +23,19 @@ public class GroupSubFragment extends Fragment {
         return new GroupSubFragment();
     }
     FragmentTabHost host;
-    TextView group;
     private Services service;
     SharedPreferences sharedPreference;
     public  String email;
     Utils utils = new Utils();
-    String token, name;
+    String token;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group_sub, container, false);
 
         token = getArguments().getString("groupToken"); // 전달한 key 값
-        name = getArguments().getString("groupName"); // 전달한 key 값
-
-        Log.e("loglogog",token + name + "aaa");
-        //group.setText(name);
 
         host = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         host.setup(getContext(), getActivity().getSupportFragmentManager(), R.id.content);
-
-        group = view.findViewById(R.id.sub_group_name_text);
 
         Bundle args = new Bundle();
         args.putString("groupToken", token);

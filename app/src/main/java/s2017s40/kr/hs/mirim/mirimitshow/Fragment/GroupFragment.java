@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ public class GroupFragment extends Fragment {
     Button enterGroup;
     TextView title;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
@@ -59,16 +61,16 @@ public class GroupFragment extends Fragment {
         myToken= new ArrayList<>();
         title = view.findViewById(R.id.groupListTitle);
         title.setText("그룹 목록");
+
         //어탭터
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override
-            public void onItemClick(int position, String token, String name) {
+            public void onItemClick(int position, String token) {
               //클릭 이벤트
                 Fragment fg;
                 fg = GroupSubFragment.newInstance();
-                Bundle bundle = new Bundle(2);
+                Bundle bundle = new Bundle(1);
                 bundle.putString("groupToken", token);
-                bundle.putString("groupName", name);
                 fg.setArguments(bundle);
                 setChildFragment(fg);
             }
@@ -111,6 +113,12 @@ public class GroupFragment extends Fragment {
         });
         return view;
     }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showItemList();
+    }
+
     private void setChildFragment(Fragment child) {
         FragmentTransaction childFt = getChildFragmentManager().beginTransaction();
         if (!child.isAdded()) {
@@ -118,5 +126,24 @@ public class GroupFragment extends Fragment {
             childFt.addToBackStack(null);
             childFt.commit();
         }
+    }
+    public void showItemList(){
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        myDataset = new ArrayList<>();
+        mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
+            @Override
+            public void onItemClick(int position, String token) {
+                //클릭 이벤트
+                Fragment fg;
+                fg = GroupSubFragment.newInstance();
+                Bundle bundle = new Bundle(1);
+                bundle.putString("groupToken", token);
+                fg.setArguments(bundle);
+                setChildFragment(fg);
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

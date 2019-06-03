@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, groupFragment).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, groupFragment).commit();
 
         // bottomNavigationView의 아이템이 선택될 때 호출될 리스너 등록
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -86,19 +86,18 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_group: {
-                        transaction.replace(R.id.frame_layout, groupFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, groupFragment).commit();
                         break;
                     }
                     case R.id.navigation_my_paper: {
-                        transaction.replace(R.id.frame_layout, mypaperFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, mypaperFragment).commit();
                         break;
                     }
                     case R.id.navigation_my_home: {
-                        transaction.replace(R.id.frame_layout, myhomeFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, myhomeFragment).commit();
                         break;
                     }
                 }
-
                 return true;
             }
         });

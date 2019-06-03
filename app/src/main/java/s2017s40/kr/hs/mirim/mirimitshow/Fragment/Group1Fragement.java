@@ -40,6 +40,8 @@ public class Group1Fragement extends Fragment {
     SharedPreferences sharedPreference;
     public  String email;
     Utils utils = new Utils();
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_1, container, false);
@@ -75,6 +77,7 @@ public class Group1Fragement extends Fragment {
                     try{
                         for(Board singleBoard : getBoardList){
                             myDataset.add(new Board(singleBoard.getAuthor(), singleBoard.getTitle()));
+                            Log.e("Board",singleBoard.getTitle());
                         }
                     }catch (NullPointerException e){
                         Toast.makeText(getContext(),"게시글이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
