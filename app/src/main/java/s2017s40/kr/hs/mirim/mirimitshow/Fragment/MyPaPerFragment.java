@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +28,7 @@ import s2017s40.kr.hs.mirim.mirimitshow.Category;
 import s2017s40.kr.hs.mirim.mirimitshow.Group;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.MyPaPerDTO;
+import s2017s40.kr.hs.mirim.mirimitshow.MyPaperList;
 import s2017s40.kr.hs.mirim.mirimitshow.PaPerAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Register;
@@ -62,7 +67,6 @@ public class MyPaPerFragment extends Fragment {
         mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
-                //클릭 이벤트
                 Intent i = new Intent(getActivity(), ViewBoardActivity.class);
                 i.putExtra("Category",myDataset.get(position));
                 i.putExtra("position", position);

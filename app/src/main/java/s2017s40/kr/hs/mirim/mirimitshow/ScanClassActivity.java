@@ -220,6 +220,7 @@ public class ScanClassActivity extends AppCompatActivity{
                 MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
                 Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
+               
                 call.enqueue(new Callback<Scan>() {
                     @Override
                     public void onResponse(Call<Scan> call, Response<Scan> response) {

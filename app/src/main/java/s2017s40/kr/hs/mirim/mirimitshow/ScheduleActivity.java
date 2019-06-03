@@ -63,6 +63,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
