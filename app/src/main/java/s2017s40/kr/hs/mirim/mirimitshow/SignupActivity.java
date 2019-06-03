@@ -84,7 +84,8 @@ public class SignupActivity extends AppCompatActivity {
                 }
 
                 service = utils.mRetrofit.create(Services.class);
-                Register register = new Register(nameStr, emailStr,pwdConfirmStr,Phone_num);
+                Register register = new Register(nameStr, emailStr,pwdConfirmStr,Phone_num, "");
+
                 Call<Register> call = service.signup(register);
                 call.enqueue(new Callback<Register>() {
                     @Override

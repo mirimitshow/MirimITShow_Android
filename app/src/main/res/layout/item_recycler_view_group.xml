@@ -13,13 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <ImageView
+            <LinearLayout
                 android:id="@+id/item_group_image"
-                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="135.7dp"
-                android:background="@color/colorDarkGray"
-               />
+                android:background="@color/colorLightGray"
+                android:gravity="center"
+                android:orientation="horizontal"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

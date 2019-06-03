@@ -9,10 +9,14 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,28 +31,39 @@ import java.io.FileOutputStream;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddGroupActivity extends AppCompatActivity {
     ImageView iconImage, mainImage;
+    image image;
     EditText editGroupName;
     TextView textGroupCode;
     LinearLayout addImage;
     Button setTimeTableBtn, setGroupBtn, copyCodeBtn;
     String groupCodeStr, email;
+    String pathGroupImage;
     private Services service;
     Utils utils = new Utils();
-    private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
-    private static final int CROP_FROM_iMAGE = 2;
-    private Uri imageCaptureUri;
-    private String absoultePath;
+    private File useFile;
+    private File tempFile;
     private int id_view;
     SharedPreferences sharedPreference;
+    LinearLayout addColor;
+    int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +74,6 @@ public class AddGroupActivity extends AppCompatActivity {
         email = sharedPreference.getString("email","defValue");
 
         groupCodeStr = getRandomString(7); //랜덤으로 Code 받기
-
-        iconImage = findViewById(R.id.addGroup_plus_image);
-        mainImage = findViewById(R.id.addGroup_mainImage_image);
 
         textGroupCode = findViewById(R.id.addGroup_groupCode_textView);
         editGroupName = findViewById(R.id.addGroup_groupName_editText);
@@ -89,30 +101,10 @@ public class AddGroupActivity extends AppCompatActivity {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakePhotoAction();
-                    }
-                };
-                DialogInterface.OnClickListener albumListener  = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakeAlbumAction();
-                    }
-                };
-                DialogInterface.OnClickListener cancelListener  = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                };
-                new AlertDialog.Builder(AddGroupActivity.this)
-                        .setTitle("업로드할 이미지 선택")
-                        .setNeutralButton("취소", cancelListener)
-                        .setPositiveButton("사진촬영", cameraListener)
-                        .setNegativeButton("앨범선택", albumListener)
-                        .show();
+                Random rnd = new Random();
+                color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                addImage.setBackgroundColor(color);
+                Log.e("color", String.valueOf(color));
             }
         });
         //그룹 생성 버튼
@@ -137,94 +129,53 @@ public class AddGroupActivity extends AppCompatActivity {
         return buffer.toString();
     }
 
-    //카메라에서 이미지 가져오기
-    public void doTakePhotoAction() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // 임시로 사용할 파일의 경로를 생성
-        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        imageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageCaptureUri);
-        startActivityForResult(intent, PICK_FROM_CAMERA);
-    }
-    // 앨범에서 이미지 가져오기
-    public void doTakeAlbumAction() {
-        // 앨범 호출
+    private void goToAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode != RESULT_OK)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
+            if(useFile != null) {
+                if (useFile.exists()) {
+                    if (useFile.delete()) {
+                        Log.e("", useFile.getAbsolutePath() + " 삭제 성공");
+                        useFile = null;
+                    }
+                }
+            }
             return;
-        switch(requestCode) {
-            case PICK_FROM_ALBUM: {
-                imageCaptureUri = data.getData();
-                Log.e("SmartWheel",imageCaptureUri.getPath());
-            }
-            case PICK_FROM_CAMERA: {
-                // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정합니다.
-                // 이후에 이미지 크롭 어플리케이션을 호출하게 됩니다.
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(imageCaptureUri, "image/*");
-                // CROP할 이미지를 200*200 크기로 저장
-                intent.putExtra("outputX", 185); // CROP한 이미지의 x축 크기
-                intent.putExtra("outputY", 370); // CROP한 이미지의 y축 크기
-                intent.putExtra("aspectX", 1); // CROP 박스의 X축 비율
-                intent.putExtra("aspectY", 2); // CROP 박스의 Y축 비율
-                intent.putExtra("scale", true);
-                intent.putExtra("return-data", true);
-                startActivityForResult(intent, CROP_FROM_iMAGE); // CROP_FROM_CAMERA case문 이동
-                break;
-            }
-            case CROP_FROM_iMAGE: {
-                // 크롭이 된 이후의 이미지를 넘겨 받습니다.
-                // 이미지뷰에 이미지를 보여준다거나 부가적인 작업 이후에
-                // 임시 파일을 삭제합니다.
-                if(resultCode != RESULT_OK) {
-                    return;
-                }
-                final Bundle extras = data.getExtras();
-                // CROP된 이미지를 저장하기 위한 FILE 경로
-                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/SmartWheel/"+System.currentTimeMillis()+".jpg";
-                Log.e("filePath", filePath);
-                if(extras != null) {
-                    Bitmap photo = extras.getParcelable("data"); // CROP된 BITMAP
-                    mainImage.setImageBitmap(photo); // 레이아웃의 이미지칸에 CROP된 BITMAP을 보여줌
-                    storeCropImage(photo, filePath); // CROP된 이미지를 외부저장소, 앨범에 저장한다.
-                    absoultePath = filePath;
-                    break;
-                }
-                // 임시 파일 삭제
-                File f = new File(imageCaptureUri.getPath());
-                if(f.exists()) {
-                    f.delete();
+        }
+        if (requestCode == PICK_FROM_ALBUM) {
+            Uri photoUri = data.getData();
+            Cursor cursor = null;
+            try {
+                String[] proj = {MediaStore.Images.Media.DATA};
+                assert photoUri != null;
+                cursor = getContentResolver().query(photoUri, proj, null, null, null);
+                assert cursor != null;
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                useFile = new File(cursor.getString(column_index));
+                tempFile= new File("");
+            } catch (Exception e) {
+                e.getStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
                 }
             }
+            setImage();
         }
     }
-
-    private void storeCropImage(Bitmap bitmap, String filePath) {
-        // SmartWheel 폴더를 생성하여 이미지를 저장하는 방식이다.
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/SmartWheel";
-        File directory_SmartWheel = new File(dirPath);
-        if(!directory_SmartWheel.exists()) // SmartWheel 디렉터리에 폴더가 없다면 (새로 이미지를 저장할 경우에 속한다.)
-            directory_SmartWheel.mkdir();
-        File copyFile = new File(filePath);
-        BufferedOutputStream out = null;
-        try {
-            copyFile.createNewFile();
-            out = new BufferedOutputStream(new FileOutputStream(copyFile));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            // sendBroadcast를 통해 Crop된 사진을 앨범에 보이도록 갱신한다.
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(copyFile)));
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void setImage() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+        mainImage.setImageBitmap(originalBm);
+        iconImage.setVisibility(View.INVISIBLE);
     }
     public void joinGroupMethod(){
         //내 그룹에 추가
@@ -248,17 +199,16 @@ public class AddGroupActivity extends AppCompatActivity {
         });
     }
     public void addGroup(){
-        //그룹에 추가
-        Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email);
+        //그룹에 추가\
+        Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email , color);
         Call<Group> call = service.setgroup(group);
+
         call.enqueue(new Callback<Group>() {
             @Override
             public void onResponse(Call<Group> call, Response<Group> response) {
                 if(response.code() == 200){
                     Toast.makeText(AddGroupActivity.this, "new group added", Toast.LENGTH_SHORT).show();
-
                     joinGroupMethod();
-
                     Intent intent = new Intent(AddGroupActivity.this, ScheduleActivity.class);
                     intent.putExtra("token",groupCodeStr);
                     startActivity(intent);
@@ -276,6 +226,11 @@ public class AddGroupActivity extends AppCompatActivity {
                 Log.e("setgroupError",String.valueOf(t));
             }
         });
+
+    }
+    public static RequestBody toRequestBody (String value) {
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), value);
+        return body ;
     }
 }
 

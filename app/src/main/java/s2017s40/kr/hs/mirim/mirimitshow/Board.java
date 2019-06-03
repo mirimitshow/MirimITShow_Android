@@ -12,16 +12,14 @@ public class Board {
         this.author = author;
         this.title = title;
     }
-    public  Board(String group_token, Boolean isNotice, String author, String title
-            ,String content){
+    public  Board(String group_token, Boolean isNotice, String author, String title,String content){
         this.group_token = group_token;
         this.isNotice = isNotice;
         this.author = author;
         this.title = title;
         this.content = content;
     }
-    public Board(String group_token, Boolean isNotice, String author, String title
-            ,String content ,String img) {
+    public Board(String group_token, Boolean isNotice, String author, String title ,String content ,String img) {
         this.group_token = group_token;
         this.isNotice = isNotice;
         this.author = author;

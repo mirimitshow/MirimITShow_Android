@@ -102,7 +102,7 @@ public class ResultFragment extends Fragment {
                             @Override
                             public void run() {
                                 dismissDialog();
-                                Toast.makeText(getActivity(),"들어옴",Toast.LENGTH_LONG);
+                                Toast.makeText(getActivity(),"들어옴",Toast.LENGTH_LONG).show();
                                 getActivity().finish();
                             }
                         });

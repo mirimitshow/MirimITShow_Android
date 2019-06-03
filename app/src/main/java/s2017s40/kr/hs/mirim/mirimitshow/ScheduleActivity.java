@@ -83,14 +83,13 @@ public class ScheduleActivity extends AppCompatActivity {
                     captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     //여기 sendBroadcast DB  변경
                     //sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-
                     if (file.exists()) {
                         //서버에 전송
+
                         RequestBody description = RequestBody.create(MediaType.parse("token"), token);
                         MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
                         Call<ResponseBody> call = service.settimetable(description, body);
-
                         call.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -8,13 +8,27 @@ public class Register {
     private String phone;
     private String password;
     private ArrayList<JoinGroup> group = new ArrayList<>();
-    private ArrayList<String> cartegory = new ArrayList<>();
-    Register(String name, String email, String password, String phone){
+    private ArrayList<Category> cartegory = new ArrayList<>();
+    Register(String name, String email, String password, String phone, String category){
         this.email = email;
         this.name = name;
         this.password = password;
         this.phone = phone;
+        this.cartegory.add(new Category(category));
     }
+
+    public ArrayList<Category> getCategory() {
+        return cartegory;
+    }
+
+    public void setCategory(ArrayList<Category> category) {
+        this.cartegory = category;
+    }
+
+    public ArrayList<JoinGroup> getGroup() {
+        return group;
+    }
+
     public String getPhone() {
         return phone;
     }
