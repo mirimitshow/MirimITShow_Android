@@ -58,7 +58,6 @@ public class ScanClassActivity extends AppCompatActivity{
     private Button scanButton;
     private Button cameraButton;
     private Button mediaButton;
-    private Button resultButton;
     private ImageView scannedImageView;
     private Services service;
     private EditText titleEdit;
@@ -131,8 +130,6 @@ public class ScanClassActivity extends AppCompatActivity{
 
     }
     private void init() {
-        resultButton = (Button) findViewById(R.id.resultButton);
-        resultButton.setOnClickListener(new ScanButtonClickListener(ScanConstants.FINISH_SCAN));
         scanButton = (Button) findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new ScanButtonClickListener());
         cameraButton = (Button) findViewById(R.id.cameraButton);
