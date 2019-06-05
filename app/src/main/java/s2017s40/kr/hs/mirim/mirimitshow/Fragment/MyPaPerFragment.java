@@ -64,22 +64,88 @@ public class MyPaPerFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
         //어탭터
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        myDataset = new ArrayList<>();
+
+//        mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
+//            @Override
+//            public void onItemClick(int position) {
+//                //클릭 이벤트
+//                Intent i = new Intent(getActivity(), ViewBoardActivity.class);
+//                i.putExtra("Category",myDataset.get(position));
+//                i.putExtra("position", position);
+//                startActivity(i);
+//            }
+//        });
+//        mRecyclerView.setAdapter(mAdapter);
+//
+//        service = utils.mRetrofit.create(Services.class);
+//        Call<Register> call = service.getuser(email);
+//        call.enqueue(new Callback<Register>() {
+//
+//
+//
+//            @Override
+//            public void onResponse(Call<Register> call, Response<Register> response) {
+//                if (response.code() == 200) {
+//                    Register user = response.body();
+//                    Log.e("user",user.getEmail() + user.getName() + user.getCategory());
+//                    try{
+//                        for(int i = 0; i < user.getCategory().size(); i++){
+//                            myDataset.add(user.getCategory().get(i).getName());
+//                            Log.e("category",user.getCategory().get(i).getName());
+//                        }
+//                        myDataset.add("안뇽");
+//                        Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
+//                    }catch (NullPointerException e){
+//                        Toast.makeText(getContext(), "nullPointer", Toast.LENGTH_LONG).show();
+//                        return;
+//                    }
+//                }else if(response.code() == 400){
+//                    Toast.makeText(getContext(), "nvalid input, object invalid", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Register> call, Throwable t) {
+//                Toast.makeText(getContext(), "정보받아오기 실패", Toast.LENGTH_LONG).show();
+//                Log.e("getuserError", t.toString());
+//            }
+//        });
+
+        return view;
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showItemList();
+    }
+
+    public void showItemList(){
+
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        myDataset = new ArrayList<>();
+
         mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
+                //클릭 이벤트
                 Intent i = new Intent(getActivity(), ViewBoardActivity.class);
                 i.putExtra("Category",myDataset.get(position));
                 i.putExtra("position", position);
                 startActivity(i);
             }
         });
+
         mRecyclerView.setAdapter(mAdapter);
 
         service = utils.mRetrofit.create(Services.class);
         Call<Register> call = service.getuser(email);
         call.enqueue(new Callback<Register>() {
-
-
 
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
@@ -89,12 +155,14 @@ public class MyPaPerFragment extends Fragment {
                     try{
                         for(int i = 0; i < user.getCategory().size(); i++){
                             myDataset.add(user.getCategory().get(i).getName());
+                            mAdapter.notifyItemInserted(0);
                             Log.e("category",user.getCategory().get(i).getName());
                         }
                         myDataset.add("안뇽");
                         Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
                     }catch (NullPointerException e){
                         Toast.makeText(getContext(), "nullPointer", Toast.LENGTH_LONG).show();
+                        return;
                     }
                 }else if(response.code() == 400){
                     Toast.makeText(getContext(), "nvalid input, object invalid", Toast.LENGTH_LONG).show();
@@ -107,30 +175,5 @@ public class MyPaPerFragment extends Fragment {
                 Log.e("getuserError", t.toString());
             }
         });
-
-        return view;
-    }
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        showItemList();
-    }
-
-    public void showItemList(){
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        myDataset = new ArrayList<>();
-        mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
-            @Override
-            public void onItemClick(int position) {
-                //클릭 이벤트
-                Intent i = new Intent(getActivity(), ViewBoardActivity.class);
-                i.putExtra("Category",myDataset.get(position));
-                i.putExtra("position", position);
-                startActivity(i);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
     }
 }
