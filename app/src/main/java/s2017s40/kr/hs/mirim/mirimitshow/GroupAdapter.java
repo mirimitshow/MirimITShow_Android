@@ -14,7 +14,9 @@ import java.util.ArrayList;
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     private ArrayList<Group> mDataset;
     private ClickCallback callback;
+
     String token;
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 

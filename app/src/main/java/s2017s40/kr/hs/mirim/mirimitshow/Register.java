@@ -17,6 +17,9 @@ public class Register {
         this.cartegory.add(new Category(category));
     }
 
+    public void setGroup(ArrayList<JoinGroup> group) {
+        this.group = group;
+    }
     public ArrayList<Category> getCategory() {
         return cartegory;
     }

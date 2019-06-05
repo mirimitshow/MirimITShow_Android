@@ -20,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import s2017s40.kr.hs.mirim.mirimitshow.Board;
+import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.GroupSub1Adapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
@@ -63,20 +64,17 @@ public class Group1Fragement extends Fragment {
         showItemList();
     }
 
-
-
-
-
     public void showItemList(){
         mAdapter = new GroupSub1Adapter(myDataset, new GroupSub1Adapter.ClickCallback() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, String boardToken) {
                 Intent i = new Intent(getActivity(), ViewBoardActivity.class);
-                i.putExtra("BoardToken",myDataset.get(position).getGroup_token());
+                i.putExtra("BoardToken",boardToken);
                 i.putExtra("position", position);
                 startActivity(i);
             }
         });
+        mRecyclerView.setAdapter(mAdapter);
 
         service = utils.mRetrofit.create(Services.class);
         Call<List<Board>> call = service.getgroupboards(groupToken);
@@ -87,9 +85,9 @@ public class Group1Fragement extends Fragment {
                     List<Board> getBoardList = response.body();
                     try{
                         for(Board singleBoard : getBoardList){
-                            myDataset.add(new Board(singleBoard.getAuthor(), singleBoard.getTitle()));
+                            myDataset.add(singleBoard);
+                            Log.e("adadada", singleBoard.getToken() + myDataset.get(0).getToken());
                             mAdapter.notifyItemInserted(0);
-                            Log.e("Board",singleBoard.getTitle());
                         }
                     }catch (NullPointerException e){
                         Toast.makeText(getContext(),"게시글이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
@@ -106,7 +104,5 @@ public class Group1Fragement extends Fragment {
                 Log.e("getgroupboardsError", t.toString());
             }
         });
-
-        mRecyclerView.setAdapter(mAdapter);
     }
 }
