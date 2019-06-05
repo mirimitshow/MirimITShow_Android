@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -83,18 +84,17 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_group: {
-                        transaction.replace(R.id.frame_layout, groupFragment).commit();
+                        replaceFragment(groupFragment);
                         break;
                     }
                     case R.id.navigation_my_paper: {
-                        transaction.replace(R.id.frame_layout, mypaperFragment).commit();
+                        replaceFragment(mypaperFragment);
                         break;
                     }
                     case R.id.navigation_my_home: {
-                        transaction.replace(R.id.frame_layout, myhomeFragment).commit();
+                        replaceFragment(myhomeFragment);
                         break;
                     }
                 }
@@ -124,4 +124,13 @@ public class MainActivity extends AppCompatActivity {
             isFabOpen = true;
         }
     }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frame_layout, fragment);
+        ft.commit();
+    }
+
+
 }

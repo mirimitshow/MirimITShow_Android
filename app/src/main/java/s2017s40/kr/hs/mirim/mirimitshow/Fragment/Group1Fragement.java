@@ -3,7 +3,7 @@ package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,13 +48,26 @@ public class Group1Fragement extends Fragment {
         groupToken = getArguments().getString("groupToken");
 
         Log.e("groupToken",groupToken);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.sub_group1_recycler_view);
+        mRecyclerView = view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
 
-        //어탭터
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showItemList();
+    }
+
+
+
+
+
+    public void showItemList(){
         mAdapter = new GroupSub1Adapter(myDataset, new GroupSub1Adapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
@@ -64,8 +77,6 @@ public class Group1Fragement extends Fragment {
                 startActivity(i);
             }
         });
-
-        mRecyclerView.setAdapter(mAdapter);
 
         service = utils.mRetrofit.create(Services.class);
         Call<List<Board>> call = service.getgroupboards(groupToken);
@@ -77,6 +88,7 @@ public class Group1Fragement extends Fragment {
                     try{
                         for(Board singleBoard : getBoardList){
                             myDataset.add(new Board(singleBoard.getAuthor(), singleBoard.getTitle()));
+                            mAdapter.notifyItemInserted(0);
                             Log.e("Board",singleBoard.getTitle());
                         }
                     }catch (NullPointerException e){
@@ -95,6 +107,6 @@ public class Group1Fragement extends Fragment {
             }
         });
 
-        return view;
+        mRecyclerView.setAdapter(mAdapter);
     }
 }
