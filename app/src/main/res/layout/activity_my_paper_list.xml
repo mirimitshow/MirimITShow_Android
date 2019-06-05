@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyPaperList"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/top_margin"
+        android:layout_marginBottom="18dp"
+        android:textSize="26sp"
+        android:textColor="@color/colorMain"
+        android:layout_gravity="center"
+        android:text="카테고리 이름"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <GridView
+        android:horizontalSpacing="16dp"
+        android:verticalSpacing="16dp"
+        android:id="@+id/paperlist_view"
+        android:numColumns="2"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

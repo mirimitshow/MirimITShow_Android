@@ -17,15 +17,22 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".ViewBoardActivity"/>
-
         <activity android:name=".AddBoardActivity"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"/>
         <activity android:name=".EnterGroupActivity"/>
         <activity android:name="com.scanlibrary.ScanActivity"/>
         <activity android:name=".ScanClassActivity"/>
+        <activity android:name=".MyPaperList"></activity>
+        <activity android:name=".ViewPostActivity" />
+        <activity
+            android:name=".AddBoardActivity"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true"></activity>
+        <activity android:name=".EnterGroupActivity" />
+        <activity android:name=".ViewPostActivity" />
+        <activity android:name=".ScanClassActivity" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".SignupActivity" />

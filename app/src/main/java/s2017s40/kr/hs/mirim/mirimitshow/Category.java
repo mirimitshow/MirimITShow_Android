@@ -3,10 +3,10 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 public class Category {
     String name;
     String id;
-    void Category(){
+    Category(){
 
     }
-    void Category(String name){
+    public Category(String name){
         this.name = name;
     }
 

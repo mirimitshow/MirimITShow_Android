@@ -11,16 +11,16 @@
     >
 
     <TextView
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="13dp"
-        android:textSize="26.7sp"
-        android:textColor="@color/colorMain"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center"
-        android:text="그룹 참여"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/top_margin"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:text="그룹 참여"
+        android:textColor="@color/colorMain"
+        android:textSize="26.7sp"
+        android:textStyle="bold" />
 
     <EditText
         android:layout_marginBottom="26dp"

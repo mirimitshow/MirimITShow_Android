@@ -9,22 +9,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class PaPerAdapter extends RecyclerView.Adapter<PaPerAdapter.ViewHolder> {
-    private ArrayList<MyPaPerDTO> mDataset;
+    private ArrayList<String> mDataset;
     private PaPerAdapter.ClickCallback callback;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public TextView mTextView_title;
-        public TextView mTextView_num;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTextView_title = (TextView)view.findViewById(R.id.item_paper_title_text);
-            mTextView_num = (TextView)view.findViewById(R.id.item_paper_num_text);
         }
     }
-    public PaPerAdapter(ArrayList<MyPaPerDTO> myDataset, PaPerAdapter.ClickCallback clickCallback) {
+    public PaPerAdapter(ArrayList<String> myDataset, PaPerAdapter.ClickCallback clickCallback) {
         mDataset = myDataset;
         this.callback = clickCallback;
     }
@@ -39,8 +37,7 @@ public class PaPerAdapter extends RecyclerView.Adapter<PaPerAdapter.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(PaPerAdapter.ViewHolder holder, final int position) {
-        holder.mTextView_title.setText(mDataset.get(position).getTitle());
-        holder.mTextView_num.setText(mDataset.get(position).getContent());
+        holder.mTextView_title.setText(mDataset.get(position));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

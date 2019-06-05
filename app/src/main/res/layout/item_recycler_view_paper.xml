@@ -19,15 +19,5 @@
             android:text="국어"
             android:textColor="@color/colorWhite"
             android:textSize="26.7sp" />
-        <TextView
-            android:id="@+id/item_paper_num_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="6dp"
-            android:gravity="center|left"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:text="8장" />
     </LinearLayout>
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,7 +51,7 @@ public class GroupFragment extends Fragment {
 
         enterGroup = view.findViewById(R.id.enter_group_btn);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
+        mRecyclerView = view.findViewById(R.id.group_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -60,10 +60,40 @@ public class GroupFragment extends Fragment {
         title = view.findViewById(R.id.groupListTitle);
         title.setText("그룹 목록");
         //어탭터
+
+        enterGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EnterGroupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showItemList();
+    }
+
+    private void setChildFragment(Fragment child) {
+        FragmentTransaction childFt = getChildFragmentManager().beginTransaction();
+        if (!child.isAdded()) {
+            childFt.replace(R.id.child_fragment_container, child);
+            childFt.addToBackStack(null);
+            childFt.commit();
+        }
+    }
+
+
+    public void showItemList(){
         mAdapter = new GroupAdapter(myDataset, new GroupAdapter.ClickCallback() {
             @Override
             public void onItemClick(int position, String token) {
-              //클릭 이벤트
+                //클릭 이벤트
                 Fragment fg;
                 fg = GroupSubFragment.newInstance();
                 Bundle bundle = new Bundle(1);
@@ -74,7 +104,7 @@ public class GroupFragment extends Fragment {
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
+        sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
@@ -85,9 +115,11 @@ public class GroupFragment extends Fragment {
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
                         //if(singleGroup.getImage().getUrl().isEmpty()){
-                            myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(),singleGroup.getColor(),singleGroup.getMembers()));
-                       // }else{
-                           // myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), singleGroup.getImage().getUrl(), singleGroup.getMembers()));
+                        myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(),singleGroup.getColor(),singleGroup.getMembers()));
+                        Log.e("그룹 가져옴", singleGroup.getName());
+                        mAdapter.notifyItemInserted(0);
+                        // }else{
+                        // myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), singleGroup.getImage().getUrl(), singleGroup.getMembers()));
                         //}
                     }
                     Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
@@ -98,24 +130,8 @@ public class GroupFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Group>> call, Throwable t) {
                 Log.e("getusergroupsError", t.toString());
-       
             }
         });
-        enterGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EnterGroupActivity.class);
-                startActivity(intent);
-            }
-        });
-        return view;
-    }
-    private void setChildFragment(Fragment child) {
-        FragmentTransaction childFt = getChildFragmentManager().beginTransaction();
-        if (!child.isAdded()) {
-            childFt.replace(R.id.child_fragment_container, child);
-            childFt.addToBackStack(null);
-            childFt.commit();
-        }
-    }
+    }//showItemList
+
 }

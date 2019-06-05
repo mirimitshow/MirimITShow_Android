@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -77,28 +78,26 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, groupFragment).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, groupFragment).commit();
 
         // bottomNavigationView의 아이템이 선택될 때 호출될 리스너 등록
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_group: {
-                        transaction.replace(R.id.frame_layout, groupFragment).commitAllowingStateLoss();
+                        replaceFragment(groupFragment);
                         break;
                     }
                     case R.id.navigation_my_paper: {
-                        transaction.replace(R.id.frame_layout, mypaperFragment).commitAllowingStateLoss();
+                        replaceFragment(mypaperFragment);
                         break;
                     }
                     case R.id.navigation_my_home: {
-                        transaction.replace(R.id.frame_layout, myhomeFragment).commitAllowingStateLoss();
+                        replaceFragment(myhomeFragment);
                         break;
                     }
                 }
-
                 return true;
             }
         });
@@ -125,4 +124,13 @@ public class MainActivity extends AppCompatActivity {
             isFabOpen = true;
         }
     }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frame_layout, fragment);
+        ft.commit();
+    }
+
+
 }

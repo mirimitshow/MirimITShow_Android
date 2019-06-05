@@ -17,21 +17,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import s2017s40.kr.hs.mirim.mirimitshow.Board;
 import s2017s40.kr.hs.mirim.mirimitshow.Group;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
-import s2017s40.kr.hs.mirim.mirimitshow.SubGroup1DTO;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
-import s2017s40.kr.hs.mirim.mirimitshow.timetable;
 
 public class Group2Fragement extends Fragment {
     public Group2Fragement() {
