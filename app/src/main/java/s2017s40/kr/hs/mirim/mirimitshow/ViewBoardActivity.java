@@ -32,7 +32,6 @@ public class ViewBoardActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         BoardToken = i.getExtras().getString("BoardToken");
-        position = i.getExtras().getString("position");
 
         service = utils.mRetrofit.create(Services.class);
 
