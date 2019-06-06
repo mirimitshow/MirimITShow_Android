@@ -53,6 +53,7 @@ public class AddBoardActivity extends AppCompatActivity {
     String title_str, content_str;
     Switch Notice;
     Spinner GroupSpinner;
+    ArrayAdapter<String> adapter;
 
     image image;
 
@@ -67,24 +68,15 @@ public class AddBoardActivity extends AppCompatActivity {
         postingBtn = findViewById(R.id.postingBtn);
         GallaryBtn = findViewById(R.id.gallaryBtn);
         Notice = findViewById(R.id.isNotice);
-        GroupSpinner = (Spinner) findViewById(R.id.addBoard_spinner);
+        GroupSpinner =  findViewById(R.id.addBoard_spinner);
         sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
         //spinner 추가
         setList();
 
-        GroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                token = groupToken.get(i);
-                Toast.makeText(AddBoardActivity.this, token, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
             public void onClick(View v) {
@@ -95,12 +87,14 @@ public class AddBoardActivity extends AppCompatActivity {
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
             @Override
             public void onClick(View v) {
+                token = GroupSpinner.getSelectedItem().toString();
                 service = utils.mRetrofit.create(Services.class);
                 title_str = Title.getText().toString(); // 글 타이틀
                 content_str = Content.getText().toString(); // 글 내용
                 addBorad();
             }
         });
+
     }
     private void goToAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -151,11 +145,13 @@ public class AddBoardActivity extends AppCompatActivity {
         imageView.setImageBitmap(originalBm);
         imageView.setVisibility(View.VISIBLE);
     }
+
     public void setList(){
         groupName = new ArrayList<String>();
         groupToken = new ArrayList<String>();
 
         Call<List<Group>> call = service.getusergroups(email);
+
         call.enqueue(new Callback<List<Group>>() {
             @Override
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
@@ -164,9 +160,10 @@ public class AddBoardActivity extends AppCompatActivity {
                     for (Group singleGroup : getGroupList) {
                         groupName.add(singleGroup.getName());
                         groupToken.add(singleGroup.getToken());
-                        Log.e("groupToeken", String.valueOf(groupToken));
                     }
+                    Log.e("groupToeken", String.valueOf(groupToken));
                     Toast.makeText(AddBoardActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
+                    spinnerSet();
                 } else if (response.code() == 400) {
                     Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
                 } else {
@@ -178,10 +175,33 @@ public class AddBoardActivity extends AppCompatActivity {
                 Log.e("getusergroupsError", t.toString());
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBoardActivity.this, android.R.layout.simple_spinner_dropdown_item, groupName);
-        GroupSpinner.setAdapter(adapter);
-        GroupSpinner.setSelection(0);
+
+        Log.e("method", "setList()");
+
     }
+    public void spinnerSet(){
+
+        Log.e("spinner","spinnerSet()");
+
+        GroupSpinner.setSelection(0);
+        adapter = new ArrayAdapter<>(AddBoardActivity.this, R.layout.support_simple_spinner_dropdown_item, groupName);
+        GroupSpinner.setAdapter(adapter);
+
+        GroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("seleted", GroupSpinner.getSelectedItem().toString());
+                Toast.makeText(getApplicationContext(), GroupSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
     public void addBorad(){
         RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), "YS0F2UR");
         RequestBody isNoticeBody = RequestBody.create(MediaType.parse("isNotice"), String.valueOf(Notice.isChecked()));
@@ -217,7 +237,6 @@ public class AddBoardActivity extends AppCompatActivity {
             }
         });//그룹에 추가
     }
-    public void addBoardInGroup(){
+    public void addBoardInGroup(){ }
 
-    }
 }

@@ -16,8 +16,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,17 +23,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import com.scanlibrary.IScanner;
-import com.scanlibrary.ResultFragment;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
-import com.scanlibrary.ScanFragment;
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,7 +40,6 @@ import java.util.Date;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,10 +58,10 @@ public class ScanClassActivity extends AppCompatActivity{
     File file;
     Bitmap bitmap;
     SharedPreferences sharedPreference;
-    String email, title, category;
+    String email;
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
-    ArrayAdapter<String> CategorArrayAdapter;
+    ArrayAdapter<String> CategoryArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,24 +73,10 @@ public class ScanClassActivity extends AppCompatActivity{
         service = utils.mRetrofit.create(Services.class);
 
         CategoryArrayList = new ArrayList<>();
-        getCategory();
-        CategorArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
-        titleEdit = findViewById(R.id.scan_title_edit);
-        categorySpinner = (Spinner)findViewById(R.id.scan_category_spinner);
-        categorySpinner.setAdapter(CategorArrayAdapter);
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                category = CategoryArrayList.get(i);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        title = titleEdit.getText().toString();
         init();
+        getCategory();
+
+
     }
     public void getCategory(){
         service = utils.mRetrofit.create(Services.class);
@@ -107,18 +84,22 @@ public class ScanClassActivity extends AppCompatActivity{
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
+                Log.e("group", "리스폰스로 들어오기는 하나");
                 if (response.code() == 200) {
                     Register user = response.body();
                     try{
                         for(int i = 0; i < user.getCategory().size(); i++){
                             CategoryArrayList.add(user.getCategory().get(i).getName());
+                            Log.e("group", user.getCategory().get(i).getName());
                             Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
                         }
                     }catch (NullPointerException e){
+                        Log.e("group", "여긴가 try catch");
                         Toast.makeText(ScanClassActivity.this, "category를 설정해주세요", Toast.LENGTH_LONG).show();
                     }
 
                 }else if(response.code() == 400){
+                    Log.e("group", "아니면 400?");
                     Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
             }
@@ -129,8 +110,12 @@ public class ScanClassActivity extends AppCompatActivity{
             }
         });
 
+        setSpinner();
+
     }
     private void init() {
+        titleEdit = findViewById(R.id.scan_title_edit);
+        categorySpinner = findViewById(R.id.scan_category_spinner);
         resultButton = (Button) findViewById(R.id.resultButton);
         resultButton.setOnClickListener(new ScanButtonClickListener(ScanConstants.FINISH_SCAN));
         scanButton = (Button) findViewById(R.id.scanButton);
@@ -215,7 +200,7 @@ public class ScanClassActivity extends AppCompatActivity{
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), titleEdit.getText().toString());
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), categorySpinner.getSelectedItem().toString());
                 RequestBody nameBody = RequestBody.create(MediaType.parse("name"), titleEdit.getText().toString());
                 MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
@@ -248,5 +233,23 @@ public class ScanClassActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         OutputStream out = null;
+    }
+
+    public void setSpinner(){
+        CategoryArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
+        categorySpinner.setAdapter(CategoryArrayAdapter);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), categorySpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 }

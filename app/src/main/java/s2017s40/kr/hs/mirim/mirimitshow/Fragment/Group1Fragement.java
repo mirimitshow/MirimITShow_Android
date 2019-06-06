@@ -87,7 +87,6 @@ public class Group1Fragement extends Fragment {
                         for(Board singleBoard : getBoardList){
                             myDataset.add(singleBoard);
                             Log.e("adadada", singleBoard.getToken() + myDataset.get(0).getToken());
-                            mAdapter.notifyItemInserted(0);
                         }
                     }catch (NullPointerException e){
                         Toast.makeText(getContext(),"게시글이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
@@ -98,6 +97,7 @@ public class Group1Fragement extends Fragment {
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"invalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
+                mAdapter.notifyItemInserted(0);
             }
             @Override
             public void onFailure(Call<List<Board>> call, Throwable t) {
