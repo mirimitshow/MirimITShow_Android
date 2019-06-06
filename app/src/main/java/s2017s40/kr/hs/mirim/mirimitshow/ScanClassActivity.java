@@ -1,15 +1,10 @@
 package s2017s40.kr.hs.mirim.mirimitshow;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -62,6 +57,7 @@ public class ScanClassActivity extends AppCompatActivity{
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
     ArrayAdapter<String> CategoryArrayAdapter;
+    ArrayList<Category> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,32 +80,28 @@ public class ScanClassActivity extends AppCompatActivity{
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
-                Log.e("group", "리스폰스로 들어오기는 하나");
                 if (response.code() == 200) {
                     Register user = response.body();
                     try{
-                        for(int i = 0; i < user.getCategory().size(); i++){
-                            CategoryArrayList.add(user.getCategory().get(i).getName());
-                            Log.e("group", user.getCategory().get(i).getName());
+                        categories = user.getCategory();
+                        for(int i = 0; i < categories.size(); i++){
+                            CategoryArrayList.add(categories.get(i).getName());
+                            Log.e("group", categories.get(i).getName());
                             Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
                         }
                     }catch (NullPointerException e){
-                        Log.e("group", "여긴가 try catch");
                         Toast.makeText(ScanClassActivity.this, "category를 설정해주세요", Toast.LENGTH_LONG).show();
                     }
 
                 }else if(response.code() == 400){
-                    Log.e("group", "아니면 400?");
                     Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
                 Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
-                Log.e("getuserError", t.toString());
             }
         });
-
         setSpinner();
 
     }
@@ -239,6 +231,7 @@ public class ScanClassActivity extends AppCompatActivity{
         CategoryArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
         categorySpinner.setAdapter(CategoryArrayAdapter);
+        categorySpinner.setSelection(0);
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -162,7 +162,6 @@ public class MyPaPerFragment extends Fragment {
                         Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
                     }catch (NullPointerException e){
                         Toast.makeText(getContext(), "nullPointer", Toast.LENGTH_LONG).show();
-                        return;
                     }
                 }else if(response.code() == 400){
                     Toast.makeText(getContext(), "nvalid input, object invalid", Toast.LENGTH_LONG).show();

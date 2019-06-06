@@ -60,9 +60,9 @@ public class ViewBoardActivity extends AppCompatActivity {
         postTitle.setText(getBoard.getTitle());
         postContent.setText(getBoard.getContent());
         //작성자 이름.setText(getBoard.getAuthor());
-        if(!getBoard.getImage().getUrl().isEmpty()){
-            Picasso.get().load("http://13.125.15.20/" + getBoard.getImage().getUrl()).into(postImage);
+        if(!(getBoard.getImage().getUrl().isEmpty())){
             postImage.setVisibility(View.VISIBLE);
+            Picasso.get().load("http://13.125.15.20/" + getBoard.getImage().getUrl()).into(postImage);
         }
     }
 }

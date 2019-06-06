@@ -25,10 +25,12 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"/>
     <ImageView
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
         android:id="@+id/view_Board_content_img"
-        android:layout_below="@+id/view_Board_title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_below="@+id/view_Board_view"
+        android:layout_width="200dp"
+        android:layout_height="300dp" />
 
     <TextView
         android:id="@+id/view_Board_content_text"

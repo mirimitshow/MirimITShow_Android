@@ -122,11 +122,12 @@ public class GroupFragment extends Fragment {
                         // myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(), singleGroup.getImage().getUrl(), singleGroup.getMembers()));
                         //}
                     }
-                    Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(),"returns user's Groups",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<List<Group>> call, Throwable t) {
                 Log.e("getusergroupsError", t.toString());
