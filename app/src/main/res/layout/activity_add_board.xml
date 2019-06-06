@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textColor="@color/colorBlack"
-                    tools:text="공지여부"
+                    android:text="공지여부"
                     />
                 <Switch
                     android:id="@+id/isNotice"

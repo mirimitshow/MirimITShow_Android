@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ViewPaperActivity"></activity>
+        <activity android:name=".Activities.addCategoryActivity"></activity>
+        <activity android:name=".Activities.ViewPaperActivity" />
         <activity android:name=".Activities.ViewBoardActivity" />
         <activity
             android:name=".Activities.AddBoardActivity"
