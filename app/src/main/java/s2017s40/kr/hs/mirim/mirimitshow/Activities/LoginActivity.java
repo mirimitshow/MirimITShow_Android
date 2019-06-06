@@ -1,7 +1,6 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -12,25 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.JavaNetCookieJar;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.User;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class LoginActivity extends AppCompatActivity {
     private Services service;

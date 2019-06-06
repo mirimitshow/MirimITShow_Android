@@ -1,6 +1,5 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +15,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Register;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 
 public class SignupActivity extends AppCompatActivity {

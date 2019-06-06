@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -13,6 +13,10 @@ import android.widget.Toast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.JoinGroup;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class EnterGroupActivity extends AppCompatActivity {
     private Services service;

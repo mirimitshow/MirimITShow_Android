@@ -20,12 +20,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import s2017s40.kr.hs.mirim.mirimitshow.Board;
-import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
-import s2017s40.kr.hs.mirim.mirimitshow.GroupSub1Adapter;
+import s2017s40.kr.hs.mirim.mirimitshow.Adapter.GroupSub1Adapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
-import s2017s40.kr.hs.mirim.mirimitshow.ViewBoardActivity;
+import s2017s40.kr.hs.mirim.mirimitshow.Activities.ViewBoardActivity;
 
 public class Group1Fragement extends Fragment {
     public Group1Fragement() {

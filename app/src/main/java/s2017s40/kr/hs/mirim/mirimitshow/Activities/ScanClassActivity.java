@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +38,11 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Register;
+import s2017s40.kr.hs.mirim.mirimitshow.Scan;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class ScanClassActivity extends AppCompatActivity{
     private static final int REQUEST_CODE = 99;

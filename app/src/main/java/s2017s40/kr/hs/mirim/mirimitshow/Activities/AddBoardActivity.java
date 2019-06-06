@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,12 +22,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -38,6 +33,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.Group;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class AddBoardActivity extends AppCompatActivity {
     private Services service;
@@ -55,7 +54,7 @@ public class AddBoardActivity extends AppCompatActivity {
     Spinner GroupSpinner;
     ArrayAdapter<String> adapter;
 
-    image image;
+    s2017s40.kr.hs.mirim.mirimitshow.image image;
 
     ArrayList<String> groupName;
     ArrayList<String> groupToken;

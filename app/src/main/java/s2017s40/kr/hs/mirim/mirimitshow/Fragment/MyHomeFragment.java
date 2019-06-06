@@ -1,8 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Fragment;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.List;
-
 import s2017s40.kr.hs.mirim.mirimitshow.Classes.NotiClass;
-import s2017s40.kr.hs.mirim.mirimitshow.NotiListAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.Adapter.NotiListAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;

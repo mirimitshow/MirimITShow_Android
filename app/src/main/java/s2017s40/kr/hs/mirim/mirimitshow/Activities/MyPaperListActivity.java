@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import s2017s40.kr.hs.mirim.mirimitshow.Adapter.PaperListAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
-public class MyPaperList extends AppCompatActivity {
+public class MyPaperListActivity extends AppCompatActivity {
 
     PaperListAdapter adapter;
     GridView paperListView;
@@ -41,7 +42,6 @@ public class MyPaperList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //여기서 학습지 보는 엑티비티랑 연결
 
-                
             }
         });
 

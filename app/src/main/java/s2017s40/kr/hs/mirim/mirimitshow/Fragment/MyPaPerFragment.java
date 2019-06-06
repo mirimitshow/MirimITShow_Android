@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,23 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import s2017s40.kr.hs.mirim.mirimitshow.Category;
-import s2017s40.kr.hs.mirim.mirimitshow.Group;
-import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
-import s2017s40.kr.hs.mirim.mirimitshow.MyPaPerDTO;
-import s2017s40.kr.hs.mirim.mirimitshow.MyPaperList;
-import s2017s40.kr.hs.mirim.mirimitshow.PaPerAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.Activities.MyPaperListActivity;
+import s2017s40.kr.hs.mirim.mirimitshow.Adapter.PaPerAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Register;
-import s2017s40.kr.hs.mirim.mirimitshow.ScanClassActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
-import s2017s40.kr.hs.mirim.mirimitshow.ViewBoardActivity;
 
 
 public class MyPaPerFragment extends Fragment {
@@ -134,7 +123,7 @@ public class MyPaPerFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 //클릭 이벤트
-                Intent i = new Intent(getActivity(), MyPaperList.class);
+                Intent i = new Intent(getActivity(), MyPaperListActivity.class);
                 i.putExtra("Category",myDataset.get(position));
                 i.putExtra("position", position);
                 startActivity(i);

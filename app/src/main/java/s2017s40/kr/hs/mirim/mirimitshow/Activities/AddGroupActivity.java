@@ -1,12 +1,8 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
-
-import android.Manifest;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -14,9 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,30 +19,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-import java.io.BufferedOutputStream;
+
 import java.io.File;
-import java.io.FileOutputStream;
+
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.Group;
+import s2017s40.kr.hs.mirim.mirimitshow.JoinGroup;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class AddGroupActivity extends AppCompatActivity {
     ImageView iconImage, mainImage;
-    image image;
+    s2017s40.kr.hs.mirim.mirimitshow.image image;
     EditText editGroupName;
     TextView textGroupCode;
     LinearLayout addImage;
