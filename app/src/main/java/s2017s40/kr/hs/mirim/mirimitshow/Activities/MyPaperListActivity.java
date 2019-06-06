@@ -17,7 +17,7 @@ public class MyPaperListActivity extends AppCompatActivity {
     GridView paperListView;
     String category;
     TextView categoryName_textView;
-
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,9 @@ public class MyPaperListActivity extends AppCompatActivity {
         paperListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //여기서 학습지 보는 엑티비티랑 연결
+                Intent intent = new Intent(MyPaperListActivity.this, ViewPaperActivity.class);
+                intent.putExtra("paperName", adapter.getItem(position).toString());
+                startActivity(intent);
 
             }
         });

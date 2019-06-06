@@ -1,5 +1,6 @@
 package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -14,10 +15,13 @@ public class ViewPaperActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_paper);
-
+        Intent i = getIntent();
+        String title = i.getStringExtra("paperName");
 
         title_txt = findViewById(R.id.viewPaper_title_text);
         paperImg = findViewById(R.id.viewPaper_paperImg);
+
+        title_txt.setText(title);
 
     }
 }
