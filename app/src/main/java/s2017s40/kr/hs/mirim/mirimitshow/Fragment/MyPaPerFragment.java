@@ -134,7 +134,7 @@ public class MyPaPerFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 //클릭 이벤트
-                Intent i = new Intent(getActivity(), ViewBoardActivity.class);
+                Intent i = new Intent(getActivity(), MyPaperList.class);
                 i.putExtra("Category",myDataset.get(position));
                 i.putExtra("position", position);
                 startActivity(i);

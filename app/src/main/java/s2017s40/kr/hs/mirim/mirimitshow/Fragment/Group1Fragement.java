@@ -91,7 +91,6 @@ public class Group1Fragement extends Fragment {
                             Log.e("adadada", singleBoard.getToken() + myDataset.get(0).getToken());
                             mAdapter.notifyItemInserted(0);
                         }
-                        Log.e("dkdk", String.valueOf(getBoardList));
                     } catch (NullPointerException e) {
                         Toast.makeText(getContext(), "게시글이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
                     }

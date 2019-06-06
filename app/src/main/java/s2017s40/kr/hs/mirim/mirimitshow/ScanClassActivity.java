@@ -44,7 +44,6 @@ public class ScanClassActivity extends AppCompatActivity{
     private Button scanButton;
     private Button cameraButton;
     private Button mediaButton;
-    private Button resultButton;
     private ImageView scannedImageView;
     private Services service;
     private EditText titleEdit;
@@ -57,7 +56,6 @@ public class ScanClassActivity extends AppCompatActivity{
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
     ArrayAdapter<String> CategoryArrayAdapter;
-    ArrayList<Category> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +81,8 @@ public class ScanClassActivity extends AppCompatActivity{
                 if (response.code() == 200) {
                     Register user = response.body();
                     try{
-                        categories = user.getCategory();
-                        for(int i = 0; i < categories.size(); i++){
-                            CategoryArrayList.add(categories.get(i).getName());
-                            Log.e("group", categories.get(i).getName());
+                        for(int i = 0; i < user.getCategory().size(); i++){
+                            CategoryArrayList.add(user.getCategory().get(i).getName());
                             Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
                         }
                     }catch (NullPointerException e){
@@ -102,14 +98,13 @@ public class ScanClassActivity extends AppCompatActivity{
                 Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
             }
         });
+        CategoryArrayList.add("임시로 추가하는 카테고리");
+        CategoryArrayList.add("하나는 아쉬우니까 두 개");
         setSpinner();
 
     }
     private void init() {
-        titleEdit = findViewById(R.id.scan_title_edit);
-        categorySpinner = findViewById(R.id.scan_category_spinner);
-        resultButton = (Button) findViewById(R.id.resultButton);
-        resultButton.setOnClickListener(new ScanButtonClickListener(ScanConstants.FINISH_SCAN));
+
         scanButton = (Button) findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new ScanButtonClickListener());
         cameraButton = (Button) findViewById(R.id.cameraButton);

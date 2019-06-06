@@ -9,15 +9,16 @@
     >
 
     <TextView
-        android:textStyle="bold"
+        android:id="@+id/categoryName_paperList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/top_margin"
         android:layout_marginBottom="18dp"
-        android:textSize="26sp"
-        android:textColor="@color/colorMain"
-        android:layout_gravity="center"
         android:text="카테고리 이름"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/colorMain"
+        android:textSize="26sp"
+        android:textStyle="bold" />
     <GridView
         android:horizontalSpacing="16dp"
         android:verticalSpacing="16dp"
