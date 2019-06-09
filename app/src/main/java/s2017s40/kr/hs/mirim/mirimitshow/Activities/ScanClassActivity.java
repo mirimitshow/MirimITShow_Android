@@ -1,23 +1,16 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,17 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import com.scanlibrary.IScanner;
-import com.scanlibrary.ResultFragment;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
-import com.scanlibrary.ScanFragment;
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,10 +35,14 @@ import java.util.Date;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Register;
+import s2017s40.kr.hs.mirim.mirimitshow.Scan;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class ScanClassActivity extends AppCompatActivity{
     private static final int REQUEST_CODE = 99;
@@ -66,10 +57,10 @@ public class ScanClassActivity extends AppCompatActivity{
     File file;
     Bitmap bitmap;
     SharedPreferences sharedPreference;
-    String email, title, category;
+    String email;
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
-    ArrayAdapter<String> CategorArrayAdapter;
+    ArrayAdapter<String> CategoryArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,24 +72,10 @@ public class ScanClassActivity extends AppCompatActivity{
         service = utils.mRetrofit.create(Services.class);
 
         CategoryArrayList = new ArrayList<>();
-        getCategory();
-        CategorArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
-        titleEdit = findViewById(R.id.scan_title_edit);
-        categorySpinner = (Spinner)findViewById(R.id.scan_category_spinner);
-        categorySpinner.setAdapter(CategorArrayAdapter);
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                category = CategoryArrayList.get(i);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        title = titleEdit.getText().toString();
         init();
+        getCategory();
+
+
     }
     public void getCategory(){
         service = utils.mRetrofit.create(Services.class);
@@ -124,12 +101,15 @@ public class ScanClassActivity extends AppCompatActivity{
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
                 Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
-                Log.e("getuserError", t.toString());
             }
         });
+        CategoryArrayList.add("임시로 추가하는 카테고리");
+        CategoryArrayList.add("하나는 아쉬우니까 두 개");
+        setSpinner();
 
     }
     private void init() {
+
         scanButton = (Button) findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new ScanButtonClickListener());
         cameraButton = (Button) findViewById(R.id.cameraButton);
@@ -212,7 +192,7 @@ public class ScanClassActivity extends AppCompatActivity{
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), titleEdit.getText().toString());
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), categorySpinner.getSelectedItem().toString());
                 RequestBody nameBody = RequestBody.create(MediaType.parse("name"), titleEdit.getText().toString());
                 MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
@@ -245,5 +225,24 @@ public class ScanClassActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         OutputStream out = null;
+    }
+
+    public void setSpinner(){
+        CategoryArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
+        categorySpinner.setAdapter(CategoryArrayAdapter);
+        categorySpinner.setSelection(0);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), categorySpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 }

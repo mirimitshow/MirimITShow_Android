@@ -25,6 +25,6 @@
                     android:gravity="center|left"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
-                    android:text="수학여행에 관련하여 공지 드립니다." />
+                    android:text="수학여행 관련하여 공지 드립니다." />
         </LinearLayout>
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.GroupFragment;
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyHomeFragment;
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyPaPerFragment;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 public class MainActivity extends AppCompatActivity {
 

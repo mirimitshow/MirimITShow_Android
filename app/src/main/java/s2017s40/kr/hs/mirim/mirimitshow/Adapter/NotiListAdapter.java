@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import s2017s40.kr.hs.mirim.mirimitshow.Classes.NotiClass;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 public class NotiListAdapter extends BaseAdapter {
 

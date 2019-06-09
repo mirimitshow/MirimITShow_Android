@@ -3,7 +3,7 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 public class User {
     private String email;
     private String password;
-    User(String email, String password){
+    public User(String email, String password){
         this.email = email;
         this.password = password;
     }

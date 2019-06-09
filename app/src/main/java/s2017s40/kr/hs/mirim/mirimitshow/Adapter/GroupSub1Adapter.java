@@ -1,13 +1,15 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import s2017s40.kr.hs.mirim.mirimitshow.Board;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
 
 public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.ViewHolder> {
     private ArrayList<Board> mDataset;
