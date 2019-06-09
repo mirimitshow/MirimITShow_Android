@@ -32,12 +32,13 @@ public class ViewPaperActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         String title = i.getStringExtra("paperName");
+        String uri = i.getStringExtra("paperUri");
 
         title_txt = findViewById(R.id.viewPaper_title_text);
         paperImg = findViewById(R.id.viewPaper_paperImg);
 
         title_txt.setText(title);
 
-       // Picasso.get().load("http://13.125.15.20/" + .into(paperImg);
+       Picasso.get().load("http://13.125.15.20/" + uri).into(paperImg);
     }
 }

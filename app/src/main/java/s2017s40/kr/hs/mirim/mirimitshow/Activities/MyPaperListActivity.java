@@ -98,6 +98,7 @@ public class MyPaperListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MyPaperListActivity.this, ViewPaperActivity.class);
                 //intent.putExtra("paperName", adapter.getItem(id).getClass());
+                //intent.putExtra("paperUri", adapter.getItem(id).getClass());
                 startActivity(intent);
             }
         });
