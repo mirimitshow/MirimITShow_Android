@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,32 +12,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import s2017s40.kr.hs.mirim.mirimitshow.Category;
-import s2017s40.kr.hs.mirim.mirimitshow.Group;
-import s2017s40.kr.hs.mirim.mirimitshow.GroupAdapter;
-import s2017s40.kr.hs.mirim.mirimitshow.MyPaPerDTO;
-import s2017s40.kr.hs.mirim.mirimitshow.MyPaperList;
-import s2017s40.kr.hs.mirim.mirimitshow.PaPerAdapter;
+import s2017s40.kr.hs.mirim.mirimitshow.Activities.MyPaperListActivity;
+import s2017s40.kr.hs.mirim.mirimitshow.Activities.addCategoryActivity;
+import s2017s40.kr.hs.mirim.mirimitshow.Adapter.PaPerAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Register;
-import s2017s40.kr.hs.mirim.mirimitshow.ScanClassActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
-import s2017s40.kr.hs.mirim.mirimitshow.ViewBoardActivity;
 
 
 public class MyPaPerFragment extends Fragment {
     public MyPaPerFragment() {
         // Required empty public constructor
     }
+
+    Button addCateBtn;
     private Services service;
     SharedPreferences sharedPreference;
     public  String email;
@@ -56,6 +50,8 @@ public class MyPaPerFragment extends Fragment {
 
         SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
+        addCateBtn = view.findViewById(R.id.addCate_btn);
+
 
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.paper_recycler_view);
@@ -64,22 +60,51 @@ public class MyPaPerFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
         //어탭터
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        myDataset = new ArrayList<>();
+
+
+        addCateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), addCategoryActivity.class);
+                startActivity(i);
+            }
+        });
+
+        return view;
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showItemList();
+    }
+
+    public void showItemList(){
+
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        myDataset = new ArrayList<>();
+
         mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
             @Override
             public void onItemClick(int position) {
-                Intent i = new Intent(getActivity(), ViewBoardActivity.class);
+                //클릭 이벤트
+                Intent i = new Intent(getActivity(), MyPaperListActivity.class);
                 i.putExtra("Category",myDataset.get(position));
                 i.putExtra("position", position);
                 startActivity(i);
             }
         });
+
         mRecyclerView.setAdapter(mAdapter);
 
         service = utils.mRetrofit.create(Services.class);
         Call<Register> call = service.getuser(email);
         call.enqueue(new Callback<Register>() {
-
-
 
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
@@ -89,6 +114,7 @@ public class MyPaPerFragment extends Fragment {
                     try{
                         for(int i = 0; i < user.getCategory().size(); i++){
                             myDataset.add(user.getCategory().get(i).getName());
+                            mAdapter.notifyItemInserted(0);
                             Log.e("category",user.getCategory().get(i).getName());
                         }
                         myDataset.add("안뇽");
@@ -107,30 +133,5 @@ public class MyPaPerFragment extends Fragment {
                 Log.e("getuserError", t.toString());
             }
         });
-
-        return view;
-    }
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        showItemList();
-    }
-
-    public void showItemList(){
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        myDataset = new ArrayList<>();
-        mAdapter = new PaPerAdapter(myDataset, new PaPerAdapter.ClickCallback() {
-            @Override
-            public void onItemClick(int position) {
-                //클릭 이벤트
-                Intent i = new Intent(getActivity(), ViewBoardActivity.class);
-                i.putExtra("Category",myDataset.get(position));
-                i.putExtra("position", position);
-                startActivity(i);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
     }
 }

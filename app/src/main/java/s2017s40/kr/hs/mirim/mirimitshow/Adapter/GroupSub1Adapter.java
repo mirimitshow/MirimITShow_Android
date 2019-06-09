@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +8,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import s2017s40.kr.hs.mirim.mirimitshow.Board;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+
 public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.ViewHolder> {
     private ArrayList<Board> mDataset;
     private GroupSub1Adapter.ClickCallback callback;
+    String boardToken;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
 
+        public final View mView;
         public TextView mTextView_title;
         public TextView mTextView_content;
 
@@ -43,10 +47,14 @@ public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.View
     public void onBindViewHolder(GroupSub1Adapter.ViewHolder holder, final int position) {
         holder.mTextView_title.setText(mDataset.get(position).getTitle());
         holder.mTextView_content.setText(mDataset.get(position).getAuthor());
+
+
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onItemClick(position);
+                boardToken = mDataset.get(position).getToken();
+                callback.onItemClick(position, boardToken);
             }
         });
     }
@@ -57,6 +65,6 @@ public class GroupSub1Adapter extends RecyclerView.Adapter<GroupSub1Adapter.View
         return mDataset.size();
     }
     public interface ClickCallback {
-        void onItemClick(int position);
+        void onItemClick(int position, String boardToken);
     }
 }

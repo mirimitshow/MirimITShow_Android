@@ -2,6 +2,7 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 
 public class Board {
     private String group_token;
+    private String token;
     private Boolean isNotice;
     private String author;
     private String title;
@@ -26,6 +27,14 @@ public class Board {
         this.title = title;
         this.content = content;
         this.image = new image(img);
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public void setImage(s2017s40.kr.hs.mirim.mirimitshow.image image) {

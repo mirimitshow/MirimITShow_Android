@@ -9,7 +9,7 @@ public class Register {
     private String password;
     private ArrayList<JoinGroup> group = new ArrayList<>();
     private ArrayList<Category> cartegory = new ArrayList<>();
-    Register(String name, String email, String password, String phone, String category){
+    public Register(String name, String email, String password, String phone, String category){
         this.email = email;
         this.name = name;
         this.password = password;
@@ -17,6 +17,9 @@ public class Register {
         this.cartegory.add(new Category(category));
     }
 
+    public void setGroup(ArrayList<JoinGroup> group) {
+        this.group = group;
+    }
     public ArrayList<Category> getCategory() {
         return cartegory;
     }
