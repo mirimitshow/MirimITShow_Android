@@ -22,7 +22,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import s2017s40.kr.hs.mirim.mirimitshow.Activities.MyPaperListActivity;
-import s2017s40.kr.hs.mirim.mirimitshow.Activities.addCategoryActivity;
 import s2017s40.kr.hs.mirim.mirimitshow.Adapter.PaPerAdapter;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Register;
@@ -35,7 +34,6 @@ public class MyPaPerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Button addCateBtn;
     private Services service;
     SharedPreferences sharedPreference;
     public  String email;
@@ -50,7 +48,6 @@ public class MyPaPerFragment extends Fragment {
 
         SharedPreferences sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
-        addCateBtn = view.findViewById(R.id.addCate_btn);
 
 
 
@@ -64,16 +61,6 @@ public class MyPaPerFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
-
-
-        addCateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), addCategoryActivity.class);
-                startActivity(i);
-            }
-        });
-
         return view;
     }
     @Override
@@ -115,9 +102,7 @@ public class MyPaPerFragment extends Fragment {
                         for(int i = 0; i < user.getCategory().size(); i++){
                             myDataset.add(user.getCategory().get(i).getName());
                             mAdapter.notifyItemInserted(0);
-                            Log.e("category",user.getCategory().get(i).getName());
                         }
-                        myDataset.add("안뇽");
                         Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
                     }catch (NullPointerException e){
                         Toast.makeText(getContext(), "nullPointer", Toast.LENGTH_LONG).show();
