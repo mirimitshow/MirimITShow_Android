@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,7 +37,7 @@ import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 public class MyPaperListActivity extends AppCompatActivity {
 
     PaperListAdapter adapter;
-    GridView paperListView;
+    RecyclerView paperListView;
     String category;
     TextView categoryName_textView;
     String name, email;
@@ -43,6 +45,7 @@ public class MyPaperListActivity extends AppCompatActivity {
     Utils utils = new Utils();
     private ArrayList<Scan> myDataset;
     SharedPreferences sharedPreference;
+    ArrayList<Scan> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +59,13 @@ public class MyPaperListActivity extends AppCompatActivity {
         category = i.getStringExtra("Category");
 
         categoryName_textView = findViewById(R.id.categoryName_paperList);
+        items = new ArrayList<>();
         categoryName_textView.setText(category);
 
         myDataset = new ArrayList<>();
 
         paperListView = findViewById(R.id.paperlist_view);
-        adapter = new PaperListAdapter();
+
 
         service = utils.mRetrofit.create(Services.class);
         Call<List<Scan>> call = service.getscans(email,category);
@@ -72,8 +76,12 @@ public class MyPaperListActivity extends AppCompatActivity {
                     try{
                         List<Scan> getScan = response.body();
                         for(Scan singleScan : getScan){
-                            adapter.addItem(singleScan);
+                            items.add(singleScan);
+//                            adapter.addItem(singleScan);
+//                            adapter.notifyItemInserted(0);
                             Log.e("adapter", singleScan.getName());
+
+                            setList();
                         }
                     }catch (NullPointerException e){
                         Toast.makeText(MyPaperListActivity.this, "scan이미지가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
@@ -91,16 +99,26 @@ public class MyPaperListActivity extends AppCompatActivity {
             }
         });
 
-        paperListView.setAdapter(adapter);
 
-        paperListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyPaperListActivity.this, ViewPaperActivity.class);
-                //intent.putExtra("paperName", adapter.getItem(id).getClass());
-                //intent.putExtra("paperUri", adapter.getItem(id).getClass());
-                startActivity(intent);
-            }
-        });
+//        paperListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(MyPaperListActivity.this, ViewPaperActivity.class);
+//                //intent.putExtra("paperName", adapter.getItem(id).getClass());
+//                //intent.putExtra("paperUri", adapter.getItem(id).getClass());
+//                startActivity(intent);
+//            }
+//        });
+
+
+    }
+
+
+
+    public void setList(){
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
+        adapter = new PaperListAdapter(items, MyPaperListActivity.this);
+        paperListView.setAdapter(adapter);
+        paperListView.setLayoutManager(manager);
     }
 }
