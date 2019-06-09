@@ -5,8 +5,36 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.MyPaPerFragment">
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/paper_title_txt"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26.7sp"
+                android:textColor="@color/colorMain"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/top_margin"
+                android:text="학습지 카테고리" />
+            <Button
+                android:id="@+id/addCate_btn"
+                android:layout_below="@+id/paper_title_txt"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorMain"
+                android:text="카테고리\n추가"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/paper_recycler_view"
             android:scrollbars="vertical"

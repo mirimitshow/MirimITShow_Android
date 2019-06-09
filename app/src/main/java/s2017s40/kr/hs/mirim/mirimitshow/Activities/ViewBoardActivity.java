@@ -1,4 +1,4 @@
-package s2017s40.kr.hs.mirim.mirimitshow;
+package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,10 @@ import com.squareup.picasso.Picasso;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.Board;
+import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Services;
+import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class ViewBoardActivity extends AppCompatActivity {
     TextView postTitle, postContent;
@@ -60,9 +64,9 @@ public class ViewBoardActivity extends AppCompatActivity {
         postTitle.setText(getBoard.getTitle());
         postContent.setText(getBoard.getContent());
         //작성자 이름.setText(getBoard.getAuthor());
-        if(!getBoard.getImage().getUrl().isEmpty()){
-            Picasso.get().load("http://13.125.15.20/" + getBoard.getImage().getUrl()).into(postImage);
+        if(!(getBoard.getImage().getUrl().isEmpty())){
             postImage.setVisibility(View.VISIBLE);
+            Picasso.get().load("http://13.125.15.20/" + getBoard.getImage().getUrl()).into(postImage);
         }
     }
 }

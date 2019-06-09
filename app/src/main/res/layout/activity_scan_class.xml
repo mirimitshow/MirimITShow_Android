@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <ImageView
         android:id="@+id/scannedImage"
@@ -15,6 +15,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginLeft="100dp"
         android:layout_marginBottom="20dp"
+        android:background="@color/colorDarkGray"
         android:layout_height="281dp" />
 
     <LinearLayout
@@ -27,6 +28,7 @@
             android:layout_weight="3"
             android:textSize="20sp"
             android:textColor="#eba331"
+            android:gravity="center"
             tools:text="이름 :"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -36,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
     <Spinner
         android:id="@+id/scan_category_spinner"
         android:layout_below = "@+id/scan_title_layout"
@@ -47,32 +50,29 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/cameraButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Camera" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/cameraButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Camera" />
 
-        <Button
-            android:id="@+id/mediaButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Media" />
+            <Button
+                android:id="@+id/mediaButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Media" />
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/scanButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Scan" />
-
-        <Button
-            android:id="@+id/resultButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
