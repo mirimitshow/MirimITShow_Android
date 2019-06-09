@@ -48,8 +48,6 @@ public class Group1Fragement extends Fragment {
         view = inflater.inflate(R.layout.fragment_group_1, container, false);
         groupToken = getArguments().getString("groupToken");
 
-        Log.e("groupToken", groupToken);
-        Log.e("groupToken", "게시글 목록 프레그먼트 실행");
         mRecyclerView = view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());

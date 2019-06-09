@@ -7,7 +7,6 @@
     tools:context=".Activities.MyPaperListActivity"
     android:orientation="vertical"
     >
-
     <TextView
         android:id="@+id/categoryName_paperList"
         android:layout_width="wrap_content"
@@ -28,6 +27,4 @@
         android:paddingRight="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
 </LinearLayout>

@@ -20,7 +20,7 @@ import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class ViewBoardActivity extends AppCompatActivity {
-    TextView postTitle, postContent;
+    TextView postTitle, postContent, noticeText, authorText;
     ImageView postImage;
     private Services service;
     Utils utils = new Utils();
@@ -33,7 +33,8 @@ public class ViewBoardActivity extends AppCompatActivity {
         postTitle = findViewById(R.id.view_Board_title_text);
         postContent = findViewById(R.id.view_Board_content_text);
         postImage = findViewById(R.id.view_Board_content_img);
-
+        noticeText = findViewById(R.id.view_Board_notice_text);
+        authorText = findViewById(R.id.view_Board_author_text);
         Intent i = getIntent();
         BoardToken = i.getExtras().getString("BoardToken");
 
@@ -63,8 +64,11 @@ public class ViewBoardActivity extends AppCompatActivity {
     public void setBoard(){
         postTitle.setText(getBoard.getTitle());
         postContent.setText(getBoard.getContent());
-        //작성자 이름.setText(getBoard.getAuthor());
-        if(!(getBoard.getImage().getUrl().isEmpty())){
+        authorText.setText(getBoard.getAuthor());
+        if(getBoard.getIsNotice().equals("true")) {
+            noticeText.setVisibility(noticeText.VISIBLE);
+        }
+        if(!getBoard.getImage().getUrl().equals("tempImage.JPG")){
             postImage.setVisibility(View.VISIBLE);
             Picasso.get().load("http://13.125.15.20/" + getBoard.getImage().getUrl()).into(postImage);
         }

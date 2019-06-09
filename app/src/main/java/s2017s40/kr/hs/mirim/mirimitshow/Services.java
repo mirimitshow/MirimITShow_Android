@@ -76,8 +76,9 @@ public interface Services {
             @Part("cartegory") RequestBody cartegory,
             @Part("name") RequestBody name,
             @Part MultipartBody.Part file);
-    @GET("/getScans/")
-    Call<List<String>> getscans(
-
+    @GET("/getScans/{email}/{cartegory}")
+    Call<List<Scan>> getscans(
+            @Path("email") String email,
+            @Path("cartegory") String category
     );
 }

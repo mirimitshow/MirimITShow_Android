@@ -10,10 +10,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import s2017s40.kr.hs.mirim.mirimitshow.R;
+import s2017s40.kr.hs.mirim.mirimitshow.Scan;
 
 public class PaperListAdapter extends BaseAdapter {
 
-    ArrayList<String> lists = new ArrayList<>();
+    ArrayList<Scan> lists = new ArrayList<>();
 
     @Override
     public int getCount() {
@@ -35,16 +36,16 @@ public class PaperListAdapter extends BaseAdapter {
         Context context = parent.getContext();
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.paper_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.item_list_view_sub_paper, parent, false);
         }
 
-        TextView paperName = convertView.findViewById(R.id.paperList_Name);
-        paperName.setText(lists.get(position));
+        TextView paperName = convertView.findViewById(R.id.viewPaper_title_text);
+        paperName.setText(lists.get(position).getName());
 
         return convertView;
     }
 
-    public void addItem(String text){
-        lists.add(text);
+    public void addItem(Scan scan){
+        lists.add(scan);
     }
 }

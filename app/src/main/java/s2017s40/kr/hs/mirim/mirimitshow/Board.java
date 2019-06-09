@@ -3,7 +3,7 @@ package s2017s40.kr.hs.mirim.mirimitshow;
 public class Board {
     private String group_token;
     private String token;
-    private Boolean isNotice;
+    private String isNotice;
     private String author;
     private String title;
     private String content;
@@ -13,14 +13,14 @@ public class Board {
         this.author = author;
         this.title = title;
     }
-    public  Board(String group_token, Boolean isNotice, String author, String title,String content){
+    public  Board(String group_token, String isNotice, String author, String title,String content){
         this.group_token = group_token;
         this.isNotice = isNotice;
         this.author = author;
         this.title = title;
         this.content = content;
     }
-    public Board(String group_token, Boolean isNotice, String author, String title ,String content ,String img) {
+    public Board(String group_token, String isNotice, String author, String title ,String content ,String img) {
         this.group_token = group_token;
         this.isNotice = isNotice;
         this.author = author;
@@ -45,7 +45,7 @@ public class Board {
         return image;
     }
 
-    public void setIsNotice(Boolean isNotice) {
+    public void setIsNotice(String isNotice) {
         this.isNotice = isNotice;
     }
 
@@ -73,7 +73,7 @@ public class Board {
         return title;
     }
 
-    public Boolean getIsNotice() {
+    public String getIsNotice() {
         return isNotice;
     }
 

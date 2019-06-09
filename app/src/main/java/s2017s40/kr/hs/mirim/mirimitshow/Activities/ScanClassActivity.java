@@ -57,7 +57,7 @@ public class ScanClassActivity extends AppCompatActivity{
     File file;
     Bitmap bitmap;
     SharedPreferences sharedPreference;
-    String email;
+    String email, categoryString, titleString;
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
     ArrayAdapter<String> CategoryArrayAdapter;
@@ -70,6 +70,11 @@ public class ScanClassActivity extends AppCompatActivity{
         sharedPreference = getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
         service = utils.mRetrofit.create(Services.class);
+
+        categorySpinner = findViewById(R.id.scan_category_spinner);
+        titleEdit = findViewById(R.id.scan_title_edit);
+
+        titleString = titleEdit.getText().toString();
 
         CategoryArrayList = new ArrayList<>();
         init();
@@ -88,12 +93,13 @@ public class ScanClassActivity extends AppCompatActivity{
                     try{
                         for(int i = 0; i < user.getCategory().size(); i++){
                             CategoryArrayList.add(user.getCategory().get(i).getName());
+                            Log.e("categoryArrayList", user.getCategory().get(i).getName());
                             Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
+                            spinnerSet();
                         }
                     }catch (NullPointerException e){
                         Toast.makeText(ScanClassActivity.this, "category를 설정해주세요", Toast.LENGTH_LONG).show();
                     }
-
                 }else if(response.code() == 400){
                     Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
@@ -103,13 +109,9 @@ public class ScanClassActivity extends AppCompatActivity{
                 Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
             }
         });
-        CategoryArrayList.add("임시로 추가하는 카테고리");
-        CategoryArrayList.add("하나는 아쉬우니까 두 개");
-        setSpinner();
 
     }
     private void init() {
-
         scanButton = (Button) findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new ScanButtonClickListener());
         cameraButton = (Button) findViewById(R.id.cameraButton);
@@ -120,33 +122,24 @@ public class ScanClassActivity extends AppCompatActivity{
     }
 
     private class ScanButtonClickListener implements View.OnClickListener {
-
         private int preference;
-
         public ScanButtonClickListener(int preference) {
             this.preference = preference;
         }
-
-        public ScanButtonClickListener() {
-
-        }
-
+        public ScanButtonClickListener() { }
         @Override
         public void onClick(View v) {
             if(preference == 0){
                 PutImage_server();
-
             }else{
                 startScan(preference);
             }
-            }
         }
-
+    }
 
     protected void startScan(int preference) {
         Intent intent = new Intent(ScanClassActivity.this, ScanActivity.class);
         intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
-
         startActivityForResult(intent, REQUEST_CODE);
     }
 
@@ -161,7 +154,6 @@ public class ScanClassActivity extends AppCompatActivity{
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 getContentResolver().delete(uri, null, null);
                 scannedImageView.setImageBitmap(bitmap);
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
@@ -172,10 +164,10 @@ public class ScanClassActivity extends AppCompatActivity{
             }
         }
     }
-
     private Bitmap convertByteArrayToBitmap(byte[] data) {
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
+
     public void PutImage_server(){
         long mNow;
         Date mDate;
@@ -192,12 +184,11 @@ public class ScanClassActivity extends AppCompatActivity{
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
-                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), categorySpinner.getSelectedItem().toString());
-                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), titleEdit.getText().toString());
+                RequestBody cartegoryBody = RequestBody.create(MediaType.parse("cartegory"), categoryString);
+                RequestBody nameBody = RequestBody.create(MediaType.parse("name"), titleString);
                 MultipartBody.Part body = utils.CreateRequestBody(file,"img");
 
-                Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody,body);
-               
+                Call<Scan> call = service.setscan(emailBody, cartegoryBody, nameBody, body);
                 call.enqueue(new Callback<Scan>() {
                     @Override
                     public void onResponse(Call<Scan> call, Response<Scan> response) {
@@ -227,22 +218,24 @@ public class ScanClassActivity extends AppCompatActivity{
         OutputStream out = null;
     }
 
-    public void setSpinner(){
-        CategoryArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item, CategoryArrayList);
-        categorySpinner.setAdapter(CategoryArrayAdapter);
+    public void spinnerSet(){
+        Log.e("spinner","spinnerSet()");
+
         categorySpinner.setSelection(0);
+        CategoryArrayAdapter = new ArrayAdapter<>(ScanClassActivity.this, R.layout.support_simple_spinner_dropdown_item, CategoryArrayList);
+        categorySpinner.setAdapter(CategoryArrayAdapter);
+
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("seleted", categorySpinner.getSelectedItem().toString());
+                categoryString = categorySpinner.getSelectedItem().toString();
                 Toast.makeText(getApplicationContext(), categorySpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
     }
 }

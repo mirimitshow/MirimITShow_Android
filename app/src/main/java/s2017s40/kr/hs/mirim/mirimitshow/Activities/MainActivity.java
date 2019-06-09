@@ -2,6 +2,7 @@ package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.sax.StartElementListener;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.GroupFragment;
-import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyHomeFragment;
 import s2017s40.kr.hs.mirim.mirimitshow.Fragment.MyPaPerFragment;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 
@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     // 4개의 메뉴에 들어갈 Fragment들
     private GroupFragment groupFragment = new GroupFragment();
     private MyPaPerFragment mypaperFragment = new MyPaPerFragment();
-    private MyHomeFragment myhomeFragment = new MyHomeFragment();
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, fab1, fab2, fab3;
@@ -95,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.navigation_my_home: {
-                        replaceFragment(myhomeFragment);
+                        Intent intent = new Intent(MainActivity.this, ScanClassActivity.class);
+                        startActivity(intent);
                         break;
                     }
                 }

@@ -3,11 +3,15 @@ package s2017s40.kr.hs.mirim.mirimitshow.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +27,11 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +51,14 @@ public class AddBoardActivity extends AppCompatActivity {
     private Services service;
     Utils utils = new Utils();
     SharedPreferences sharedPreference;
-    String email, token;
+    String email;
     private static final int PICK_FROM_ALBUM = 1;
     private File tempFile;
     private File useFile;
     EditText Title, Content;
     Button postingBtn;
     ImageButton GallaryBtn;
-    String title_str, content_str;
+    String title_str, content_str, groupToken_String;
     Switch Notice;
     Spinner GroupSpinner;
     ArrayAdapter<String> adapter;
@@ -74,8 +83,6 @@ public class AddBoardActivity extends AppCompatActivity {
         //spinner 추가
         setList();
 
-
-
         GallaryBtn.setOnClickListener(new View.OnClickListener() { // 사진 가져오기 버튼 리스너
             @Override
             public void onClick(View v) {
@@ -86,7 +93,7 @@ public class AddBoardActivity extends AppCompatActivity {
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
             @Override
             public void onClick(View v) {
-                token = GroupSpinner.getSelectedItem().toString();
+                groupToken_String = GroupSpinner.getSelectedItem().toString();
                 service = utils.mRetrofit.create(Services.class);
                 title_str = Title.getText().toString(); // 글 타이틀
                 content_str = Content.getText().toString(); // 글 내용
@@ -190,32 +197,32 @@ public class AddBoardActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("seleted", GroupSpinner.getSelectedItem().toString());
+                groupToken_String = GroupSpinner.getSelectedItem().toString();
                 Toast.makeText(getApplicationContext(), GroupSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
 
-
     public void addBorad(){
-        RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), "YS0F2UR");
+        RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), groupToken_String);
         RequestBody isNoticeBody = RequestBody.create(MediaType.parse("isNotice"), String.valueOf(Notice.isChecked()));
         RequestBody authorBody = RequestBody.create(MediaType.parse("author"),email );
         RequestBody titleBody = RequestBody.create(MediaType.parse("title"), title_str);
         RequestBody contentBody = RequestBody.create(MediaType.parse("content"), content_str);
 
         MultipartBody.Part body;
-        if(!useFile.exists()){
+        if(useFile.equals("")){
+            tempFile = new File(getAssets() + "/tempimg.JPG");
+            Log.e("file", tempFile.toString());
             body = utils.CreateRequestBody( tempFile,"img");
         }else{
             body = utils.CreateRequestBody( useFile,"img");
         }
         //String group_token, Boolean isNotice, String author, String title,String content){
-        Call<ResponseBody> call = service.setboard(group_tokenBody,isNoticeBody,authorBody,titleBody,contentBody, body);
+        Call<ResponseBody> call = service.setboard(group_tokenBody,isNoticeBody ,authorBody,titleBody,contentBody, body);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
