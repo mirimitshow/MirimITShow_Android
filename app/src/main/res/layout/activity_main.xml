@@ -14,22 +14,6 @@
         android:layout_marginBottom="?attr/actionBarSize">
 
         <android.support.design.widget.FloatingActionButton
-            android:background="@drawable/fab_icon"
-            android:id="@+id/fab3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="230dp"
-            android:layout_marginRight="15sp"
-            app:borderWidth="3dp"
-            android:src="@drawable/scanner"
-            android:backgroundTint="@color/colorWhite"
-            android:visibility="invisible"
-            app:backgroundTint="#eb8431"
-            app:elevation="6dp"
-            app:pressedTranslationZ="12dp" />
-
-        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="15sp"
-            android:backgroundTint="@color/colorMain"
+            android:backgroundTint="@color/fab_bg"
             app:borderWidth="0dp"
             />
 

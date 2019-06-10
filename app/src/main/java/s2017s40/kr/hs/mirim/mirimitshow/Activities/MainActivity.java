@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MyPaPerFragment mypaperFragment = new MyPaPerFragment();
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab, fab1, fab2, fab3;
+    private FloatingActionButton fab, fab1, fab2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);//그룹 만들기
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);//글작성
-        fab3 = (FloatingActionButton) findViewById(R.id.fab3);//scan 하기
 
         fab.setImageResource(R.drawable.plus_btn);
 
@@ -63,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 anim();
                 Intent intent = new Intent(MainActivity.this, AddBoardActivity.class);
-                startActivity(intent);
-            }
-        });
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                anim();
-                Intent intent = new Intent(MainActivity.this, ScanClassActivity.class);
                 startActivity(intent);
             }
         });
@@ -109,19 +100,19 @@ public class MainActivity extends AppCompatActivity {
             fab.setImageResource(R.drawable.plus_btn);
             fab1.startAnimation(fab_close);
             fab2.startAnimation(fab_close);
-            fab3.startAnimation(fab_close);
+//            fab3.startAnimation(fab_close);
             fab1.setClickable(false);
             fab2.setClickable(false);
-            fab3.setClickable(false);
+//            fab3.setClickable(false);
             isFabOpen = false;
         } else {
             fab.setImageResource(R.drawable.cancel_sign);
             fab1.startAnimation(fab_open);
             fab2.startAnimation(fab_open);
-            fab3.startAnimation(fab_open);
+//            fab3.startAnimation(fab_open);
             fab1.setClickable(true);
             fab2.setClickable(true);
-            fab3.setClickable(true);
+//            fab3.setClickable(true);
             isFabOpen = true;
         }
     }
