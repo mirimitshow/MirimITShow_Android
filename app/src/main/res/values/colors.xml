@@ -9,4 +9,5 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorLightGray">#eeeeee</color>
     <color name="colorBlack">#303030</color>
+    <color name="fab_bg">#444444</color>
 </resources>

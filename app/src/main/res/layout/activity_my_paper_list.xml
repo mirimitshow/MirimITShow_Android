@@ -18,11 +18,10 @@
         android:textColor="@color/colorMain"
         android:textSize="26sp"
         android:textStyle="bold" />
-    <GridView
+    <android.support.v7.widget.RecyclerView
         android:horizontalSpacing="16dp"
         android:verticalSpacing="16dp"
         android:id="@+id/paperlist_view"
-        android:numColumns="2"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
         android:layout_width="match_parent"

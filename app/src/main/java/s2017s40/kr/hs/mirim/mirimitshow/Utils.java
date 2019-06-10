@@ -41,7 +41,7 @@ public class Utils {
                 .build();
 
         mRetrofit  = new Retrofit.Builder()
-                .baseUrl("http://13.125.15.20")
+                .baseUrl("http://54.180.32.86:9000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
