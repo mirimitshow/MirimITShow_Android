@@ -4,19 +4,19 @@ public class Scan {
     private String email;
     private String cartegory;
     private String name;
-    private image image;
+    private String url;
     Scan(String email, String cartegory, String name){
         this.email = email;
         this.cartegory = cartegory;
         this.name = name;
     }
 
-    public s2017s40.kr.hs.mirim.mirimitshow.image getImage() {
-        return image;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setImage(s2017s40.kr.hs.mirim.mirimitshow.image image) {
-        this.image = image;
+    public String getUrl() {
+        return url;
     }
 
     public void setName(String name) {

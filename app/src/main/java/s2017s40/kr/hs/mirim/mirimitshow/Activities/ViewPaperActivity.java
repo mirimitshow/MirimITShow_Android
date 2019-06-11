@@ -31,14 +31,13 @@ public class ViewPaperActivity extends AppCompatActivity {
 
 
         Intent i = getIntent();
-        String title = i.getStringExtra("paperName");
-        String uri = i.getStringExtra("paperUri");
+        String title = i.getStringExtra("scanName");
+        String uri = i.getStringExtra("scanUri");
 
         title_txt = findViewById(R.id.viewPaper_title_text);
         paperImg = findViewById(R.id.viewPaper_paperImg);
 
         title_txt.setText(title);
-
-       Picasso.get().load("http://13.125.15.20/" + uri).into(paperImg);
+        Picasso.get().load("http://54.180.32.86:9000/" + uri).into(paperImg);
     }
 }

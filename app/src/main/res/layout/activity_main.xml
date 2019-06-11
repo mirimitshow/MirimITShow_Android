@@ -54,9 +54,6 @@
             app:borderWidth="0dp"
             />
 
-
-
-
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView

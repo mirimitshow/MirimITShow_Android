@@ -30,7 +30,6 @@ public class Group1Fragement extends Fragment {
     public Group1Fragement() {
         // Required empty public constructor
     }
-
     View view;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -46,7 +45,9 @@ public class Group1Fragement extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_1, container, false);
+
         groupToken = getArguments().getString("groupToken");
+        Log.e("안뇽",groupToken);
 
         mRecyclerView = view.findViewById(R.id.sub_group1_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -77,6 +78,7 @@ public class Group1Fragement extends Fragment {
 
         service = utils.mRetrofit.create(Services.class);
         Call<List<Board>> call = service.getgroupboards(groupToken);
+
         call.enqueue(new Callback<List<Board>>() {
             @Override
             public void onResponse(Call<List<Board>> call, Response<List<Board>> response) {
@@ -85,9 +87,9 @@ public class Group1Fragement extends Fragment {
                     try {
                         for (Board singleBoard : getBoardList) {
                             myDataset.add(singleBoard);
-                            Log.e("adadada", singleBoard.getToken() + myDataset.get(0).getToken());
-                            mAdapter.notifyItemInserted(0);
+                            mAdapter.notifyDataSetChanged();
                         }
+                        Toast.makeText(getContext(), "returns user's Groups", Toast.LENGTH_LONG).show();
                     } catch (NullPointerException e) {
                         Toast.makeText(getContext(), "게시글이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
                     }

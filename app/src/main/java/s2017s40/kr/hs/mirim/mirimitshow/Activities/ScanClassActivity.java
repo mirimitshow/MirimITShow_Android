@@ -38,6 +38,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import s2017s40.kr.hs.mirim.mirimitshow.Category;
 import s2017s40.kr.hs.mirim.mirimitshow.R;
 import s2017s40.kr.hs.mirim.mirimitshow.Register;
 import s2017s40.kr.hs.mirim.mirimitshow.Scan;
@@ -57,7 +58,7 @@ public class ScanClassActivity extends AppCompatActivity{
     File file;
     Bitmap bitmap;
     SharedPreferences sharedPreference;
-    String email, categoryString, titleString;
+    String email, categoryString = "", titleString;
     Spinner categorySpinner;
     ArrayList<String> CategoryArrayList;
     ArrayAdapter<String> CategoryArrayAdapter;
@@ -74,13 +75,11 @@ public class ScanClassActivity extends AppCompatActivity{
         categorySpinner = findViewById(R.id.scan_category_spinner);
         titleEdit = findViewById(R.id.scan_title_edit);
 
-        titleString = titleEdit.getText().toString();
-
         CategoryArrayList = new ArrayList<>();
+        CategoryArrayList.add(0,"미선택시 제목으로 생성됨");
+
         init();
         getCategory();
-
-
     }
     public void getCategory(){
         service = utils.mRetrofit.create(Services.class);
@@ -181,6 +180,11 @@ public class ScanClassActivity extends AppCompatActivity{
             fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             if (file.exists()) {
+
+                titleString = titleEdit.getText().toString();
+                if(categoryString.equals(CategoryArrayList.get(0))){
+                    categoryString = titleString;
+                }
                 service = utils.mRetrofit.create(Services.class);
                 //서버에 전송
                 RequestBody emailBody = RequestBody.create(MediaType.parse("email"), email);
@@ -220,21 +224,20 @@ public class ScanClassActivity extends AppCompatActivity{
 
     public void spinnerSet(){
         Log.e("spinner","spinnerSet()");
-
-        categorySpinner.setSelection(0);
+        //categorySpinner.setSelection(0);
         CategoryArrayAdapter = new ArrayAdapter<>(ScanClassActivity.this, R.layout.support_simple_spinner_dropdown_item, CategoryArrayList);
         categorySpinner.setAdapter(CategoryArrayAdapter);
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("seleted", categorySpinner.getSelectedItem().toString());
                 categoryString = categorySpinner.getSelectedItem().toString();
                 Toast.makeText(getApplicationContext(), categorySpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                categoryString = titleString;
+                Log.e("titleString","이걸로 들어감");
             }
         });
     }
