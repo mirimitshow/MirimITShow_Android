@@ -106,6 +106,7 @@ public class GroupFragment extends Fragment {
 
         sharedPreference = getContext().getSharedPreferences("email", Activity.MODE_PRIVATE);
         email = sharedPreference.getString("email","defValue");
+
         service = utils.mRetrofit.create(Services.class);
         Call<List<Group>> call = service.getusergroups(email);
         call.enqueue(new Callback<List<Group>>() {
@@ -114,9 +115,8 @@ public class GroupFragment extends Fragment {
                 if(response.code() == 200){//성공
                     List<Group> getGroupList = response.body();
                     for(Group singleGroup : getGroupList){
-                        //if(singleGroup.getImage().getUrl().isEmpty()){
-                        myDataset.add(new Group(singleGroup.getToken(),singleGroup.getName(),singleGroup.getColor(),singleGroup.getMembers()));
-                        Log.e("그룹 가져옴", singleGroup.getName());
+                        myDataset.add(singleGroup);
+                        mAdapter.notifyDataSetChanged();
                         mAdapter.notifyItemInserted(0);
                     }
                 }else if(response.code() == 400){//실패
@@ -128,6 +128,5 @@ public class GroupFragment extends Fragment {
                 Log.e("getusergroupsError", t.toString());
             }
         });
-    }//showItemList
-
+    }
 }

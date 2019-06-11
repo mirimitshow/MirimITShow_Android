@@ -15,8 +15,7 @@ import s2017s40.kr.hs.mirim.mirimitshow.R;
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     private ArrayList<Group> mDataset;
     private ClickCallback callback;
-
-    String token;
+    private String token;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

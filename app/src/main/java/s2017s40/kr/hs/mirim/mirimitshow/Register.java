@@ -9,12 +9,11 @@ public class Register {
     private String password;
     private ArrayList<JoinGroup> group = new ArrayList<>();
     private ArrayList<Category> cartegory = new ArrayList<>();
-    public Register(String name, String email, String password, String phone, String category){
+    public Register(String name, String email, String password, String phone){
         this.email = email;
         this.name = name;
         this.password = password;
         this.phone = phone;
-        this.cartegory.add(new Category(category));
     }
 
     public void setGroup(ArrayList<JoinGroup> group) {

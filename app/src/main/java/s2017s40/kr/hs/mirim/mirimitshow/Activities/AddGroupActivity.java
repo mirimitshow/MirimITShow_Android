@@ -201,7 +201,7 @@ public class AddGroupActivity extends AppCompatActivity {
             public void onResponse(Call<Group> call, Response<Group> response) {
                 if(response.code() == 200){
                     Toast.makeText(AddGroupActivity.this, "new group added", Toast.LENGTH_SHORT).show();
-                    //joinGroupMethod();
+                    joinGroupMethod();
                     Intent intent = new Intent(AddGroupActivity.this, ScheduleActivity.class);
                     intent.putExtra("token",groupCodeStr);
                     startActivity(intent);

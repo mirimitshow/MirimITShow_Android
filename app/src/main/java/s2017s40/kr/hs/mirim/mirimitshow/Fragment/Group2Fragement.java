@@ -38,6 +38,7 @@ public class Group2Fragement extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group_2, container, false);
+
         groupToken = getArguments().getString("groupToken");
         timetable = view.findViewById(R.id.sub_group1_timetable_img);
         service = utils.mRetrofit.create(Services.class);
@@ -50,7 +51,7 @@ public class Group2Fragement extends Fragment {
                     Group group = response.body();
                     Log.e("group",group.getTimetable().getUrl());
                     //images/timetable/1558541116652.jpeg
-                    Picasso.get().load("http://13.125.15.20/" + group.getTimetable().getUrl()).into(timetable);
+                    Picasso.get().load("http://54.180.32.86:9000/" + group.getTimetable().getUrl()).into(timetable);
                     Toast.makeText(getContext(),"returns existing Group",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
                     Toast.makeText(getContext(),"invalid input, object invalid",Toast.LENGTH_LONG).show();

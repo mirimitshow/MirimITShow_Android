@@ -93,7 +93,6 @@ public class AddBoardActivity extends AppCompatActivity {
         postingBtn.setOnClickListener(new View.OnClickListener() { // 작성하기 버튼을 누를 때 이벤트
             @Override
             public void onClick(View v) {
-                groupToken_String = GroupSpinner.getSelectedItem().toString();
                 service = utils.mRetrofit.create(Services.class);
                 title_str = Title.getText().toString(); // 글 타이틀
                 content_str = Content.getText().toString(); // 글 내용
@@ -190,6 +189,8 @@ public class AddBoardActivity extends AppCompatActivity {
         Log.e("spinner","spinnerSet()");
 
         GroupSpinner.setSelection(0);
+        groupToken_String = groupToken.get(0);
+
         adapter = new ArrayAdapter<>(AddBoardActivity.this, R.layout.support_simple_spinner_dropdown_item, groupName);
         GroupSpinner.setAdapter(adapter);
 
@@ -197,8 +198,8 @@ public class AddBoardActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("seleted", GroupSpinner.getSelectedItem().toString());
-                groupToken_String = GroupSpinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), GroupSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                groupToken_String = groupToken.get(position);
+                Toast.makeText(getApplicationContext(),groupToken_String, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -208,6 +209,7 @@ public class AddBoardActivity extends AppCompatActivity {
 
     public void addBorad(){
         RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), groupToken_String);
+        Log.e("group_token",groupToken_String);
         RequestBody isNoticeBody = RequestBody.create(MediaType.parse("isNotice"), String.valueOf(Notice.isChecked()));
         RequestBody authorBody = RequestBody.create(MediaType.parse("author"),email );
         RequestBody titleBody = RequestBody.create(MediaType.parse("title"), title_str);
@@ -215,21 +217,18 @@ public class AddBoardActivity extends AppCompatActivity {
 
         MultipartBody.Part body;
         if(useFile.equals("")){
-            tempFile = new File(getAssets() + "/tempimg.JPG");
-            Log.e("file", tempFile.toString());
             body = utils.CreateRequestBody( tempFile,"img");
         }else{
             body = utils.CreateRequestBody( useFile,"img");
         }
         //String group_token, Boolean isNotice, String author, String title,String content){
-        Call<ResponseBody> call = service.setboard(group_tokenBody,isNoticeBody ,authorBody,titleBody,contentBody, body);
+        Call<ResponseBody> call = service.setboard(group_tokenBody,isNoticeBody ,authorBody ,titleBody, contentBody, body);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
-                    addBoardInGroup();
                     finish();
                 } else if (response.code() == 400) {
                     Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
@@ -243,6 +242,5 @@ public class AddBoardActivity extends AppCompatActivity {
             }
         });//그룹에 추가
     }
-    public void addBoardInGroup(){ }
 
 }

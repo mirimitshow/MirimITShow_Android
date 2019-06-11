@@ -68,9 +68,7 @@ public class ViewBoardActivity extends AppCompatActivity {
         if(getBoard.getIsNotice().equals("true")) {
             noticeText.setVisibility(noticeText.VISIBLE);
         }
-        if(!getBoard.getImage().getUrl().equals("tempImage.JPG")){
-            postImage.setVisibility(View.VISIBLE);
-            Picasso.get().load("http://13.125.15.20/" + getBoard.getImage().getUrl()).into(postImage);
-        }
+        postImage.setVisibility(View.VISIBLE);
+        Picasso.get().load("http://54.180.32.86:9000/" + getBoard.getImage().getUrl()).into(postImage);
     }
 }

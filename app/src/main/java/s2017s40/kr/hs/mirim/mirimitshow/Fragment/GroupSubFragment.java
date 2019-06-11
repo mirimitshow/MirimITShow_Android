@@ -41,18 +41,15 @@ public class GroupSubFragment extends Fragment {
         host = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         host.setup(getContext(), getActivity().getSupportFragmentManager(), R.id.content);
 
-        args = new Bundle();
+        args = new Bundle(1);
         args.putString("groupToken", token);
         Log.e("token", token);
 
         tabSpec1 = host.newTabSpec("게시글 보기"); // 구분자
         tabSpec1.setIndicator("게시글 보기"); // 탭 이름
 
-
         tabSpec2 = host.newTabSpec("시간표");
         tabSpec2.setIndicator("시간표");
-
-
 
         return view;
     }
@@ -62,9 +59,11 @@ public class GroupSubFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setFragment();
     }
+
     public void setFragment(){
         host.addTab(tabSpec1, Group1Fragement.class, args);
         host.addTab(tabSpec2, Group2Fragement.class, args);
+
         host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) { // 탭 변경시 리스너

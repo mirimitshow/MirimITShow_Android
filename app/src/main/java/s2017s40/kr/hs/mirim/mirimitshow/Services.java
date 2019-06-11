@@ -29,7 +29,6 @@ public interface Services {
     //Group
     @POST("/setGroup")
     Call<Group> setgroup(
-            //Group group = new Group(groupCodeStr,  editGroupName.getText().toString(), email , "");
             @Body Group group);
     @GET("/getGroup/{token}")
     Call<Group> getgroup(
