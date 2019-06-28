@@ -59,17 +59,17 @@ public class EnterGroupActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JoinGroup> call, Response<JoinGroup> response) {
                 if(response.code() == 200){
-                    Toast.makeText(EnterGroupActivity.this, "success joined group", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnterGroupActivity.this, "그룹 참여가 완료되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }else if(response.code() == 400) {
-                    Toast.makeText(EnterGroupActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnterGroupActivity.this, "그룹 참여가 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
             @Override
             public void onFailure(Call<JoinGroup> call, Throwable t) {
                 Toast.makeText(EnterGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
-                Log.e("joingroupError",String.valueOf(t));
+                Log.e("그룹 참여가 실패하셨습니다.",String.valueOf(t));
             }
         });
     }

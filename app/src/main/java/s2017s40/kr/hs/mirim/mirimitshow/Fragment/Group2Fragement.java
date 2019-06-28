@@ -51,10 +51,10 @@ public class Group2Fragement extends Fragment {
                     Group group = response.body();
                     Log.e("group",group.getTimetable().getUrl());
                     //images/timetable/1558541116652.jpeg
-                    Picasso.get().load("http://54.180.32.86:9000/" + group.getTimetable().getUrl()).into(timetable);
-                    Toast.makeText(getContext(),"returns existing Group",Toast.LENGTH_LONG).show();
+                    Picasso.get().load("http://13.209.211.81:9000/" + group.getTimetable().getUrl()).into(timetable);
+                    //Toast.makeText(getContext(),"returns existing Group",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
-                    Toast.makeText(getContext(),"invalid input, object invalid",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(),"invalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
             }
             @Override

@@ -56,6 +56,9 @@ public class AddGroupActivity extends AppCompatActivity {
     private int id_view;
     SharedPreferences sharedPreference;
     LinearLayout addColor;
+    int colorListR[] = {49,251,183,2 ,13 ,213,172,163,203 ,0 ,104 ,241,255 ,224,189,255,173,77,255,179,52,224,65,182,172};
+    int colorListG[] = {49,255,0  ,0 ,163,158,99 ,163,205,188,104 ,187,246 ,74 ,93,179 ,255,79,220,88,36,224,114,255,192};
+    int colorListB[] = {49,154,0  ,82,140,245,255,163,41 ,84 ,220 ,70 ,0  ,74  ,0  ,179,154,129,179,135,36,224,21,251,189};
     int color;
 
     @Override
@@ -95,7 +98,9 @@ public class AddGroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Random rnd = new Random();
-                color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                int colorRan = rnd.nextInt(20);
+                color = Color.argb(255, colorListR[colorRan],colorListG[colorRan],colorListB[colorRan]);
+                Log.e("colorList", colorListR.length + ","+colorListG.length + ","+ colorListB.length);
                 addImage.setBackgroundColor(color);
                 Log.e("color", String.valueOf(color));
             }
@@ -178,16 +183,16 @@ public class AddGroupActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JoinGroup> call, Response<JoinGroup> response) {
                 if(response.code() == 200){
-                    Toast.makeText(AddGroupActivity.this, "success joined group", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AddGroupActivity.this, "그룹에 참여가 완료되셨습니다.", Toast.LENGTH_SHORT).show();
                 }else if(response.code() == 400) {
-                    Toast.makeText(AddGroupActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AddGroupActivity.this, "그룹 참여에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
             @Override
             public void onFailure(Call<JoinGroup> call, Throwable t) {
-                Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
-                Log.e("joingroupError",String.valueOf(t));
+                //Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
+                Log.e("그룹 참여에 실패하셨습니다.",String.valueOf(t));
             }
         });
     }
@@ -206,16 +211,16 @@ public class AddGroupActivity extends AppCompatActivity {
                     intent.putExtra("token",groupCodeStr);
                     startActivity(intent);
                 }else if(response.code() == 400){
-                    Toast.makeText(AddGroupActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AddGroupActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
                     finish();
                 }else if(response.code() == 409){
-                    Toast.makeText(AddGroupActivity.this, "group already exists", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AddGroupActivity.this, "group already exists", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
             @Override
             public void onFailure(Call<Group> call, Throwable t) {
-                Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(AddGroupActivity.this, "t", Toast.LENGTH_SHORT).show();
                 Log.e("setgroupError",String.valueOf(t));
             }
         });

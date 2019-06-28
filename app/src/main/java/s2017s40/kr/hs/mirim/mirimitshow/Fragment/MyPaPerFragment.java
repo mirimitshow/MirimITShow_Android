@@ -103,18 +103,18 @@ public class MyPaPerFragment extends Fragment {
                             myDataset.add(user.getCategory().get(i).getName());
                             mAdapter.notifyItemInserted(0);
                         }
-                        Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getContext(), "returns user", Toast.LENGTH_LONG).show();
                     }catch (NullPointerException e){
-                        Toast.makeText(getContext(), "nullPointer", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getContext(), "nullPointer", Toast.LENGTH_LONG).show();
                     }
                 }else if(response.code() == 400){
-                    Toast.makeText(getContext(), "nvalid input, object invalid", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(), "nvalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
-                Toast.makeText(getContext(), "정보받아오기 실패", Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(), "정보받아오기 실패", Toast.LENGTH_LONG).show();
                 Log.e("getuserError", t.toString());
             }
         });

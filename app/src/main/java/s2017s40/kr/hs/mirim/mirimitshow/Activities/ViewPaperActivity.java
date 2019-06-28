@@ -38,6 +38,6 @@ public class ViewPaperActivity extends AppCompatActivity {
         paperImg = findViewById(R.id.viewPaper_paperImg);
 
         title_txt.setText(title);
-        Picasso.get().load("http://54.180.32.86:9000/" + uri).into(paperImg);
+        Picasso.get().load("http://13.209.211.81:9000/" + uri).into(paperImg);
     }
 }

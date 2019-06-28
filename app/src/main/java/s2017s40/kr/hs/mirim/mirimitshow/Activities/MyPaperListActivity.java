@@ -96,20 +96,20 @@ public class MyPaperListActivity extends AppCompatActivity {
                             Log.e("adapter", singleScan.getName());
                             adapter.notifyDataSetChanged();
                         }
-                        Toast.makeText(MyPaperListActivity.this, "returns user's Scanned images", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(MyPaperListActivity.this, "SCAN을 완료했습니다.", Toast.LENGTH_LONG).show();
                     } catch (NullPointerException e) {
-                        Toast.makeText(MyPaperListActivity.this, "scan이미지가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MyPaperListActivity.this, "scan이미지가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
                     }
                 } else if (response.code() == 209) {
-                    Toast.makeText(MyPaperListActivity.this, "No Scanned images found", Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(MyPaperListActivity.this, "scan이미지가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {
-                    Toast.makeText(MyPaperListActivity.this, "invalid input, object invalid", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(MyPaperListActivity.this, "scan에 실패하셨습니다.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Scan>> call, Throwable t) {
-                Toast.makeText(MyPaperListActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
+               // Toast.makeText(MyPaperListActivity.this, "scan에 실패하셨습니다.", Toast.LENGTH_LONG).show();
                 t.printStackTrace();
             }
         });

@@ -96,8 +96,8 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(SignupActivity.this, "user signed up", Toast.LENGTH_SHORT).show();
                             finish();
                         } else if (response.code() == 400) {
-                            Toast.makeText(SignupActivity.this, "invalid input, object invalid\n" +
-                                    "\n", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SignupActivity.this, "invalid input, object invalid\n" +
+                                   // "\n", Toast.LENGTH_SHORT).show();
                         }else if (response.code() == 409) {
                             Toast.makeText(SignupActivity.this, "user already exists", Toast.LENGTH_SHORT).show();
                         } else {

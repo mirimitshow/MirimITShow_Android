@@ -167,10 +167,10 @@ public class AddBoardActivity extends AppCompatActivity {
                         groupToken.add(singleGroup.getToken());
                     }
                     Log.e("groupToeken", String.valueOf(groupToken));
-                    Toast.makeText(AddBoardActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AddBoardActivity.this, "returns user's Groups", Toast.LENGTH_SHORT).show();
                     spinnerSet();
                 } else if (response.code() == 400) {
-                    Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
                 } else {
                 }
             }
@@ -199,7 +199,7 @@ public class AddBoardActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("seleted", GroupSpinner.getSelectedItem().toString());
                 groupToken_String = groupToken.get(position);
-                Toast.makeText(getApplicationContext(),groupToken_String, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),groupToken_String, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -209,7 +209,6 @@ public class AddBoardActivity extends AppCompatActivity {
 
     public void addBorad(){
         RequestBody group_tokenBody = RequestBody.create(MediaType.parse("group_token"), groupToken_String);
-        Log.e("group_token",groupToken_String);
         RequestBody isNoticeBody = RequestBody.create(MediaType.parse("isNotice"), String.valueOf(Notice.isChecked()));
         RequestBody authorBody = RequestBody.create(MediaType.parse("author"),email );
         RequestBody titleBody = RequestBody.create(MediaType.parse("title"), title_str);
@@ -228,17 +227,17 @@ public class AddBoardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
-                    Toast.makeText(AddBoardActivity.this, "new board successfully added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBoardActivity.this, "새로운 게시글을 생성하셨습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (response.code() == 400) {
-                    Toast.makeText(AddBoardActivity.this, "invalid input, object invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBoardActivity.this, "게시글 생성에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 409) {
-                    Toast.makeText(AddBoardActivity.this, "duplicated board", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBoardActivity.this, "게시글 생성에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(AddBoardActivity.this, "onfailure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddBoardActivity.this, "게시글 생성에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
             }
         });//그룹에 추가
     }

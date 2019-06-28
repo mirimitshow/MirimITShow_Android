@@ -48,11 +48,11 @@ public class ViewBoardActivity extends AppCompatActivity {
                 if(response.code() == 200){//성공
                     getBoard =  response.body();
                     setBoard();
-                    Toast.makeText(ViewBoardActivity.this,"returns user's Groups",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(ViewBoardActivity.this,"returns user's Groups",Toast.LENGTH_LONG).show();
                 } else if(response.code() == 209){//실패
-                    Toast.makeText(ViewBoardActivity.this,"No board found",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ViewBoardActivity.this,"No board found",Toast.LENGTH_LONG).show();
                 }else if(response.code() == 400){//실패
-                    Toast.makeText(ViewBoardActivity.this,"invalid input, object invalid",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(ViewBoardActivity.this,"invalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -69,6 +69,6 @@ public class ViewBoardActivity extends AppCompatActivity {
             noticeText.setVisibility(noticeText.VISIBLE);
         }
         postImage.setVisibility(View.VISIBLE);
-        Picasso.get().load("http://54.180.32.86:9000/" + getBoard.getImage().getUrl()).into(postImage);
+        Picasso.get().load("http://13.209.211.81:9000/" + getBoard.getImage().getUrl()).into(postImage);
     }
 }

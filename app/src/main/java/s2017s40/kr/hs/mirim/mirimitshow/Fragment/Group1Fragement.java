@@ -89,15 +89,15 @@ public class Group1Fragement extends Fragment {
                             myDataset.add(singleBoard);
                             mAdapter.notifyDataSetChanged();
                         }
-                        Toast.makeText(getContext(), "returns user's Groups", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getContext(), "returns user's Groups", Toast.LENGTH_LONG).show();
                     } catch (NullPointerException e) {
-                        Toast.makeText(getContext(), "게시글이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getContext(), "게시글이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
                     }
-                    Toast.makeText(getContext(), "returns user's Groups", Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(getContext(), "returns user's Groups", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 209) {//실패
-                    Toast.makeText(getContext(), "No board found", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(), "No board found", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {//실패
-                    Toast.makeText(getContext(), "invalid input, object invalid", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "invalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
 
 

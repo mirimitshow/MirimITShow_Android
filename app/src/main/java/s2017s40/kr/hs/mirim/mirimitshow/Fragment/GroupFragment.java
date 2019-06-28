@@ -120,7 +120,7 @@ public class GroupFragment extends Fragment {
                         mAdapter.notifyItemInserted(0);
                     }
                 }else if(response.code() == 400){//실패
-                    Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(),"nvalid input, object invalid",Toast.LENGTH_LONG).show();
                 }
             }
             @Override

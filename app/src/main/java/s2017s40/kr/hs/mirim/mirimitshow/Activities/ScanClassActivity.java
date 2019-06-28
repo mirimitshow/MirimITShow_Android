@@ -93,19 +93,19 @@ public class ScanClassActivity extends AppCompatActivity{
                         for(int i = 0; i < user.getCategory().size(); i++){
                             CategoryArrayList.add(user.getCategory().get(i).getName());
                             Log.e("categoryArrayList", user.getCategory().get(i).getName());
-                            Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(ScanClassActivity.this, "returns user", Toast.LENGTH_LONG).show();
                             spinnerSet();
                         }
                     }catch (NullPointerException e){
                         Toast.makeText(ScanClassActivity.this, "category를 설정해주세요", Toast.LENGTH_LONG).show();
                     }
                 }else if(response.code() == 400){
-                    Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(ScanClassActivity.this, "nvalid input, object invalid", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
-                Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
+                //Toast.makeText(ScanClassActivity.this, "정보받아오기 실패", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -200,7 +200,7 @@ public class ScanClassActivity extends AppCompatActivity{
                             Toast.makeText(ScanClassActivity.this, "new scan Ssuccessfully added", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(ScanClassActivity.this, MainActivity.class);
                         }else if (response.code() == 400) {
-                            Toast.makeText(ScanClassActivity.this, "invalid input, object invalid", Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(ScanClassActivity.this, "invalid input, object invalid", Toast.LENGTH_LONG).show();
                         }else if (response.code() == 409) {
                             Toast.makeText(ScanClassActivity.this, "duplicated scan", Toast.LENGTH_LONG).show();
                         }
@@ -232,7 +232,7 @@ public class ScanClassActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 categoryString = categorySpinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), categorySpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), categorySpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

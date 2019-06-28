@@ -47,7 +47,7 @@
             <TextView
                 android:textColor="@color/txtColor"
                 android:layout_weight="0.4"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="그룹초대코드"
@@ -81,7 +81,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="대표사진"
+            android:text="대표색상"
             />
 
         <LinearLayout
@@ -95,16 +95,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Button
-                android:layout_above="@+id/addGrop_setgroup_btn"
-                android:textColor="@color/colorWhite"
-                android:layout_marginBottom="11dp"
-                android:background="@drawable/login_btn_custom"
-                android:id="@+id/addGrop_setTimetable_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="시간표 설정하기"
-                />
 
             <Button
                 android:layout_marginTop="10dp"
@@ -114,7 +104,7 @@
                 android:id="@+id/addGrop_setgroup_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="그룹생성"
+                android:text="시간표 설정하러 가기"
                 />
         </RelativeLayout>
     </LinearLayout>

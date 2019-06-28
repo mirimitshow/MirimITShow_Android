@@ -32,7 +32,7 @@ import s2017s40.kr.hs.mirim.mirimitshow.Services;
 import s2017s40.kr.hs.mirim.mirimitshow.Utils;
 
 public class ScheduleActivity extends AppCompatActivity {
-    Button okBtn, skip_btn;
+    Button okBtn;
     String token;
     SharedPreferences sharedPreference;
 
@@ -47,21 +47,12 @@ public class ScheduleActivity extends AppCompatActivity {
         service = utils.mRetrofit.create(Services.class);
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
-        skip_btn = findViewById(R.id.schedule_skip_btn);
         okBtn = findViewById(R.id.schedule_ok_btn);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkVerify();
         }
-
-        skip_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,11 +84,11 @@ public class ScheduleActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if(response.code() == 200){
-                                    Toast.makeText(ScheduleActivity.this,"returns existing Group", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(ScheduleActivity.this,"returns existing Group", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 }else if(response.code() == 400){
-                                    Toast.makeText(ScheduleActivity.this,"invalid input, object invalid", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(ScheduleActivity.this,"invalid input, object invalid", Toast.LENGTH_LONG).show();
                                 }
                             }
 

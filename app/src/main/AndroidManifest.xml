@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.addCategoryActivity"></activity>
         <activity android:name=".Activities.ViewPaperActivity" />
         <activity android:name=".Activities.ViewBoardActivity" />
         <activity
@@ -28,14 +27,6 @@
         <activity android:name="com.scanlibrary.ScanActivity" />
         <activity android:name=".Activities.ScanClassActivity" />
         <activity android:name=".Activities.MyPaperListActivity" />
-        <activity android:name=".ViewPostActivity" />
-        <activity
-            android:name=".Activities.AddBoardActivity"
-            android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true" />
-        <activity android:name=".Activities.EnterGroupActivity" />
-        <activity android:name=".ViewPostActivity" />
-        <activity android:name=".Activities.ScanClassActivity" />
         <activity android:name=".Activities.AddGroupActivity" />
         <activity android:name=".Activities.ScheduleActivity" />
         <activity android:name=".Activities.SignupActivity" />
